@@ -3,6 +3,7 @@
 import React, {Component} from 'react';
 import './login-form.css';
 import * as firebase from 'firebase';
+import CreateUser from '../create-user/create-user'
 
 export default class LoginForm extends Component {
     constructor(props) {
@@ -13,6 +14,7 @@ export default class LoginForm extends Component {
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleSignIn = this.handleSignIn.bind(this);
+        this.handleCreate = this.handleCreate.bind(this);
     }
     handleChange(event) {
         this.setState({
@@ -20,26 +22,31 @@ export default class LoginForm extends Component {
         });
     }
     handleSignIn() {
-       console.log("HERE");
         firebase.auth().signInWithEmailAndPassword(this.state.username, this.state.password).catch((err) => {
             this.setState({message: err.message});
         })
-        console.log(this.state)
+    }
+    handleCreate() {
+        <CreateUser></CreateUser>
     }
     render() {
         return (
             <div className="container">
                 <h1>Login</h1>
-            {this.state.message}
                
                     <label><b>Email</b></label>
                     <input type="email" placeholder="Enter Username" name="username" value={this.state.username} onChange={this.handleChange} required />
-
+                    <br/>
                     <label><b>Password</b></label>
                     <input type="password" placeholder="Enter Password" name="password" value={this.state.password} onChange={this.handleChange} required />
-
+                    <br/>
                     <button onClick={this.handleSignIn}>Login</button>
               
+                    <button onClick={this.handleCreate}>New User</button>
+            
+                    <br/>
+                    
+            {this.state.message}
             </div>
         );
     }
