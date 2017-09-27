@@ -25,4 +25,5 @@ export default class Auth extends Component {
             return (<LoginForm></LoginForm>);
         }
     }
-} 
+}
+                    
