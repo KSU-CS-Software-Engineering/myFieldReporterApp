@@ -27,7 +27,8 @@ export default class LoginForm extends Component {
         })
     }
     handleCreate() {
-        <CreateUser></CreateUser>
+        if(true){
+            return(CreateUser(null))}
     }
     render() {
         return (
@@ -35,15 +36,14 @@ export default class LoginForm extends Component {
                 <h1>Login</h1>
                
                     <label><b>Email</b></label>
-                    <input type="email" placeholder="Enter Username" name="username" value={this.state.username} onChange={this.handleChange} required />
+                    <input type="email" placeholder="Enter Email" name="username" value={this.state.username} onChange={this.handleChange} required />
                     <br/>
                     <label><b>Password</b></label>
                     <input type="password" placeholder="Enter Password" name="password" value={this.state.password} onChange={this.handleChange} required />
                     <br/>
                     <button onClick={this.handleSignIn}>Login</button>
               
-                    <button onClick={this.handleCreate}>New User</button>
-            
+                    <button onClick={CreateUser.bind(this.prop)}>New User</button>
                     <br/>
                     
             {this.state.message}
