@@ -66,10 +66,7 @@ export default class LoginForm extends Component {
                         <label><b>Password</b></label>
                         <input type="password" placeholder="Enter Password" name="password" value={this.state.password} onChange={this.handleChange} required />
                         <br/>
-
-
                         <button onClick={this.handleCreate}>Submit</button>
-
                         <br/>
                         <a onClick={this.toggleView}>Already have an account? Sign In</a>
                         {this.state.message}
