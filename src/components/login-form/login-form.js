@@ -29,6 +29,10 @@ export default class LoginForm extends Component {
     }
     handleCreate() {
         
+        firebase.auth().createUserWithEmailAndPassword(this.state.username, this.state.password).catch((err) => { 
+            this.setState({message: err.message});
+        })
+        
     }
     toggleView(){
         this.setState({view:(this.state.view== 'signup')?'login':'signup'})
@@ -67,7 +71,7 @@ export default class LoginForm extends Component {
                         <input type="password" placeholder="Enter Password" name="password" value={this.state.password} onChange={this.handleChange} required />
                         <br/>
 
-                        <button onClick={this.toggleView}>Submit</button>
+                        <button onClick={this.handleCreate}>Submit</button>
                         <br/>
                     
                         <a onClick={this.toggleView}>Already have an account? Sign In</a>
