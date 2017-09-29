@@ -57,7 +57,23 @@ export default class LoginForm extends Component {
         else
             {
                 return(
+                    <div>
                   <h1>Signup</h1>
+                    
+                    <label><b>Email</b></label>
+                        <input type="email" placeholder="Enter Email" name="username" value={this.state.username} onChange={this.handleChange} required />
+                        <br/>
+                        <label><b>Password</b></label>
+                        <input type="password" placeholder="Enter Password" name="password" value={this.state.password} onChange={this.handleChange} required />
+                        <br/>
+
+                        <button onClick={this.toggleView}>Submit</button>
+                        <br/>
+                    
+                        <a onClick={this.toggleView}>Already have an account? Sign In</a>
+
+                {this.state.message}
+                    </div>
                 )
             }
     }
