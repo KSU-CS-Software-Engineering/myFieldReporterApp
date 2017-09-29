@@ -3,7 +3,6 @@
 import React, {Component} from 'react';
 import './login-form.css';
 import * as firebase from 'firebase';
-import CreateUser from '../create-user/create-user'
 
 export default class LoginForm extends Component {
     constructor(props) {
