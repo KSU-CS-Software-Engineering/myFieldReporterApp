@@ -69,6 +69,8 @@ export default class LoginForm extends Component {
                         <button onClick={this.handleCreate}>Submit</button>
                         <br/>
                         <a onClick={this.toggleView}>Already have an account? Sign In</a>
+                        <br/>
+                        <br/>
                         {this.state.message}
                     </div>
                 )
