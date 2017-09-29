@@ -10,11 +10,13 @@ export default class LoginForm extends Component {
         super(props);
         this.state = {
             username: '',
-            password: ''
+            password: '',
+            view: 'login'
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleSignIn = this.handleSignIn.bind(this);
         this.handleCreate = this.handleCreate.bind(this);
+        this.toggleView = this.toggleView.bind(this);
     }
     handleChange(event) {
         this.setState({
@@ -27,27 +29,37 @@ export default class LoginForm extends Component {
         })
     }
     handleCreate() {
-        if(true){
-            return(CreateUser(null))}
+        
+    }
+    toggleView(){
+        this.setState({view:(this.state.view== 'signup')?'login':'signup'})
     }
     render() {
-        return (
-            <div className="container">
-                <h1>Login</h1>
-               
-                    <label><b>Email</b></label>
-                    <input type="email" placeholder="Enter Email" name="username" value={this.state.username} onChange={this.handleChange} required />
-                    <br/>
-                    <label><b>Password</b></label>
-                    <input type="password" placeholder="Enter Password" name="password" value={this.state.password} onChange={this.handleChange} required />
-                    <br/>
-                    <button onClick={this.handleSignIn}>Login</button>
-              
-                    <button onClick={CreateUser.bind(this.prop)}>New User</button>
-                    <br/>
-                    
-            {this.state.message}
-            </div>
-        );
+        if(this.state.view == 'login'){
+            return (
+                <div className="container">
+                    <h1>Login</h1>
+
+                        <label><b>Email</b></label>
+                        <input type="email" placeholder="Enter Email" name="username" value={this.state.username} onChange={this.handleChange} required />
+                        <br/>
+                        <label><b>Password</b></label>
+                        <input type="password" placeholder="Enter Password" name="password" value={this.state.password} onChange={this.handleChange} required />
+                        <br/>
+                        <button onClick={this.handleSignIn}>Login</button>
+
+                        <button onClick={this.toggleView}>New User</button>
+                        <br/>
+
+                {this.state.message}
+                </div>
+            );
+        }
+        else
+            {
+                return(
+                  <h1>Signup</h1>
+                )
+            }
     }
 } 
