@@ -38,19 +38,16 @@ export default class LoginForm extends Component {
             return (
                 <div className="container">
                     <h1>Login</h1>
-
-                        <label><b>Email</b></label>
-                        <input type="email" placeholder="Enter Email" name="username" value={this.state.username} onChange={this.handleChange} required />
-                        <br/>
-                        <label><b>Password</b></label>
-                        <input type="password" placeholder="Enter Password" name="password" value={this.state.password} onChange={this.handleChange} required />
-                        <br/>
-                        <button onClick={this.handleSignIn}>Login</button>
-
-                        <button onClick={this.toggleView}>New User</button>
-                        <br/>
-
-                {this.state.message}
+                    <label><b>Email</b></label>
+                    <input type="email" placeholder="Enter Email" name="username" value={this.state.username} onChange={this.handleChange} required />
+                    <br/>
+                    <label><b>Password</b></label>
+                    <input type="password" placeholder="Enter Password" name="password" value={this.state.password} onChange={this.handleChange} required />
+                    <br/>
+                    <button onClick={this.handleSignIn}>Login</button>
+                    <button onClick={this.toggleView}>New User</button>
+                    <br/>
+                    {this.state.message}
                 </div>
             );
         }
@@ -58,21 +55,17 @@ export default class LoginForm extends Component {
             {
                 return(
                     <div>
-                  <h1>Signup</h1>
-                    
-                    <label><b>Email</b></label>
+                        <h1>Signup</h1>
+                        <label><b>Email</b></label>
                         <input type="email" placeholder="Enter Email" name="username" value={this.state.username} onChange={this.handleChange} required />
                         <br/>
                         <label><b>Password</b></label>
                         <input type="password" placeholder="Enter Password" name="password" value={this.state.password} onChange={this.handleChange} required />
                         <br/>
-
                         <button onClick={this.toggleView}>Submit</button>
                         <br/>
-                    
                         <a onClick={this.toggleView}>Already have an account? Sign In</a>
-
-                {this.state.message}
+                        {this.state.message}
                     </div>
                 )
             }
