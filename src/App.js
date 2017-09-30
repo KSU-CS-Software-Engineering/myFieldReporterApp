@@ -2,8 +2,16 @@ import React, { Component } from 'react';
 import logo from './logo.png';
 import './App.css';
 import Auth from './components/auth/auth';
+import * as firebase from 'firebase';
 
 class App extends Component {
+    handleLogOut(event){
+        firebase.auth().signOut().then(function(){
+            //LogoutSuccessful
+        }, function(error){
+            //Error  
+        });
+    }
   render() {
     return (
       <div className="App">
@@ -14,7 +22,9 @@ class App extends Component {
             </div>
             <p className="App-intro">
               To get <b>started,</b>, edit <code>src/App.js!!!!!!!!!!!!!</code> and save to reload.
-            </p>
+         </p>
+                <a onClick={this.handleLogOut}>Log Out</a>
+           
         </Auth>
       </div>
     );
