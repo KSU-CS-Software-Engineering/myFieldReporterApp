@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import logo from './logo.png';
 import './App.css';
-import {Link} from 'react-router-dom';
 import Auth from './components/auth/auth';
 import * as firebase from 'firebase';
 import Fields from './components/fields/fields';
@@ -29,7 +28,6 @@ class App extends Component {
                 
                 <button >New Report</button>
                 </p><p>
-                <Link to="/fields">View Fields</Link>
             </p>
                 
          
