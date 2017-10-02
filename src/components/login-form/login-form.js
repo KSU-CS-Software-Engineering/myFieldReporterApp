@@ -10,6 +10,7 @@ export default class LoginForm extends Component {
         this.state = {
             username: '',
             password: '',
+            name: '',
             view: 'login'
         }
         this.handleChange = this.handleChange.bind(this);
@@ -28,11 +29,23 @@ export default class LoginForm extends Component {
         })
     }
     handleCreate() {
-        
-        firebase.auth().createUserWithEmailAndPassword(this.state.username, this.state.password).catch((err) => { 
+        // Helper function to write created user to the database
+        function writeUserData(userId, name, email) {
+          firebase.database().ref('users/').child(userId).set({
+            name: name,
+            email: email,
+          }).catch(err => console.error(err));
+        }
+        firebase.auth().createUserWithEmailAndPassword(this.state.username, this.state.password)
+        .then((firebaseUser) => {
+            console.log('created user', firebaseUser.uid, firebaseUser)
+            writeUserData(firebaseUser.uid, this.state.name, firebaseUser.email);
+        })
+        .catch((err) => { 
             this.setState({message: err.message});
         })
         
+
     }
     toggleView(){
         this.setState({view:(this.state.view== 'signup')?'login':'signup'})
@@ -42,14 +55,14 @@ export default class LoginForm extends Component {
             return (
                 <div className="container">
                     <h1>Login</h1>
-                    <label><b>Email</b></label>
-                    <input type="email" placeholder="Enter Email" name="username" value={this.state.username} onChange={this.handleChange} required />
+                    <input type="email" placeholder="Email Address" name="username" value={this.state.username} onChange={this.handleChange} required />
                     <br/>
-                    <label><b>Password</b></label>
-                    <input type="password" placeholder="Enter Password" name="password" value={this.state.password} onChange={this.handleChange} required />
+                    <input type="password" placeholder="Password" name="password" value={this.state.password} onChange={this.handleChange} required />
                     <br/>
                     <button onClick={this.handleSignIn}>Login</button>
                     <button onClick={this.toggleView}>New User</button>
+                    <br/>
+                    <a>Forgot Password?</a>
                     <br/>
                     {this.state.message}
                 </div>
@@ -58,13 +71,13 @@ export default class LoginForm extends Component {
         else
             {
                 return(
-                    <div>
+                    <div className="container">
                         <h1>Signup</h1>
-                        <label><b>Email</b></label>
-                        <input type="email" placeholder="Enter Email" name="username" value={this.state.username} onChange={this.handleChange} required />
+                        <input placeholder="Name" name="name" value={this.state.name} onChange={this.handleChange} required />
                         <br/>
-                        <label><b>Password</b></label>
-                        <input type="password" placeholder="Enter Password" name="password" value={this.state.password} onChange={this.handleChange} required />
+                        <input type="email" placeholder="Email Address" name="username" value={this.state.username} onChange={this.handleChange} required />
+                        <br/>
+                        <input type="password" placeholder="Password" name="password" value={this.state.password} onChange={this.handleChange} required />
                         <br/>
                         <button onClick={this.handleCreate}>Submit</button>
                         <br/>
