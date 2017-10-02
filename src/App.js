@@ -46,6 +46,7 @@ class App extends Component {
             </Auth>
           </div>
         </Router>
+
     );
   }
 }
