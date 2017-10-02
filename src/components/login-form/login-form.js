@@ -10,6 +10,7 @@ export default class LoginForm extends Component {
         this.state = {
             username: '',
             password: '',
+            name: '',
             view: 'login'
         }
         this.handleChange = this.handleChange.bind(this);
@@ -28,11 +29,23 @@ export default class LoginForm extends Component {
         })
     }
     handleCreate() {
-        
-        firebase.auth().createUserWithEmailAndPassword(this.state.username, this.state.password).catch((err) => { 
+        // Helper function to write created user to the database
+        function writeUserData(userId, name, email) {
+          firebase.database().ref('users/').child(userId).set({
+            name: name,
+            email: email,
+          }).catch(err => console.error(err));
+        }
+        firebase.auth().createUserWithEmailAndPassword(this.state.username, this.state.password)
+        .then((firebaseUser) => {
+            console.log('created user', firebaseUser.uid, firebaseUser)
+            writeUserData(firebaseUser.uid, this.state.name, firebaseUser.email);
+        })
+        .catch((err) => { 
             this.setState({message: err.message});
         })
         
+
     }
     toggleView(){
         this.setState({view:(this.state.view== 'signup')?'login':'signup'})
@@ -60,6 +73,10 @@ export default class LoginForm extends Component {
                 return(
                     <div>
                         <h1>Signup</h1>
+                        
+                        <label><b>Name</b></label>
+                        <input placeholder="Enter Name" name="name" value={this.state.name} onChange={this.handleChange} required />
+                        <br/>
                         <label><b>Email</b></label>
                         <input type="email" placeholder="Enter Email" name="username" value={this.state.username} onChange={this.handleChange} required />
                         <br/>
