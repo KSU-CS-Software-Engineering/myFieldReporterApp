@@ -42,14 +42,14 @@ export default class LoginForm extends Component {
             return (
                 <div className="container">
                     <h1>Login</h1>
-                    <label><b>Email</b></label>
-                    <input type="email" placeholder="Enter Email" name="username" value={this.state.username} onChange={this.handleChange} required />
+                    <input type="email" placeholder="Email Address" name="username" value={this.state.username} onChange={this.handleChange} required />
                     <br/>
-                    <label><b>Password</b></label>
-                    <input type="password" placeholder="Enter Password" name="password" value={this.state.password} onChange={this.handleChange} required />
+                    <input type="password" placeholder="Password" name="password" value={this.state.password} onChange={this.handleChange} required />
                     <br/>
                     <button onClick={this.handleSignIn}>Login</button>
                     <button onClick={this.toggleView}>New User</button>
+                    <br/>
+                    <a>Forgot Password?</a>
                     <br/>
                     {this.state.message}
                 </div>
@@ -58,13 +58,11 @@ export default class LoginForm extends Component {
         else
             {
                 return(
-                    <div>
+                    <div className="container">
                         <h1>Signup</h1>
-                        <label><b>Email</b></label>
-                        <input type="email" placeholder="Enter Email" name="username" value={this.state.username} onChange={this.handleChange} required />
+                        <input type="email" placeholder="Email Address" name="username" value={this.state.username} onChange={this.handleChange} required />
                         <br/>
-                        <label><b>Password</b></label>
-                        <input type="password" placeholder="Enter Password" name="password" value={this.state.password} onChange={this.handleChange} required />
+                        <input type="password" placeholder="Password" name="password" value={this.state.password} onChange={this.handleChange} required />
                         <br/>
                         <button onClick={this.handleCreate}>Submit</button>
                         <br/>
