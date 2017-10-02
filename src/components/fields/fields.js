@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import './fields.css';
 import * as firebase from 'firebase';
 
-export default class LoginForm extends Component {
+export default class fields extends Component {
     constructor(props) {
         super(props);
     }
@@ -10,7 +10,7 @@ export default class LoginForm extends Component {
 
     render() {
         console.log('Here');
-        return(null);
+        return(<h1>F</h1>);
     }
     
 }
