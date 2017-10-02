@@ -29,8 +29,6 @@ class App extends Component {
                 <button >New Report</button>
                 </p><p>
             </p>
-                
-         
             <a href='' onClick={this.handleLogOut}>Log Out</a>
            
         </Auth>
