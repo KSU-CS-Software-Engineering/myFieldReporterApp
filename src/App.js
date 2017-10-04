@@ -36,7 +36,7 @@ class App extends Component {
                                 <button >New Report</button>
                             </p><p>
                                 <Link to="/fields">View Fields</Link>
-                            </p> 
+                            </p> <br/><br/>
                         </div>
                     )}/>
                 </Switch>

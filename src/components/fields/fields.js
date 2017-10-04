@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import './fields.css';
 import * as firebase from 'firebase';
+import {HashRouter as Router, Route, Switch, Link} from 'react-router-dom';
 
 export default class fields extends Component {
     constructor(props) {
@@ -9,8 +10,15 @@ export default class fields extends Component {
 
 
     render() {
-        console.log('Here');
-        return(<h1>F</h1>);
+        return(
+            <div>
+                <button>Create Field</button>
+
+                <h2>Your Fields</h2>
+                <br/>
+                <Link to="/">Dashboard</Link>
+            </div>
+        );
     }
     
 }
