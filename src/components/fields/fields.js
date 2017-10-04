@@ -38,6 +38,11 @@ export default class fields extends Component {
         
         
     }
+    
+    getFields(){
+       var fields = firebase.database().ref('users/' + this.firebase().currentUser.uid + '/fields');
+        
+    }
         
     toggleView(){
         this.setState({view:(this.state.view== 'newField')?'current':'newField'})
@@ -51,6 +56,8 @@ export default class fields extends Component {
                         <button onClick={this.toggleView}>Create Field</button>
                        
                         <h1>Your Fields</h1>
+                        this.GetFields();
+                        
                     </div>
                 );
             }
