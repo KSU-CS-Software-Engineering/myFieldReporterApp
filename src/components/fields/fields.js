@@ -40,7 +40,6 @@ export default class fields extends Component {
     }
     
     getFields(){
-       var fields = firebase.database().ref('users/' + this.firebase().currentUser.uid + '/fields');
         
     }
         
@@ -56,8 +55,13 @@ export default class fields extends Component {
                         <button onClick={this.toggleView}>Create Field</button>
                        
                         <h1>Your Fields</h1>
-                        this.GetFields();
+                        <script>
                         
+                        var fieldNames = firebase.database().ref('users/' + this.firebase().currentUser.uid + '/fields');
+                        console.log('Hello');
+                        </script>
+                        
+                    <Link to="/">Dashboard</Link>
                     </div>
                 );
             }
