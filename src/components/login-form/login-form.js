@@ -65,6 +65,7 @@ export default class LoginForm extends Component {
                     <a>Forgot Password?</a>
                     <br/>
                     {this.state.message}
+                    <div className="grass"></div>
                 </div>
             );
         }
@@ -85,6 +86,7 @@ export default class LoginForm extends Component {
                         <br/>
                         <br/>
                         {this.state.message}
+                        <div className="grass"></div>
                     </div>
                 )
             }
