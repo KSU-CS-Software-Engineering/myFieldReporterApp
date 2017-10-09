@@ -17,6 +17,7 @@ export default class LoginForm extends Component {
         this.handleSignIn = this.handleSignIn.bind(this);
         this.handleCreate = this.handleCreate.bind(this);
         this.toggleView = this.toggleView.bind(this);
+        this.handleFP = this.handleFP.bind(this);
     }
     handleChange(event) {
         this.setState({
@@ -47,6 +48,24 @@ export default class LoginForm extends Component {
         
 
     }
+    
+    handleFP(){
+        var auth = firebase.auth();
+        var emailAddress = this.state.username;
+        
+        auth.sendPasswordResetEmail(emailAddress).then(function() {
+          alert("Email has been sent");
+        }).catch(function(error) {
+            
+          switch(error.code){
+              case "auth/user-not-found":
+                  alert("Email account was not found");
+                  break;
+                              }
+                    
+        });
+    }
+    
     toggleView(){
         this.setState({view:(this.state.view== 'signup')?'login':'signup'})
     }
@@ -62,7 +81,7 @@ export default class LoginForm extends Component {
                     <button onClick={this.handleSignIn}>Login</button>
                     <button onClick={this.toggleView}>New User</button>
                     <br/>
-                    <a>Forgot Password?</a>
+                    <a onClick={this.handleFP}>Forgot Password?</a>
                     <br/>
                     {this.state.message}
                     <div className="grass"></div>
