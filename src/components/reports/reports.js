@@ -3,6 +3,8 @@ import './reports.css';
 import * as firebase from 'firebase';
 import {HashRouter as Router, Route, Switch, Link} from 'react-router-dom';
 
+
+
 export default class reports extends Component {
     constructor(props) {
         super(props);
@@ -10,8 +12,8 @@ export default class reports extends Component {
             field: '',
             crop: '',
             location: '',
-            view: 'current'
-            
+            view: 'current',
+            crops: []
         }
         this.handleCreate = this.handleCreate.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -43,6 +45,12 @@ export default class reports extends Component {
         
     }
     
+    componentWillMount(){
+        firebase.database().ref('crops').once('value', (snapshot) => {
+           this.setState({crops: snapshot.val()}); 
+        });
+    }
+    
     getReports(){
         
         console.log('Here');
@@ -53,8 +61,6 @@ export default class reports extends Component {
         console.log(info);
         
     }
-    
-    
         
     toggleView(){
         this.setState({view:(this.state.view== 'newReport')?'current':'newReport'})
@@ -62,6 +68,9 @@ export default class reports extends Component {
     
 
     render() {
+            var list = this.state.crops.map((crop) => {  //List of crops
+                return <li key={crop.name}>{crop.name}</li>
+            });
             if(this.state.view == 'current'){
                 return (
                     <div className="container">
@@ -79,6 +88,7 @@ export default class reports extends Component {
                     return(
                         <div className="container">
                             <h1>New Report</h1>
+                            <ul>{list}</ul>
                             <input placeholder="Name of Field" name="field" value={this.state.field} onChange={this.handleChange} required />
                             <br/>
                             <input placeholder="Crop in Field" name="crop" value={this.state.crop} onChange={this.handleChange} required />
