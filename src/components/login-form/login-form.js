@@ -32,7 +32,6 @@ export default class LoginForm extends Component {
         }
     }
     handleSignIn() {
-        this.handleSignIn()
         firebase.auth().signInWithEmailAndPassword(this.state.username, this.state.password).catch((err) => {
             this.setState({message: err.message});
         })
