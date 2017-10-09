@@ -25,6 +25,7 @@ export default class LoginForm extends Component {
         });
     }
     handleSignIn() {
+        this.handleSignIn()
         firebase.auth().signInWithEmailAndPassword(this.state.username, this.state.password).catch((err) => {
             this.setState({message: err.message});
         })
@@ -69,6 +70,7 @@ export default class LoginForm extends Component {
     toggleView(){
         this.setState({view:(this.state.view== 'signup')?'login':'signup'})
     }
+    
     render() {
         if(this.state.view == 'login'){
             return (
