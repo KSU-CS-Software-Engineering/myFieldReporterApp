@@ -10,7 +10,10 @@ export default class LoginForm extends Component {
         this.state = {
             username: '',
             password: '',
-            name: '',
+            fName: '',
+            lName: '',
+            state: '',
+            county: '',
             view: 'login'
         }
         this.handleChange = this.handleChange.bind(this);
@@ -38,16 +41,19 @@ export default class LoginForm extends Component {
     }
     handleCreate() {
         // Helper function to write created user to the database
-        function writeUserData(userId, name, email) {
+        function writeUserData(userId, email,first,last,state,county) {
           firebase.database().ref('users/').child(userId).set({
-            name: name,
             email: email,
+            fName: first,
+            lName: last,
+            state: state,
+            county: county,
           }).catch(err => console.error(err));
         }
         firebase.auth().createUserWithEmailAndPassword(this.state.username, this.state.password)
         .then((firebaseUser) => {
             console.log('created user', firebaseUser.uid, firebaseUser)
-            writeUserData(firebaseUser.uid, this.state.name, firebaseUser.email);
+            writeUserData(firebaseUser.uid, firebaseUser.email,this.state.fName,this.state.lName,this.state.state,this.state.county);
         })
         .catch((err) => { 
             this.setState({message: err.message});
@@ -101,7 +107,13 @@ export default class LoginForm extends Component {
                 return(
                     <div className="container">
                         <h1>Signup</h1>
-                        <input placeholder="Name" name="name" value={this.state.name} onChange={this.handleChange} required />
+                        <input placeholder="First Name" name="fName" value={this.state.fName} onChange={this.handleChange} required />
+                        <br/>
+                        <input placeholder="Last Name" name="lName" value={this.state.lName} onChange={this.handleChange} required />
+                        <br/>
+                        <input placeholder="State" name="state" value={this.state.state} onChange={this.handleChange} required />
+                        <br/>
+                        <input placeholder="County" name="county" value={this.state.county} onChange={this.handleChange} required />
                         <br/>
                         <input type="email" placeholder="Email Address" name="username" value={this.state.username} onChange={this.handleChange} required />
                         <br/>

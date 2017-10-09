@@ -85,6 +85,7 @@ export default class reports extends Component {
                             <br/>
                             <input placeholder="Location" name="location" value={this.state.location} onChange={this.handleChange} required />
                             <br/>
+                            
                             <button onClick={this.handleCreate}>Submit</button>
                             
                             <br/>
