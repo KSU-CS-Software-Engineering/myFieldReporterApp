@@ -17,12 +17,19 @@ export default class LoginForm extends Component {
         this.handleSignIn = this.handleSignIn.bind(this);
         this.handleCreate = this.handleCreate.bind(this);
         this.toggleView = this.toggleView.bind(this);
+        this.handleKeyPress = this.handleKeyPress.bind(this);
         this.handleFP = this.handleFP.bind(this);
     }
     handleChange(event) {
         this.setState({
             [event.target.name]: event.target.value
         });
+    }
+    handleKeyPress(event) {
+        var code = (event.keyCode ? event.keyCode : event.which);
+        if(code == 13) {
+            this.handleSignIn();
+        }
     }
     handleSignIn() {
         this.handleSignIn()
@@ -78,7 +85,7 @@ export default class LoginForm extends Component {
                     <h1>Login</h1>
                     <input type="email" placeholder="Email Address" name="username" value={this.state.username} onChange={this.handleChange} required />
                     <br/>
-                    <input type="password" placeholder="Password" name="password" value={this.state.password} onChange={this.handleChange} required />
+                    <input type="password" placeholder="Password" name="password" value={this.state.password} onChange={this.handleChange} onKeyPress={this.handleKeyPress} required />
                     <br/>
                     <button onClick={this.handleSignIn}>Login</button>
                     <button onClick={this.toggleView}>New User</button>
@@ -99,7 +106,7 @@ export default class LoginForm extends Component {
                         <br/>
                         <input type="email" placeholder="Email Address" name="username" value={this.state.username} onChange={this.handleChange} required />
                         <br/>
-                        <input type="password" placeholder="Password" name="password" value={this.state.password} onChange={this.handleChange} required />
+                        <input type="password" placeholder="Password" name="password" value={this.state.password} onChange={this.handleChange} onKeyPress={this.handleKeyPress} required />
                         <br/>
                         <button onClick={this.handleCreate}>Submit</button>
                         <br/>
