@@ -22,6 +22,7 @@ export default class LoginForm extends Component {
         this.toggleView = this.toggleView.bind(this);
         this.handleKeyPress = this.handleKeyPress.bind(this);
         this.handleFP = this.handleFP.bind(this);
+        
     }
     handleChange(event) {
         this.setState({

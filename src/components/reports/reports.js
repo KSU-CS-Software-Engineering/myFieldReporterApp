@@ -13,7 +13,7 @@ export default class reports extends Component {
             crop: '',
             location: '',
             view: 'current',
-            crops: []
+            list: []
         }
         this.handleCreate = this.handleCreate.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -52,13 +52,9 @@ export default class reports extends Component {
     }
     
     getReports(){
-        
-        console.log('Here');
-        
-        
     
         var info = firebase.database().ref('users/' + firebase.auth().currentUser.uid + '/reports/').key;
-        console.log(info);
+        
         
     }
         
@@ -68,9 +64,8 @@ export default class reports extends Component {
     
 
     render() {
-            var list = this.state.crops.map((crop) => {  //List of crops
-                return <li key={crop.name}>{crop.name}</li>
-            });
+           
+            
             if(this.state.view == 'current'){
                 return (
                     <div className="container">
@@ -85,10 +80,22 @@ export default class reports extends Component {
             }
             else
                 {
+                    firebase.database().ref('crops/').on('value', snap =>  {
+                           var data = [];
+                           snap.forEach(ss => {
+                              data.push(ss.child('name').val());
+                           });
+                            this.state.list = data;
+                           console.log(this.state.list);
+                           console.log(this.state.list.pop());
+                        })
                     return(
+                         
                         <div className="container">
                             <h1>New Report</h1>
-                            <ul>{list}</ul>
+                            <select>
+                                <option value={this.state.list.pop()}>{this.state.list.pop()}</option>
+                            </select>
                             <input placeholder="Name of Field" name="field" value={this.state.field} onChange={this.handleChange} required />
                             <br/>
                             <input placeholder="Crop in Field" name="crop" value={this.state.crop} onChange={this.handleChange} required />
