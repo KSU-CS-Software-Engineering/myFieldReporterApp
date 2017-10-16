@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import './reports.css';
 import * as firebase from 'firebase';
 import {HashRouter as Router, Route, Switch, Link} from 'react-router-dom';
-import Webcam from 'react-webcam';
+import Webcam from '../webcam/webcam';
 
 
 export default class reports extends Component {
@@ -39,11 +39,14 @@ export default class reports extends Component {
     handleCreate(){
         var fid = firebase.database().ref('reports/').push().key;
         var uid = firebase.auth().currentUser.uid;
-        
         var updates = {}
         updates['reports/' + fid] = {
             crop: this.state.crop,
             location: this.state.location,
+            gs: this.state.gs,
+            pest: this.state.pest,
+            notes: this.state.notes,
+            time: Date().toString(),
             owner: uid
           }
         updates['users/' + uid + '/reports/' + fid] = true;
