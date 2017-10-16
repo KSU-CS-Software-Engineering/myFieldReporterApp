@@ -22,7 +22,10 @@ class App extends Component {
       <Router>
         <div className="App">
             <div className="App-header">
+                <a href="/" className="App">
                   <img src={logo} className="App-logo" alt="logo" />
+                    
+                </a>
             </div>
             <Auth>
                 <Switch>
