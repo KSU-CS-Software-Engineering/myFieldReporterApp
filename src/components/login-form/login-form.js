@@ -110,6 +110,7 @@ export default class LoginForm extends Component {
                         <input type="email" placeholder="Email Address" name="email" value={this.state.email} onChange={this.handleChange} required />
                         <input type="password" placeholder="Password" name="password" value={this.state.password} onChange={this.handleChange} onKeyPress={this.handleKeyPress} required />
                         <select name="state" required onChange={this.handleChange}>
+                            <option value="" selected disabled hidden>State</option>
                             <option value="AL">Alabama</option>
                             <option value="AK">Alaska</option>
                             <option value="AZ">Arizona</option>
