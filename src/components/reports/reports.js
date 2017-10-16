@@ -9,9 +9,12 @@ export default class reports extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            field: '',
             crop: '',
+            gs: '',
             location: '',
+            picture: '',
+            pest: '',
+            notes: '',
             view: 'current',
             list: []
         }
@@ -96,12 +99,17 @@ export default class reports extends Component {
                             <select>
                                 <option value={this.state.list.pop()}>{this.state.list.pop()}</option>
                             </select>
-                            <input placeholder="Name of Field" name="field" value={this.state.field} onChange={this.handleChange} required />
+                            <input placeholder="Crop Dropdown" name="crop" value={this.state.crop} onChange={this.handleChange} required />
                             <br/>
-                            <input placeholder="Crop in Field" name="crop" value={this.state.crop} onChange={this.handleChange} required />
+                            <input placeholder="Growth Stage of Crop" name="gs" value={this.state.gs} onChange={this.handleChange} required />
                             <br/>
                             <input placeholder="Location" name="location" value={this.state.location} onChange={this.handleChange} required />
                             <br/>
+                            <input placeholder="Pest" name="pest" value={this.state.pest} onChange={this.handleChange} required />
+                            <br/>
+                            <input placeholder="Picture" name="picture" value={this.state.picture} onChange={this.handleChange} required/>
+                            <br/>
+                            <input placeholder="Notes" name="notes" value={this.state.notes} onChange={this.handleChange}/>
                             
                             <button onClick={this.handleCreate}>Submit</button>
                             
