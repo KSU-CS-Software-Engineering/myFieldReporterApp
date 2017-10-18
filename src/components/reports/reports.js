@@ -13,12 +13,14 @@ export default class reports extends Component {
             crop: '',
             location: '',
             view: 'current',
-            crops: []
+            crops: [],
+            suggestions: []
         }
         this.handleCreate = this.handleCreate.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        //this.handleClick = this.handClick.bind(this);
         this.toggleView = this.toggleView.bind(this);
-        
+        this.updateSuggestions = this.updateSuggestions.bind(this);
         this.getReports();
         
     }
@@ -27,7 +29,13 @@ export default class reports extends Component {
         this.setState({
             [event.target.name]: event.target.value
         });
+        if(event.target.name == 'crop') this.updateSuggestions();
     }
+    
+    /*handleClick(event){
+        if(event.currentTarget.name == 'suggestions') this.setState({crop: event.target.value});
+    }*/
+    
     handleCreate(){
         var fid = firebase.database().ref('reports/').push().key;
         var uid = firebase.auth().currentUser.uid;
@@ -66,11 +74,41 @@ export default class reports extends Component {
         this.setState({view:(this.state.view== 'newReport')?'current':'newReport'})
     }
     
-
+    updateSuggestions(){
+        /*
+        var term = this.state.term
+        find matches
+        return matches
+        */
+        /* var term = this.state.crop;
+        this.setState({suggestions: []});
+        var ind = 0;
+        var croparrayLenth = this.state.crops.length;
+        for (var i = 0; i < croparrayLenth; i++){
+            if (this.state.crops[i].indexof(term) !== -1) suggestions[ind++] = this.state.crops[i]; 
+        }
+        
+        this.setState({suggestions: ['red','blue','green']});
+        */
+        
+        var term = this.state.crop;
+        var matches = [];
+        var toMatch = this.state.crops;
+        var croparrayLenth = this.state.crops.length;
+        for (var i = 0; i < croparrayLenth; i++){
+            if (toMatch[i].indexof(term) !== -1) matches.concat(toMatch[i]); 
+        }
+        
+        this.setState({suggestions: matches});
+    }
+    
     render() {
-            var list = this.state.crops.map((crop) => {  //List of crops
+            /*var list = this.state.crops.map((crop) => {  //List of crops
                 return <li key={crop.name}>{crop.name}</li>
-            });
+            });*/
+            var suggestions = this.state.suggestions.map((sug, i) => {
+                return <div key={i} onClick={this.handleClick}>{sug}</div>
+            })
             if(this.state.view == 'current'){
                 return (
                     <div className="container">
@@ -88,11 +126,14 @@ export default class reports extends Component {
                     return(
                         <div className="container">
                             <h1>New Report</h1>
-                            <ul>{list}</ul>
                             <input placeholder="Name of Field" name="field" value={this.state.field} onChange={this.handleChange} required />
                             <br/>
-                            <input placeholder="Crop in Field" name="crop" value={this.state.crop} onChange={this.handleChange} required />
-                            <br/>
+                        <div className="searchCrop">
+                            <input placeholder="crop" name="crop" value={this.state.crop} onChange={this.handleChange}/>
+                            <div>
+                                {suggestions}
+                            </div>
+                        </div>
                             <input placeholder="Location" name="location" value={this.state.location} onChange={this.handleChange} required />
                             <br/>
                             
