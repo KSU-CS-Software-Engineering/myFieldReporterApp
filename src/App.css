@@ -13,6 +13,10 @@
   color: white;
 }
 
+.App-header a{
+    float: none;
+}
+
 .App-intro {
   font-size: large;
 }

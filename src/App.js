@@ -24,7 +24,6 @@ class App extends Component {
             <div className="App-header">
                 <a href="/" className="App">
                   <img src={logo} className="App-logo" alt="logo" />
-                    
                 </a>
             </div>
             <Auth>
