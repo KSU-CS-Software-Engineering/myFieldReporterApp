@@ -16,7 +16,8 @@ export default class reports extends Component {
             pest: '',
             notes: '',
             view: 'current',
-            list: []
+            list: [],
+            reports: []
         }
         this.handleCreate = this.handleCreate.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -52,7 +53,7 @@ export default class reports extends Component {
         updates['users/' + uid + '/reports/' + fid] = true;
         firebase.database().ref().update(updates).then(() => {
             this.state.images.forEach( (imageURL, index) => {
-            var blob = dataURItoBlob(imageURL);
+                var blob = dataURItoBlob(imageURL);
                 firebase.storage().ref().child('images').child(fid).child(index.toString()).put(blob).then(snapshot => {
                     console.log(snapshot)
                     firebase.database().ref('reports/' + fid + '/images').push(snapshot.downloadURL)
@@ -108,6 +109,16 @@ export default class reports extends Component {
            
             
             if(this.state.view == 'current'){
+                 firebase.database().ref('/users/'+firebase.auth().currentUser.uid+'/reports/').on('value', snap =>  {
+                           var data = [];
+                           snap.forEach(ss => {
+                              data.push(ss.child('name').val());
+                           });
+                            this.state.reports = data;
+                           console.log(this.state.reports);
+                           console.log(this.state.reports.pop());
+                        })
+                
                 return (
                     <div className="container">
             
@@ -115,7 +126,7 @@ export default class reports extends Component {
                        
                         <h1>Your Reports</h1>
                         
-                    <Link to="/">Dashboard</Link>
+                        <br/><br/>
                     </div>
                 );
             }
