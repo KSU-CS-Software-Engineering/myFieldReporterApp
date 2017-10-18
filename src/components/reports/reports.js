@@ -162,7 +162,7 @@ export default class reports extends Component {
                             
                             {imageTags}
                             
-                             <Webcam audio={false} height={350} ref={this.setRef} screenshotFormat="image/jpeg" width={350} />
+                             <Webcam audio={false} height={350} ref={this.setRef} screenshotFormat="image/jpeg" width={300} />
                             <button placeholder="Picture" name="picture" value={this.state.picture} onClick={this.capture} required/>
                             <br/>
                             <input placeholder="Notes" name="notes" value={this.state.notes} onChange={this.handleChange}/>
