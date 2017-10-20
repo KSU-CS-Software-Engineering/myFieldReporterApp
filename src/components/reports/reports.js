@@ -146,7 +146,7 @@ export default class reports extends Component {
                     })
                     return(
                          
-                        <div className="container">
+                        <div className="reports-container">
                             <h1>New Report</h1>
                             <select>
                                 <option value={this.state.list.pop()}>{this.state.list.pop()}</option>

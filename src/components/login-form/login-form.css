@@ -1,75 +1,131 @@
-*{
-    margin: 0 auto;
-    padding: 0;
-    font-family: 'open_sansregular', sans-serif;
-    font-weight:inherit;
+.login-form-container{
+    max-width: 300px;
+    padding: 15px;
 }
 
-input{
+/*--------input field formatting-----------------------*/
+
+/*Both Login and Signup page*/
+
+.login-form-container input{
+    padding-left: 30px;
+    left: 0px; 
+    position: absolute;
+}
+
+.login-form-container [class$="icon"] {
     background-repeat: no-repeat;
-    background-position: 5px 5px;
     background-size: 20px 20px;
-    padding: 5px 5px 5px 30px;
-    width: 100%;
-    box-sizing: border-box;
-    margin: 5px 0;
-    border: 1px solid #dddddd;
-    font-size: 16px;
+    width: 20px;
+    height: 20px;
+    position: absolute;
 }
 
-select{
-    background-repeat: no-repeat;
-    background-position: 5px 5px;
-    background-size: 20px 20px;
-    padding: 5px 5px 5px 30px;
-    width: 100%;
-    box-sizing: border-box;
-    margin: 5px 0;
-    border: 1px solid #dddddd;
-    font-size: 16px;
+.login-form-container .first-line{
+    top: 0px;
 }
 
-h1{
-    margin: 0 0 10px 0;;
-    text-align: left;
+.login-form-container .second-line{
+    top: 40px;
 }
 
-input[type=password]{
-    background-image: url(./password.png);
+.login-form-container .third-line{
+    top: 80px;
 }
 
-input[type=email]{
+.login-form-container .fourth-line{
+    top: 120px;
+}
+
+.login-form-container .email-icon{
     background-image: url(./email.png);
 }
 
-input[name=fName]{
+.login-form-container .password-icon{
+    background-image: url(./password.png);
+}
+
+.login-form-container .name-icon{
+    background-image: url(./name.png);
+}
+
+.login-form-container .first-icon{
+    top: 6px;
+    left: 6px;
+}
+
+.login-form-container .second-icon{
+    top: 46px;
+    left: 6px;
+}
+
+.login-form-container .third-icon{
+    top: 86px;
+    left: 6px;
+}
+
+/*Login Page*/
+
+.login-form-container #login-container{
+    position:relative;
+    height: 75px;
+}
+
+/*Signup Page*/
+
+.login-form-container #signup-container{
+    position:relative;
+    height: 155px;
+    width: 100%;
+}
+
+.login-form-container input[name=fName]{
     background-image: url(./name.png);
     float:left;
 }
 
-input[name=lName]{
-    float: right;
+.login-form-container input[name=lName]{
+    right: 0px;
     padding-left: 5px;
+    left: inherit;
 }
 
-input[name*=Name]{
+.login-form-container input[name*=Name]{
     width: 48.5%;
 }
 
-[name=county], [name=state]{
+.login-form-container [name=county], .login-form-container [name=state]{
     width: 48.5%;
     padding-left: 5px;
 }
 
-[name=county]{
-    float: right;
+.login-form-container [name=county]{
+    right: 0px;
+    left: inherit;
 }
 
-[name=state]{
+.login-form-container [name=state]{
     float: left;
 }
 
-button{
+.login-form-container select{
+    padding: 4px 5px 4px 30px;
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid #dddddd;
+    font-size: 16px;
+    position: absolute;
+    left: 0px;
+}
+
+/*----------------------------*/
+
+.login-form-container h1{
+    margin: 0 0 10px 0;;
+    text-align: left;
+}
+
+.login-form-container button{
     width: 100%;
     margin: 5px 0;
     padding: 10px;
@@ -82,23 +138,18 @@ button{
     text-transform: uppercase;
 }
 
-button:first-of-type{
+.login-form-container button:first-of-type{
     margin-top: 30px;
 }
 
-a{
+.login-form-container a{
     cursor: pointer;
     margin: 10px 0;
     display: inline-block;
     float: left;
 }
 
-.container{
-    max-width: 300px;
-    padding: 15px;
-}
-
-.grass{
+.login-form-container .grass{
     background-image: url(./grass.svg);
     background-position: top left;
     background-repeat: no-repeat;
@@ -111,7 +162,7 @@ a{
     z-index: -100;
 }
 
-.message{
+.login-form-container .message{
     color: #e52828;
     margin-bottom: 10px;
     text-align: left;

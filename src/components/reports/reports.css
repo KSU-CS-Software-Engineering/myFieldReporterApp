@@ -1,0 +1,10 @@
+.reports-container{
+    max-width: 300px;
+    padding: 15px;
+    width: 100%;
+    border: 1px solid red;
+}
+
+.reports-container input{
+    
+}

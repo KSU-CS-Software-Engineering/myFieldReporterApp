@@ -1,3 +1,18 @@
+*{
+    margin: 0 auto;
+    padding: 0;
+    font-family: 'open_sansregular', sans-serif;
+    font-weight:inherit;
+}
+
+input{
+    padding: 5px 5px 5px 5px;
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid #dddddd;
+    font-size: 16px;
+}
+
 .App {
   text-align: center;
 }
