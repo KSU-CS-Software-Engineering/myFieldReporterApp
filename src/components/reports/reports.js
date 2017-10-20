@@ -2,27 +2,38 @@ import React, {Component} from 'react';
 import './reports.css';
 import * as firebase from 'firebase';
 import {HashRouter as Router, Route, Switch, Link} from 'react-router-dom';
-
+import Webcam from '../webcam/webcam';
 
 
 export default class reports extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            field: '',
             crop: '',
+            gs: '',
             location: '',
+            images: [],
+            pest: '',
+            notes: '',
             view: 'current',
-            crops: [],
-            suggestions: []
+            suggestions: [],
+            list: [],
+            reports: []
+
         }
         this.handleCreate = this.handleCreate.bind(this);
         this.handleChange = this.handleChange.bind(this);
         //this.handleClick = this.handClick.bind(this);
         this.toggleView = this.toggleView.bind(this);
         this.updateSuggestions = this.updateSuggestions.bind(this);
+        this.capture = this.capture.bind(this);
+        this.setRef = this.setRef.bind(this);
         this.getReports();
         
+    }
+    
+    setRef(webcam){ 
+        this.webcam = webcam;
     }
     
     handleChange(event) {
@@ -41,32 +52,46 @@ export default class reports extends Component {
         var uid = firebase.auth().currentUser.uid;
         var updates = {}
         updates['reports/' + fid] = {
-            field: this.state.field,
             crop: this.state.crop,
             location: this.state.location,
+            gs: this.state.gs,
+            pest: this.state.pest,
+            notes: this.state.notes,
+            time: Date().toString(),
             owner: uid
           }
-        updates['users/' + uid + /reports/ + fid] = true;
-        firebase.database().ref().update(updates).catch(err => console.error(err));
-            this.toggleView();
+        updates['users/' + uid + '/reports/' + fid] = true;
+        firebase.database().ref().update(updates).then(() => {
+            this.state.images.forEach( (imageURL, index) => {
+                var blob = dataURItoBlob(imageURL);
+                firebase.storage().ref().child('images').child(fid).child(index.toString()).put(blob).then(snapshot => {
+                    console.log(snapshot)
+                    firebase.database().ref('reports/' + fid + '/images').push(snapshot.downloadURL)
+                })
+            });
+            
+        }).catch(err => console.error(err));
+        
+        this.toggleView();
+        
+        this.setState({
+            crop: '',
+            gs: '',
+            location: '',
+            images: [],
+            pest: '',
+            notes: '',
+            view: 'current',
+            list: []
+        })
         
         
-    }
-    
-    componentWillMount(){
-        firebase.database().ref('crops').once('value', (snapshot) => {
-           this.setState({crops: snapshot.val()}); 
-        });
     }
     
     getReports(){
-        
-        console.log('Here');
-        
-        
     
         var info = firebase.database().ref('users/' + firebase.auth().currentUser.uid + '/reports/').key;
-        console.log(info);
+        
         
     }
         
@@ -93,23 +118,55 @@ export default class reports extends Component {
         
         var term = this.state.crop;
         var matches = [];
-        var toMatch = this.state.crops;
-        var croparrayLenth = this.state.crops.length;
+        var toMatch = this.state.list;
+        var croparrayLenth = this.state.list.length;
         for (var i = 0; i < croparrayLenth; i++){
             if (toMatch[i].indexof(term) !== -1) matches.concat(toMatch[i]); 
         }
         
         this.setState({suggestions: matches});
     }
+
+    capture(){
+        const imageSrc = this.webcam.getScreenshot();
+        var images = this.state.images;
+        if(images.length === 2) images.shift();
+        images.push(imageSrc);
+        this.setState({images:images})
+        
+    }
     
+    componentWillMount(){
+        firebase.database().ref('/users/'+firebase.auth().currentUser.uid+'/reports/').on('value', snap =>  {
+                           var data = [];
+                           snap.forEach(ss => {
+                              data.push(ss.child('name').val());
+                           });
+                            this.state.reports = data;
+                           console.log(this.state.reports);
+                           console.log(this.state.reports.pop());
+                        })
+        firebase.database().ref('crops/').on('value', snap =>  {
+                           var data = [];
+                           snap.forEach(ss => {
+                              data.push(ss.child('name').val());
+                           });
+                            this.state.list = data;
+                           console.log(this.state.list);
+                           console.log(this.state.list.pop());
+                        })
+    }
+
     render() {
-            /*var list = this.state.crops.map((crop) => {  //List of crops
-                return <li key={crop.name}>{crop.name}</li>
-            });*/
+           
+        
             var suggestions = this.state.suggestions.map((sug, i) => {
                 return <div key={i} onClick={this.handleClick}>{sug}</div>
             })
+        
             if(this.state.view == 'current'){
+                 
+                
                 return (
                     <div className="container">
             
@@ -117,25 +174,44 @@ export default class reports extends Component {
                        
                         <h1>Your Reports</h1>
                         
-                    <Link to="/">Dashboard</Link>
+                        <br/><br/>
                     </div>
                 );
             }
             else
                 {
+                    
+                    var imageTags = this.state.images.map((imageURL, index) => {
+                        return <img key={index} src={imageURL}/>
+                    })
                     return(
+                         
                         <div className="container">
                             <h1>New Report</h1>
                             <input placeholder="Name of Field" name="field" value={this.state.field} onChange={this.handleChange} required />
                             <br/>
+                        
+                       /* <SearchableList onChange={this.handleChange} listRef="crops/"/>*/
                         <div className="searchCrop">
                             <input placeholder="crop" name="crop" value={this.state.crop} onChange={this.handleChange}/>
                             <div>
                                 {suggestions}
                             </div>
                         </div>
+
+                            <input placeholder="Growth Stage of Crop" name="gs" value={this.state.gs} onChange={this.handleChange} required />
+                            <br/>
                             <input placeholder="Location" name="location" value={this.state.location} onChange={this.handleChange} required />
                             <br/>
+                            <input placeholder="Pest" name="pest" value={this.state.pest} onChange={this.handleChange} required />
+                            <br/>
+                            
+                            {imageTags}
+                            
+                             <Webcam audio={false} height={350} ref={this.setRef} screenshotFormat="image/jpeg" width={350} />
+                            <button placeholder="Picture" name="picture" value={this.state.picture} onClick={this.capture} required/>
+                            <br/>
+                            <input placeholder="Notes" name="notes" value={this.state.notes} onChange={this.handleChange}/>
                             
                             <button onClick={this.handleCreate}>Submit</button>
                             
@@ -150,4 +226,29 @@ export default class reports extends Component {
                 }
     }
     
+}
+
+function dataURItoBlob(dataURI) {
+  // convert base64 to raw binary data held in a string
+  // doesn't handle URLEncoded DataURIs - see SO answer #6850276 for code that does this
+  var byteString = atob(dataURI.split(',')[1]);
+
+  // separate out the mime component
+  var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0]
+
+  // write the bytes of the string to an ArrayBuffer
+  var ab = new ArrayBuffer(byteString.length);
+
+  // create a view into the buffer
+  var ia = new Uint8Array(ab);
+
+  // set the bytes of the buffer to the correct values
+  for (var i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+  }
+
+  // write the ArrayBuffer to a blob, and you're done
+  var blob = new Blob([ab], {type: mimeString});
+  return blob;
+
 }

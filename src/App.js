@@ -4,7 +4,7 @@ import './App.css';
 import {HashRouter as Router, Route, Switch, Link} from 'react-router-dom';
 import Auth from './components/auth/auth';
 import * as firebase from 'firebase';
-import Fields from './components/reports/reports';
+import Reports from './components/reports/reports';
 
 class App extends Component {
     handleLogOut(event){
@@ -14,29 +14,26 @@ class App extends Component {
             //Error  
         });
     }
-    handleFields(){
-        <Fields></Fields>
+    handleReport(){
+        <Reports></Reports>
     }
   render() {
     return (
       <Router>
         <div className="App">
             <div className="App-header">
+                <a href="/" className="App">
                   <img src={logo} className="App-logo" alt="logo" />
+                </a>
             </div>
             <Auth>
                 <Switch>
                     <Route path="/reports" render={()=>(
-                        <Fields />
+                        <Reports />
                     )}/>
                     <Route path="/" render={()=>(
                         <div>
-                            <p className="App-intro">
-
-                                <button >New Report</button>
-                            </p><p>
-                                <Link to="/reports">Reports</Link>
-                            </p> <br/><br/>
+                            <Reports></Reports>
                         </div>
                     )}/>
                 </Switch>

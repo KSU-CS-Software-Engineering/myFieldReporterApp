@@ -8,7 +8,7 @@ export default class LoginForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            username: '',
+            email: '',
             password: '',
             fName: '',
             lName: '',
@@ -22,6 +22,7 @@ export default class LoginForm extends Component {
         this.toggleView = this.toggleView.bind(this);
         this.handleKeyPress = this.handleKeyPress.bind(this);
         this.handleFP = this.handleFP.bind(this);
+        
     }
     handleChange(event) {
         this.setState({
@@ -35,7 +36,7 @@ export default class LoginForm extends Component {
         }
     }
     handleSignIn() {
-        firebase.auth().signInWithEmailAndPassword(this.state.username, this.state.password).catch((err) => {
+        firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password).catch((err) => {
             this.setState({message: err.message});
         })
     }
@@ -50,7 +51,7 @@ export default class LoginForm extends Component {
             county: county,
           }).catch(err => console.error(err));
         }
-        firebase.auth().createUserWithEmailAndPassword(this.state.username, this.state.password)
+        firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
         .then((firebaseUser) => {
             console.log('created user', firebaseUser.uid, firebaseUser)
             writeUserData(firebaseUser.uid, firebaseUser.email,this.state.fName,this.state.lName,this.state.state,this.state.county);
@@ -64,7 +65,7 @@ export default class LoginForm extends Component {
     
     handleFP(){
         var auth = firebase.auth();
-        var emailAddress = this.state.username;
+        var emailAddress = this.state.email;
         
         auth.sendPasswordResetEmail(emailAddress).then(function() {
           alert("Email has been sent");
@@ -80,6 +81,7 @@ export default class LoginForm extends Component {
     }
     
     toggleView(){
+        this.state.message = "";
         this.setState({view:(this.state.view== 'signup')?'login':'signup'})
     }
     
@@ -88,16 +90,12 @@ export default class LoginForm extends Component {
             return (
                 <div className="container">
                     <h1>Login</h1>
-                    <input type="email" placeholder="Email Address" name="username" value={this.state.username} onChange={this.handleChange} required />
-                    <br/>
+                    <div className="message">{this.state.message}</div>
+                    <input type="email" placeholder="Email Address" name="email" value={this.state.email} onChange={this.handleChange} required />
                     <input type="password" placeholder="Password" name="password" value={this.state.password} onChange={this.handleChange} onKeyPress={this.handleKeyPress} required />
-                    <br/>
                     <button onClick={this.handleSignIn}>Login</button>
                     <button onClick={this.toggleView}>New User</button>
-                    <br/>
                     <a onClick={this.handleFP}>Forgot Password?</a>
-                    <br/>
-                    {this.state.message}
                     <div className="grass"></div>
                 </div>
             );
@@ -107,11 +105,13 @@ export default class LoginForm extends Component {
                 return(
                     <div className="container">
                         <h1>Signup</h1>
+                        <div className="message">{this.state.message}</div>
                         <input placeholder="First Name" name="fName" value={this.state.fName} onChange={this.handleChange} required />
-                        <br/>
                         <input placeholder="Last Name" name="lName" value={this.state.lName} onChange={this.handleChange} required />
-                        <br/>
+                        <input type="email" placeholder="Email Address" name="email" value={this.state.email} onChange={this.handleChange} required />
+                        <input type="password" placeholder="Password" name="password" value={this.state.password} onChange={this.handleChange} onKeyPress={this.handleKeyPress} required />
                         <select name="state" required onChange={this.handleChange}>
+                            <option value="" selected disabled hidden>State</option>
                             <option value="AL">Alabama</option>
                             <option value="AK">Alaska</option>
                             <option value="AZ">Arizona</option>
@@ -163,19 +163,9 @@ export default class LoginForm extends Component {
                             <option value="WV">West Virginia</option>
                             <option value="WI">Wisconsin</option>
                             <option value="WY">Wyoming</option></select>
-                        <br/>
                         <input placeholder="County" name="county" value={this.state.county} onChange={this.handleChange} required />
-                        <br/>
-                        <input type="email" placeholder="Email Address" name="username" value={this.state.username} onChange={this.handleChange} required />
-                        <br/>
-                        <input type="password" placeholder="Password" name="password" value={this.state.password} onChange={this.handleChange} onKeyPress={this.handleKeyPress} required />
-                        <br/>
                         <button onClick={this.handleCreate}>Submit</button>
-                        <br/>
                         <a onClick={this.toggleView}>Already have an account? Sign In</a>
-                        <br/>
-                        <br/>
-                        {this.state.message}
                         <div className="grass"></div>
                     </div>
                 )
