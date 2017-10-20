@@ -5,7 +5,7 @@ import {HashRouter as Router, Route, Switch, Link} from 'react-router-dom';
 import Webcam from '../webcam/webcam';
 
 
-export default class reports extends Component {
+export default class Reports extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -22,14 +22,9 @@ export default class reports extends Component {
         this.handleCreate = this.handleCreate.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.toggleView = this.toggleView.bind(this);
-        this.capture = this.capture.bind(this);
-        this.setRef = this.setRef.bind(this);
+        this.readFile = this.readFile.bind(this);
         this.getReports();
         
-    }
-    
-    setRef(webcam){ 
-        this.webcam = webcam;
     }
     
     handleChange(event) {
@@ -37,6 +32,7 @@ export default class reports extends Component {
             [event.target.name]: event.target.value
         });
     }
+    
     handleCreate(){
         var fid = firebase.database().ref('reports/').push().key;
         var uid = firebase.auth().currentUser.uid;
@@ -52,6 +48,7 @@ export default class reports extends Component {
           }
         updates['users/' + uid + '/reports/' + fid] = true;
         firebase.database().ref().update(updates).then(() => {
+            console.log(this.state.images[0])
             this.state.images.forEach( (imageURL, index) => {
                 var blob = dataURItoBlob(imageURL);
                 firebase.storage().ref().child('images').child(fid).child(index.toString()).put(blob).then(snapshot => {
@@ -96,18 +93,32 @@ export default class reports extends Component {
         this.setState({view:(this.state.view== 'newReport')?'current':'newReport'})
     }
     
-    capture(){
-        const imageSrc = this.webcam.getScreenshot();
-        var images = this.state.images;
-        if(images.length === 2) images.shift();
-        images.push(imageSrc);
-        this.setState({images:images})
-        
+    readFile(event) {
+        var file = event.target.files[0];
+        var reader = new FileReader();
+
+        reader.onloadend = () => {
+            this.state.images[this.state.images.length] = file;
+        }
+
+        reader.onerror = function () {
+            alert('There was an error reading the file!');
+        }
+
+        reader.readAsDataURL(file);
     }
 
     render() {
            
-            
+        if (window.File && window.FileReader && window.FormData) {
+                    var $inputField = this.state.file;
+
+                } else {
+                    alert("File upload is not supported!");
+                    
+                }
+        
+        
             if(this.state.view == 'current'){
                  firebase.database().ref('/users/'+firebase.auth().currentUser.uid+'/reports/').on('value', snap =>  {
                            var data = [];
@@ -162,9 +173,9 @@ export default class reports extends Component {
                             
                             {imageTags}
                             
-                             <Webcam audio={false} height={350} ref={this.setRef} screenshotFormat="image/jpeg" width={300} />
-                            <button placeholder="Picture" name="picture" value={this.state.picture} onClick={this.capture} required/>
-                            <br/>
+                            <input id="file" type="file" accept="image/*" onChange={this.readFile}></input>
+                            
+                                <br/>
                             <input placeholder="Notes" name="notes" value={this.state.notes} onChange={this.handleChange}/>
                             
                             <button onClick={this.handleCreate}>Submit</button>
@@ -173,7 +184,7 @@ export default class reports extends Component {
                             <br/>
                             {this.state.message}
 
-                    <Link to="/">Dashboard</Link>
+                            <Link to="/">Dashboard</Link>
                         </div>
 
                     )
