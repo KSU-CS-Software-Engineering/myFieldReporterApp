@@ -5,7 +5,7 @@
 
 /*--------input field formatting-----------------------*/
 
-/*Both Login and Signup page*/
+    /*Both Login and Signup page*/
 
 .login-form-container input{
     padding-left: 30px;
@@ -64,24 +64,19 @@
     left: 6px;
 }
 
-/*Login Page*/
+    /*Login Page*/
 
 .login-form-container #login-container{
     position:relative;
     height: 75px;
 }
 
-/*Signup Page*/
+    /*Signup Page*/
 
 .login-form-container #signup-container{
     position:relative;
     height: 155px;
     width: 100%;
-}
-
-.login-form-container input[name=fName]{
-    background-image: url(./name.png);
-    float:left;
 }
 
 .login-form-container input[name=lName]{
@@ -104,39 +99,13 @@
     left: inherit;
 }
 
-.login-form-container [name=state]{
-    float: left;
-}
-
 .login-form-container select{
-    padding: 4px 5px 4px 30px;
-    width: 100%;
-    box-sizing: border-box;
-    border: 1px solid #dddddd;
-    font-size: 16px;
+    padding-left: 30px;
     position: absolute;
     left: 0px;
 }
 
 /*----------------------------*/
-
-.login-form-container h1{
-    margin: 0 0 10px 0;;
-    text-align: left;
-}
-
-.login-form-container button{
-    width: 100%;
-    margin: 5px 0;
-    padding: 10px;
-    font-size: 18px;
-    font-family: 'open_sansbold', sans-serif;
-    color: #ffffff;
-    background-color: #cbcbcb;
-    border: none;
-    text-transform: uppercase;
-    text-transform: uppercase;
-}
 
 .login-form-container button:first-of-type{
     margin-top: 30px;
