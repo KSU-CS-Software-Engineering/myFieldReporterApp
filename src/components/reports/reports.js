@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import './reports.css';
 import * as firebase from 'firebase';
 import {HashRouter as Router, Route, Switch, Link} from 'react-router-dom';
-import Webcam from '../webcam/webcam';
 
 
 export default class Reports extends Component {
@@ -155,9 +154,7 @@ export default class Reports extends Component {
                            console.log(this.state.list);
                            console.log(this.state.list.pop());
                         })
-                    var imageTags = this.state.images.map((imageURL, index) => {
-                        return <img key={index} src={imageURL}/>
-                    })
+                    
                     return(
                          
                         <div className="reports-container">
@@ -174,7 +171,6 @@ export default class Reports extends Component {
                             <input placeholder="Pest" name="pest" value={this.state.pest} onChange={this.handleChange} required />
                             <br/>
                             
-                            {imageTags}
                             
                             <input id="file" type="file" accept="image/*" onChange={this.readFile}></input>
                             <input id="file" type="file" accept="image/*" onChange={this.readFile}></input>
@@ -188,7 +184,7 @@ export default class Reports extends Component {
                             <br/>
                             {this.state.message}
 
-                            <Link to="/">Dashboard</Link>
+                            <a onClick={this.toggleView}>Dashboard</a>
                         </div>
 
                     )
