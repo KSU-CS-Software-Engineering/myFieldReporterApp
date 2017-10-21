@@ -24,7 +24,6 @@ export default class Reports extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.toggleView = this.toggleView.bind(this);
         this.readFile = this.readFile.bind(this);
-        this.getBase64 = this.getBase64.bind(this);
         this.getReports();
         
     }
