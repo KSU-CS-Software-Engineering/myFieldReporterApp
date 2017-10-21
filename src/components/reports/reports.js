@@ -17,12 +17,14 @@ export default class Reports extends Component {
             notes: '',
             view: 'current',
             list: [],
-            reports: []
+            reports: [],
+            test: ''
         }
         this.handleCreate = this.handleCreate.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.toggleView = this.toggleView.bind(this);
         this.readFile = this.readFile.bind(this);
+        this.getBase64 = this.getBase64.bind(this);
         this.getReports();
         
     }
@@ -33,8 +35,10 @@ export default class Reports extends Component {
         });
     }
     
+
     handleCreate(){
         var fid = firebase.database().ref('reports/').push().key;
+        var photos = this.state.images;
         var uid = firebase.auth().currentUser.uid;
         var updates = {}
         updates['reports/' + fid] = {
@@ -48,11 +52,10 @@ export default class Reports extends Component {
           }
         updates['users/' + uid + '/reports/' + fid] = true;
         firebase.database().ref().update(updates).then(() => {
-            console.log(this.state.images[0])
-            this.state.images.forEach( (imageURL, index) => {
-                var blob = dataURItoBlob(imageURL);
-                firebase.storage().ref().child('images').child(fid).child(index.toString()).put(blob).then(snapshot => {
-                    console.log(snapshot)
+            
+            photos.forEach((imageURL, index) => {
+                firebase.storage().ref().child('images').child(fid).child(index.toString()).put(imageURL).then(snapshot => {
+                    console.log(snapshot);
                     firebase.database().ref('reports/' + fid + '/images').push(snapshot.downloadURL)
                 })
             });
@@ -93,21 +96,24 @@ export default class Reports extends Component {
         this.setState({view:(this.state.view== 'newReport')?'current':'newReport'})
     }
     
+    
     readFile(event) {
         var file = event.target.files[0];
         var reader = new FileReader();
 
         reader.onloadend = () => {
             this.state.images[this.state.images.length] = file;
+            console.log(this.state.images);
         }
 
         reader.onerror = function () {
             alert('There was an error reading the file!');
         }
-
         reader.readAsDataURL(file);
     }
 
+    
+    
     render() {
            
         if (window.File && window.FileReader && window.FormData) {
@@ -126,8 +132,6 @@ export default class Reports extends Component {
                               data.push(ss.child('name').val());
                            });
                             this.state.reports = data;
-                           console.log(this.state.reports);
-                           console.log(this.state.reports.pop());
                         })
                 
                 return (
@@ -174,6 +178,7 @@ export default class Reports extends Component {
                             {imageTags}
                             
                             <input id="file" type="file" accept="image/*" onChange={this.readFile}></input>
+                            <input id="file" type="file" accept="image/*" onChange={this.readFile}></input>
                             
                                 <br/>
                             <input placeholder="Notes" name="notes" value={this.state.notes} onChange={this.handleChange}/>
@@ -191,29 +196,4 @@ export default class Reports extends Component {
                 }
     }
     
-}
-
-function dataURItoBlob(dataURI) {
-  // convert base64 to raw binary data held in a string
-  // doesn't handle URLEncoded DataURIs - see SO answer #6850276 for code that does this
-  var byteString = atob(dataURI.split(',')[1]);
-
-  // separate out the mime component
-  var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0]
-
-  // write the bytes of the string to an ArrayBuffer
-  var ab = new ArrayBuffer(byteString.length);
-
-  // create a view into the buffer
-  var ia = new Uint8Array(ab);
-
-  // set the bytes of the buffer to the correct values
-  for (var i = 0; i < byteString.length; i++) {
-      ia[i] = byteString.charCodeAt(i);
-  }
-
-  // write the ArrayBuffer to a blob, and you're done
-  var blob = new Blob([ab], {type: mimeString});
-  return blob;
-
 }
