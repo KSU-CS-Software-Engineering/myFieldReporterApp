@@ -1,3 +1,43 @@
+*{
+    margin: 0 auto;
+    padding: 0;
+    font-family: 'open_sansregular', sans-serif;
+    font-weight:inherit;
+}
+
+input{
+    padding: 5px 5px 5px 5px;
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid #dddddd;
+    font-size: 16px;
+}
+
+button{
+    width: 100%;
+    margin: 5px 0;
+    padding: 10px;
+    font-size: 18px;
+    font-family: 'open_sansbold', sans-serif;
+    color: #ffffff;
+    background-color: #cbcbcb;
+    border: none;
+    text-transform: uppercase;
+}
+
+select{
+    padding: 4px 5px 4px 5px;
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid #dddddd;
+    font-size: 16px;
+}
+
+h1{
+    margin: 0 0 10px 0;;
+    text-align: left;
+}
+
 .App {
   text-align: center;
 }

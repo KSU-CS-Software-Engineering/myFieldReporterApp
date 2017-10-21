@@ -1,0 +1,13 @@
+.reports-container{
+    max-width: 300px;
+    padding: 15px;
+    width: 100%;
+}
+
+.reports-container input{
+    margin-bottom: 7px;
+}
+
+.reports-container select{
+    margin-bottom: 7px;
+}
