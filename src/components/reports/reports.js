@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import './reports.css';
+import SearchableList from '../searchableList/searchableList';
 import * as firebase from 'firebase';
 import {HashRouter as Router, Route, Switch, Link} from 'react-router-dom';
 import GeoLocation from '../GeoLocation/GeoLocation';
@@ -10,21 +11,26 @@ export default class Reports extends Component {
         this.state = {
             crop: '',
             gs: '',
-            location: '',
+            location: {},
             images: [],
             pest: '',
             notes: '',
             view: 'current',
             list: [],
             reports: [],
-            test: ''
+            test: '',
         }
         this.handleCreate = this.handleCreate.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.handleLocation = this.handleLocation.bind(this);
         this.toggleView = this.toggleView.bind(this);
         this.readFile = this.readFile.bind(this);
         this.getReports();
         
+    }
+    
+    handleLocation(coords){
+        this.setState({location: coords});
     }
     
     handleChange(event) {
@@ -33,7 +39,6 @@ export default class Reports extends Component {
         });
     }
     
-
     handleCreate(){
         var fid = firebase.database().ref('reports/').push().key;
         var photos = this.state.images;
@@ -76,13 +81,6 @@ export default class Reports extends Component {
         
     }
     
-    
-    componentWillMount(){
-        firebase.database().ref('crops').once('value', (snapshot) => {
-           this.setState({crops: snapshot.val()}); 
-        });
-    }
-    
     getReports(){
     
         var info = firebase.database().ref('users/' + firebase.auth().currentUser.uid + '/reports/').key;
@@ -113,8 +111,7 @@ export default class Reports extends Component {
     
     
     render() {
-           
-        if (window.File && window.FileReader && window.FormData) {
+                    if (window.File && window.FileReader && window.FormData) {
                     var $inputField = this.state.file;
 
                 } else {
@@ -122,15 +119,16 @@ export default class Reports extends Component {
                     
                 }
         
-        
             if(this.state.view == 'current'){
-                 firebase.database().ref('/users/'+firebase.auth().currentUser.uid+'/reports/').on('value', snap =>  {
+                firebase.database().ref('/users/'+firebase.auth().currentUser.uid+'/reports/').on('value', snap =>  {
+
                            var data = [];
                            snap.forEach(ss => {
                               data.push(ss.child('name').val());
                            });
                             this.state.reports = data;
                         })
+                 
                 
                 return (
                     <div className="container">
@@ -145,6 +143,10 @@ export default class Reports extends Component {
             }
             else
                 {
+                    
+                    var imageTags = this.state.images.map((imageURL, index) => {
+                        return <img key={index} src={imageURL}/>
+                    })
                     firebase.database().ref('crops/').on('value', snap =>  {
                            var data = [];
                            snap.forEach(ss => {
@@ -159,19 +161,21 @@ export default class Reports extends Component {
                          
                         <div className="reports-container">
                             <h1>New Report</h1>
-                            <select>
-                                <option value={this.state.list.pop()}>{this.state.list.pop()}</option>
-                            </select>
-                            <input placeholder="Crop Dropdown" name="crop" value={this.state.crop} onChange={this.handleChange} required />
-                            
+                        
+                            <input placeholder="Name of Field" name="field" value={this.state.field} onChange={this.handleChange} required />
+                            <br/>
+                        
+                            <SearchableList onChange={this.handleChange} placeholder='crop' listRef="crops/"/>
+                        
+
                             <input placeholder="Growth Stage of Crop" name="gs" value={this.state.gs} onChange={this.handleChange} required />
                             
-                            <input placeholder="Location" name="location" value={this.state.location} onChange={this.handleChange} required />
-                            
+                            <br/>
+                        
                             <input placeholder="Pest" name="pest" value={this.state.pest} onChange={this.handleChange} required />
                             
                             
-                            <GeoLocation></GeoLocation>
+                            <GeoLocation location={this.state.location} onChange={this.handleLocation}></GeoLocation>
                             
                             <input id="file" type="file" accept="image/*" onChange={this.readFile}></input>
                             <input id="file" type="file" accept="image/*" onChange={this.readFile}></input>
