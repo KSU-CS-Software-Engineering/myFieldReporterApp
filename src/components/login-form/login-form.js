@@ -4,6 +4,7 @@ import React, {Component} from 'react';
 import './login-form.css';
 import * as firebase from 'firebase';
 
+
 export default class LoginForm extends Component {
     constructor(props) {
         super(props);
@@ -88,11 +89,15 @@ export default class LoginForm extends Component {
     render() {
         if(this.state.view == 'login'){
             return (
-                <div className="container">
+                <div className="login-form-container">
                     <h1>Login</h1>
                     <div className="message">{this.state.message}</div>
-                    <input type="email" placeholder="Email Address" name="email" value={this.state.email} onChange={this.handleChange} required />
-                    <input type="password" placeholder="Password" name="password" value={this.state.password} onChange={this.handleChange} onKeyPress={this.handleKeyPress} required />
+                    <div id="login-container">
+                        <input className="first-line" type="email" placeholder="Email Address" name="email" value={this.state.email} onChange={this.handleChange} required />
+                        <input className="second-line" type="password" placeholder="Password" name="password" value={this.state.password} onChange={this.handleChange} onKeyPress={this.handleKeyPress} required />
+                        <div className="email-icon first-icon"></div>
+                        <div className="password-icon second-icon"></div>
+                    </div>
                     <button onClick={this.handleSignIn}>Login</button>
                     <button onClick={this.toggleView}>New User</button>
                     <a onClick={this.handleFP}>Forgot Password?</a>
@@ -103,67 +108,72 @@ export default class LoginForm extends Component {
         else
             {
                 return(
-                    <div className="container">
+                    <div className="login-form-container">
                         <h1>Signup</h1>
                         <div className="message">{this.state.message}</div>
-                        <input placeholder="First Name" name="fName" value={this.state.fName} onChange={this.handleChange} required />
-                        <input placeholder="Last Name" name="lName" value={this.state.lName} onChange={this.handleChange} required />
-                        <input type="email" placeholder="Email Address" name="email" value={this.state.email} onChange={this.handleChange} required />
-                        <input type="password" placeholder="Password" name="password" value={this.state.password} onChange={this.handleChange} onKeyPress={this.handleKeyPress} required />
-                        <select name="state" required onChange={this.handleChange}>
-                            <option value="" selected disabled hidden>State</option>
-                            <option value="AL">Alabama</option>
-                            <option value="AK">Alaska</option>
-                            <option value="AZ">Arizona</option>
-                            <option value="AR">Arkansas</option>
-                            <option value="CA">California</option>
-                            <option value="CO">Colorado</option>
-                            <option value="CT">Connecticut</option>
-                            <option value="DE">Delaware</option>
-                            <option value="DC">District Of Columbia</option>
-                            <option value="FL">Florida</option>
-                            <option value="GA">Georgia</option>
-                            <option value="HI">Hawaii</option>
-                            <option value="ID">Idaho</option>
-                            <option value="IL">Illinois</option>
-                            <option value="IN">Indiana</option>
-                            <option value="IA">Iowa</option>
-                            <option value="KS">Kansas</option>
-                            <option value="KY">Kentucky</option>
-                            <option value="LA">Louisiana</option>
-                            <option value="ME">Maine</option>
-                            <option value="MD">Maryland</option>
-                            <option value="MA">Massachusetts</option>
-                            <option value="MI">Michigan</option>
-                            <option value="MN">Minnesota</option>
-                            <option value="MS">Mississippi</option>
-                            <option value="MO">Missouri</option>
-                            <option value="MT">Montana</option>
-                            <option value="NE">Nebraska</option>
-                            <option value="NV">Nevada</option>
-                            <option value="NH">New Hampshire</option>
-                            <option value="NJ">New Jersey</option>
-                            <option value="NM">New Mexico</option>
-                            <option value="NY">New York</option>
-                            <option value="NC">North Carolina</option>
-                            <option value="ND">North Dakota</option>
-                            <option value="OH">Ohio</option>
-                            <option value="OK">Oklahoma</option>
-                            <option value="OR">Oregon</option>
-                            <option value="PA">Pennsylvania</option>
-                            <option value="RI">Rhode Island</option>
-                            <option value="SC">South Carolina</option>
-                            <option value="SD">South Dakota</option>
-                            <option value="TN">Tennessee</option>
-                            <option value="TX">Texas</option>
-                            <option value="UT">Utah</option>
-                            <option value="VT">Vermont</option>
-                            <option value="VA">Virginia</option>
-                            <option value="WA">Washington</option>
-                            <option value="WV">West Virginia</option>
-                            <option value="WI">Wisconsin</option>
-                            <option value="WY">Wyoming</option></select>
-                        <input placeholder="County" name="county" value={this.state.county} onChange={this.handleChange} required />
+                        <div id="signup-container">
+                            <input className="first-line" placeholder="First Name" name="fName" value={this.state.fName} onChange={this.handleChange} required />
+                            <input className="first-line" placeholder="Last Name" name="lName" value={this.state.lName} onChange={this.handleChange} required />
+                            <input className="second-line" type="email" placeholder="Email Address" name="email" value={this.state.email} onChange={this.handleChange} required />
+                            <input className="third-line" type="password" placeholder="Password" name="password" value={this.state.password} onChange={this.handleChange} onKeyPress={this.handleKeyPress} required />
+                            <select className="fourth-line" name="state" required onChange={this.handleChange}>
+                                <option value="" selected disabled hidden>State</option>
+                                <option value="AL">Alabama</option>
+                                <option value="AK">Alaska</option>
+                                <option value="AZ">Arizona</option>
+                                <option value="AR">Arkansas</option>
+                                <option value="CA">California</option>
+                                <option value="CO">Colorado</option>
+                                <option value="CT">Connecticut</option>
+                                <option value="DE">Delaware</option>
+                                <option value="DC">District Of Columbia</option>
+                                <option value="FL">Florida</option>
+                                <option value="GA">Georgia</option>
+                                <option value="HI">Hawaii</option>
+                                <option value="ID">Idaho</option>
+                                <option value="IL">Illinois</option>
+                                <option value="IN">Indiana</option>
+                                <option value="IA">Iowa</option>
+                                <option value="KS">Kansas</option>
+                                <option value="KY">Kentucky</option>
+                                <option value="LA">Louisiana</option>
+                                <option value="ME">Maine</option>
+                                <option value="MD">Maryland</option>
+                                <option value="MA">Massachusetts</option>
+                                <option value="MI">Michigan</option>
+                                <option value="MN">Minnesota</option>
+                                <option value="MS">Mississippi</option>
+                                <option value="MO">Missouri</option>
+                                <option value="MT">Montana</option>
+                                <option value="NE">Nebraska</option>
+                                <option value="NV">Nevada</option>
+                                <option value="NH">New Hampshire</option>
+                                <option value="NJ">New Jersey</option>
+                                <option value="NM">New Mexico</option>
+                                <option value="NY">New York</option>
+                                <option value="NC">North Carolina</option>
+                                <option value="ND">North Dakota</option>
+                                <option value="OH">Ohio</option>
+                                <option value="OK">Oklahoma</option>
+                                <option value="OR">Oregon</option>
+                                <option value="PA">Pennsylvania</option>
+                                <option value="RI">Rhode Island</option>
+                                <option value="SC">South Carolina</option>
+                                <option value="SD">South Dakota</option>
+                                <option value="TN">Tennessee</option>
+                                <option value="TX">Texas</option>
+                                <option value="UT">Utah</option>
+                                <option value="VT">Vermont</option>
+                                <option value="VA">Virginia</option>
+                                <option value="WA">Washington</option>
+                                <option value="WV">West Virginia</option>
+                                <option value="WI">Wisconsin</option>
+                                <option value="WY">Wyoming</option></select>
+                            <input className="fourth-line" placeholder="County" name="county" value={this.state.county} onChange={this.handleChange} required />
+                            <div className="name-icon first-icon"></div>
+                            <div className="email-icon second-icon"></div>
+                            <div className="password-icon third-icon"></div>
+                        </div>
                         <button onClick={this.handleCreate}>Submit</button>
                         <a onClick={this.toggleView}>Already have an account? Sign In</a>
                         <div className="grass"></div>

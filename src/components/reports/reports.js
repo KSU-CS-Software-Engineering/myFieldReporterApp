@@ -3,10 +3,9 @@ import './reports.css';
 import SearchableList from '../searchableList/searchableList';
 import * as firebase from 'firebase';
 import {HashRouter as Router, Route, Switch, Link} from 'react-router-dom';
-import Webcam from '../webcam/webcam';
+import GeoLocation from '../GeoLocation/GeoLocation';
 
-
-export default class reports extends Component {
+export default class Reports extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -18,20 +17,15 @@ export default class reports extends Component {
             notes: '',
             view: 'current',
             list: [],
-            reports: []
-
+            reports: [],
+            test: ''
         }
         this.handleCreate = this.handleCreate.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.toggleView = this.toggleView.bind(this);
-        this.capture = this.capture.bind(this);
-        this.setRef = this.setRef.bind(this);
+        this.readFile = this.readFile.bind(this);
         this.getReports();
         
-    }
-    
-    setRef(webcam){ 
-        this.webcam = webcam;
     }
     
     handleChange(event) {
@@ -42,6 +36,7 @@ export default class reports extends Component {
     
     handleCreate(){
         var fid = firebase.database().ref('reports/').push().key;
+        var photos = this.state.images;
         var uid = firebase.auth().currentUser.uid;
         var updates = {}
         updates['reports/' + fid] = {
@@ -55,10 +50,10 @@ export default class reports extends Component {
           }
         updates['users/' + uid + '/reports/' + fid] = true;
         firebase.database().ref().update(updates).then(() => {
-            this.state.images.forEach( (imageURL, index) => {
-                var blob = dataURItoBlob(imageURL);
-                firebase.storage().ref().child('images').child(fid).child(index.toString()).put(blob).then(snapshot => {
-                    console.log(snapshot)
+            
+            photos.forEach((imageURL, index) => {
+                firebase.storage().ref().child('images').child(fid).child(index.toString()).put(imageURL).then(snapshot => {
+                    console.log(snapshot);
                     firebase.database().ref('reports/' + fid + '/images').push(snapshot.downloadURL)
                 })
             });
@@ -103,28 +98,43 @@ export default class reports extends Component {
     
     componentWillMount(){
         firebase.database().ref('/users/'+firebase.auth().currentUser.uid+'/reports/').on('value', snap =>  {
+    
+    
+    readFile(event) {
+        var file = event.target.files[0];
+        var reader = new FileReader();
+
+        reader.onloadend = () => {
+            this.state.images[this.state.images.length] = file;
+            console.log(this.state.images);
+        }
+
+        reader.onerror = function () {
+            alert('There was an error reading the file!');
+        }
+        reader.readAsDataURL(file);
+    }
+
+    
+    
+    render() {
+                    if (window.File && window.FileReader && window.FormData) {
+                    var $inputField = this.state.file;
+
+                } else {
+                    alert("File upload is not supported!");
+                    
+                }
+        
+            if(this.state.view == 'current'){
+                firebase.database().ref('/users/'+firebase.auth().currentUser.uid+'/reports/').on('value', snap =>  {
+
                            var data = [];
                            snap.forEach(ss => {
                               data.push(ss.child('name').val());
                            });
                             this.state.reports = data;
-                           console.log(this.state.reports);
-                           console.log(this.state.reports.pop());
                         })
-        firebase.database().ref('crops/').on('value', snap =>  {
-                           var data = [];
-                           snap.forEach(ss => {
-                              data.push(ss.child('name').val());
-                           });
-                            this.state.list = data;
-                           console.log(this.state.list);
-                           console.log(this.state.list.pop());
-                        })
-    }
-
-    render() {
-        
-            if(this.state.view == 'current'){
                  
                 
                 return (
@@ -144,9 +154,19 @@ export default class reports extends Component {
                     var imageTags = this.state.images.map((imageURL, index) => {
                         return <img key={index} src={imageURL}/>
                     })
+                    firebase.database().ref('crops/').on('value', snap =>  {
+                           var data = [];
+                           snap.forEach(ss => {
+                              data.push(ss.child('name').val());
+                           });
+                            this.state.list = data;
+                           console.log(this.state.list);
+                           console.log(this.state.list.pop());
+                        })
+                    
                     return(
                          
-                        <div className="container">
+                        <div className="reports-container">
                             <h1>New Report</h1>
                             <input placeholder="Name of Field" name="field" value={this.state.field} onChange={this.handleChange} required />
                             <br/>
@@ -161,11 +181,12 @@ export default class reports extends Component {
                             <input placeholder="Pest" name="pest" value={this.state.pest} onChange={this.handleChange} required />
                             <br/>
                             
-                            {imageTags}
+                            <GeoLocation></GeoLocation>
                             
-                             <Webcam audio={false} height={350} ref={this.setRef} screenshotFormat="image/jpeg" width={300} />
-                            <button placeholder="Picture" name="picture" value={this.state.picture} onClick={this.capture} required/>
-                            <br/>
+                            <input id="file" type="file" accept="image/*" onChange={this.readFile}></input>
+                            <input id="file" type="file" accept="image/*" onChange={this.readFile}></input>
+                            
+                                <br/>
                             <input placeholder="Notes" name="notes" value={this.state.notes} onChange={this.handleChange}/>
                             
                             <button onClick={this.handleCreate}>Submit</button>
@@ -174,36 +195,11 @@ export default class reports extends Component {
                             <br/>
                             {this.state.message}
 
-                    <Link to="/">Dashboard</Link>
+                            <a onClick={this.toggleView}>Dashboard</a>
                         </div>
 
                     )
                 }
     }
     
-}
-
-function dataURItoBlob(dataURI) {
-  // convert base64 to raw binary data held in a string
-  // doesn't handle URLEncoded DataURIs - see SO answer #6850276 for code that does this
-  var byteString = atob(dataURI.split(',')[1]);
-
-  // separate out the mime component
-  var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0]
-
-  // write the bytes of the string to an ArrayBuffer
-  var ab = new ArrayBuffer(byteString.length);
-
-  // create a view into the buffer
-  var ia = new Uint8Array(ab);
-
-  // set the bytes of the buffer to the correct values
-  for (var i = 0; i < byteString.length; i++) {
-      ia[i] = byteString.charCodeAt(i);
-  }
-
-  // write the ArrayBuffer to a blob, and you're done
-  var blob = new Blob([ab], {type: mimeString});
-  return blob;
-
 }
