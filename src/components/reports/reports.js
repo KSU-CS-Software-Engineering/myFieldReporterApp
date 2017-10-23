@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import './reports.css';
+import SearchableList from '../searchableList/searchableList';
 import * as firebase from 'firebase';
 import {HashRouter as Router, Route, Switch, Link} from 'react-router-dom';
 import GeoLocation from '../GeoLocation/GeoLocation';
@@ -38,7 +39,6 @@ export default class Reports extends Component {
         });
     }
     
-
     handleCreate(){
         var fid = firebase.database().ref('reports/').push().key;
         var photos = this.state.images;
@@ -81,13 +81,6 @@ export default class Reports extends Component {
         
     }
     
-    
-    componentWillMount(){
-        firebase.database().ref('crops').once('value', (snapshot) => {
-           this.setState({crops: snapshot.val()}); 
-        });
-    }
-    
     getReports(){
     
         var info = firebase.database().ref('users/' + firebase.auth().currentUser.uid + '/reports/').key;
@@ -98,6 +91,17 @@ export default class Reports extends Component {
     toggleView(){
         this.setState({view:(this.state.view== 'newReport')?'current':'newReport'})
     }
+
+    capture(){
+        const imageSrc = this.webcam.getScreenshot();
+        var images = this.state.images;
+        if(images.length === 2) images.shift();
+        images.push(imageSrc);
+        this.setState({images:images})
+        
+    }
+    
+    
     
     
     readFile(event) {
@@ -118,8 +122,7 @@ export default class Reports extends Component {
     
     
     render() {
-           
-        if (window.File && window.FileReader && window.FormData) {
+                    if (window.File && window.FileReader && window.FormData) {
                     var $inputField = this.state.file;
 
                 } else {
@@ -127,15 +130,16 @@ export default class Reports extends Component {
                     
                 }
         
-        
             if(this.state.view == 'current'){
-                 firebase.database().ref('/users/'+firebase.auth().currentUser.uid+'/reports/').on('value', snap =>  {
+                firebase.database().ref('/users/'+firebase.auth().currentUser.uid+'/reports/').on('value', snap =>  {
+
                            var data = [];
                            snap.forEach(ss => {
                               data.push(ss.child('name').val());
                            });
                             this.state.reports = data;
                         })
+                 
                 
                 return (
                     <div className="container">
@@ -150,6 +154,10 @@ export default class Reports extends Component {
             }
             else
                 {
+                    
+                    var imageTags = this.state.images.map((imageURL, index) => {
+                        return <img key={index} src={imageURL}/>
+                    })
                     firebase.database().ref('crops/').on('value', snap =>  {
                            var data = [];
                            snap.forEach(ss => {
@@ -164,11 +172,12 @@ export default class Reports extends Component {
                          
                         <div className="reports-container">
                             <h1>New Report</h1>
-                            <select>
-                                <option value={this.state.list.pop()}>{this.state.list.pop()}</option>
-                            </select>
-                            <input placeholder="Crop Dropdown" name="crop" value={this.state.crop} onChange={this.handleChange} required />
+                            <input placeholder="Name of Field" name="field" value={this.state.field} onChange={this.handleChange} required />
                             <br/>
+                        
+                       <SearchableList onChange={this.handleChange} placeholder='crop' listRef="crops/"/>
+                        
+
                             <input placeholder="Growth Stage of Crop" name="gs" value={this.state.gs} onChange={this.handleChange} required />
                             
                             <br/>
