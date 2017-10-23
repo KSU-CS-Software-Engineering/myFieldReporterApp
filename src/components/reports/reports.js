@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import './reports.css';
 import * as firebase from 'firebase';
 import {HashRouter as Router, Route, Switch, Link} from 'react-router-dom';
-
+import GeoLocation from '../GeoLocation/GeoLocation';
 
 export default class Reports extends Component {
     constructor(props) {
@@ -171,6 +171,7 @@ export default class Reports extends Component {
                             <input placeholder="Pest" name="pest" value={this.state.pest} onChange={this.handleChange} required />
                             <br/>
                             
+                            <GeoLocation></GeoLocation>
                             
                             <input id="file" type="file" accept="image/*" onChange={this.readFile}></input>
                             <input id="file" type="file" accept="image/*" onChange={this.readFile}></input>
