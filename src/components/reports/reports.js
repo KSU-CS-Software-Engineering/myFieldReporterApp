@@ -163,20 +163,19 @@ export default class Reports extends Component {
                                 <option value={this.state.list.pop()}>{this.state.list.pop()}</option>
                             </select>
                             <input placeholder="Crop Dropdown" name="crop" value={this.state.crop} onChange={this.handleChange} required />
-                            <br/>
+                            
                             <input placeholder="Growth Stage of Crop" name="gs" value={this.state.gs} onChange={this.handleChange} required />
-                            <br/>
+                            
                             <input placeholder="Location" name="location" value={this.state.location} onChange={this.handleChange} required />
-                            <br/>
+                            
                             <input placeholder="Pest" name="pest" value={this.state.pest} onChange={this.handleChange} required />
-                            <br/>
+                            
                             
                             <GeoLocation></GeoLocation>
                             
                             <input id="file" type="file" accept="image/*" onChange={this.readFile}></input>
                             <input id="file" type="file" accept="image/*" onChange={this.readFile}></input>
                             
-                                <br/>
                             <input placeholder="Notes" name="notes" value={this.state.notes} onChange={this.handleChange}/>
                             
                             <button onClick={this.handleCreate}>Submit</button>

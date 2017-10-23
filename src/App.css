@@ -5,15 +5,17 @@
     font-weight:inherit;
 }
 
-input{
+input, [class*="input"]{
     padding: 5px 5px 5px 5px;
     width: 100%;
     box-sizing: border-box;
     border: 1px solid #dddddd;
     font-size: 16px;
+    display: inline-block;
+    text-align: left;
 }
 
-button{
+button, [class*="button"]{
     width: 100%;
     margin: 5px 0;
     padding: 10px;
@@ -23,6 +25,8 @@ button{
     background-color: #cbcbcb;
     border: none;
     text-transform: uppercase;
+    box-sizing: border-box;
+    display: inline-block;
 }
 
 select{
