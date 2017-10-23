@@ -160,6 +160,7 @@ export default class Reports extends Component {
                          
                         <div className="reports-container">
                             <h1>New Report</h1>
+                        
                             <input placeholder="Name of Field" name="field" value={this.state.field} onChange={this.handleChange} required />
                             <br/>
                         
@@ -169,15 +170,15 @@ export default class Reports extends Component {
                             <input placeholder="Growth Stage of Crop" name="gs" value={this.state.gs} onChange={this.handleChange} required />
                             
                             <br/>
+                        
                             <input placeholder="Pest" name="pest" value={this.state.pest} onChange={this.handleChange} required />
-                            <br/>
+                            
                             
                             <GeoLocation location={this.state.location} onChange={this.handleLocation}></GeoLocation>
                             
                             <input id="file" type="file" accept="image/*" onChange={this.readFile}></input>
                             <input id="file" type="file" accept="image/*" onChange={this.readFile}></input>
                             
-                                <br/>
                             <input placeholder="Notes" name="notes" value={this.state.notes} onChange={this.handleChange}/>
                             
                             <button onClick={this.handleCreate}>Submit</button>
