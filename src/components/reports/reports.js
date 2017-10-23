@@ -91,17 +91,6 @@ export default class Reports extends Component {
     toggleView(){
         this.setState({view:(this.state.view== 'newReport')?'current':'newReport'})
     }
-
-    capture(){
-        const imageSrc = this.webcam.getScreenshot();
-        var images = this.state.images;
-        if(images.length === 2) images.shift();
-        images.push(imageSrc);
-        this.setState({images:images})
-        
-    }
-    
-    
     
     
     readFile(event) {
