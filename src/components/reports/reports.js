@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import './reports.css';
+import SearchableList from '../searchableList/searchableList';
 import * as firebase from 'firebase';
 import {HashRouter as Router, Route, Switch, Link} from 'react-router-dom';
 import Webcam from '../webcam/webcam';
@@ -16,16 +17,13 @@ export default class reports extends Component {
             pest: '',
             notes: '',
             view: 'current',
-            suggestions: [],
             list: [],
             reports: []
 
         }
         this.handleCreate = this.handleCreate.bind(this);
         this.handleChange = this.handleChange.bind(this);
-        //this.handleClick = this.handClick.bind(this);
         this.toggleView = this.toggleView.bind(this);
-        this.updateSuggestions = this.updateSuggestions.bind(this);
         this.capture = this.capture.bind(this);
         this.setRef = this.setRef.bind(this);
         this.getReports();
@@ -40,12 +38,7 @@ export default class reports extends Component {
         this.setState({
             [event.target.name]: event.target.value
         });
-        if(event.target.name == 'crop') this.updateSuggestions();
     }
-    
-    /*handleClick(event){
-        if(event.currentTarget.name == 'suggestions') this.setState({crop: event.target.value});
-    }*/
     
     handleCreate(){
         var fid = firebase.database().ref('reports/').push().key;
@@ -98,34 +91,6 @@ export default class reports extends Component {
     toggleView(){
         this.setState({view:(this.state.view== 'newReport')?'current':'newReport'})
     }
-    
-    updateSuggestions(){
-        /*
-        var term = this.state.term
-        find matches
-        return matches
-        */
-        /* var term = this.state.crop;
-        this.setState({suggestions: []});
-        var ind = 0;
-        var croparrayLenth = this.state.crops.length;
-        for (var i = 0; i < croparrayLenth; i++){
-            if (this.state.crops[i].indexof(term) !== -1) suggestions[ind++] = this.state.crops[i]; 
-        }
-        
-        this.setState({suggestions: ['red','blue','green']});
-        */
-        
-        var term = this.state.crop;
-        var matches = [];
-        var toMatch = this.state.list;
-        var croparrayLenth = this.state.list.length;
-        for (var i = 0; i < croparrayLenth; i++){
-            if (toMatch[i].indexof(term) !== -1) matches.concat(toMatch[i]); 
-        }
-        
-        this.setState({suggestions: matches});
-    }
 
     capture(){
         const imageSrc = this.webcam.getScreenshot();
@@ -158,11 +123,6 @@ export default class reports extends Component {
     }
 
     render() {
-           
-        
-            var suggestions = this.state.suggestions.map((sug, i) => {
-                return <div key={i} onClick={this.handleClick}>{sug}</div>
-            })
         
             if(this.state.view == 'current'){
                  
@@ -191,13 +151,8 @@ export default class reports extends Component {
                             <input placeholder="Name of Field" name="field" value={this.state.field} onChange={this.handleChange} required />
                             <br/>
                         
-                       /* <SearchableList onChange={this.handleChange} listRef="crops/"/>*/
-                        <div className="searchCrop">
-                            <input placeholder="crop" name="crop" value={this.state.crop} onChange={this.handleChange}/>
-                            <div>
-                                {suggestions}
-                            </div>
-                        </div>
+                       <SearchableList onChange={this.handleChange} placeholder='crop' listRef="crops/"/>
+                        
 
                             <input placeholder="Growth Stage of Crop" name="gs" value={this.state.gs} onChange={this.handleChange} required />
                             <br/>
