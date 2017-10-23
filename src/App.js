@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import logo from './logo.png';
 import './App.css';
-import {HashRouter as Router, Route, Switch, Link} from 'react-router-dom';
+import {HashRouter as Router, Route, Switch} from 'react-router-dom';
 import Auth from './components/auth/auth';
 import * as firebase from 'firebase';
 import Reports from './components/reports/reports';

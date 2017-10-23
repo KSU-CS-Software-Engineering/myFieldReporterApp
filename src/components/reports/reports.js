@@ -46,7 +46,7 @@ export default class Reports extends Component {
         var updates = {}
         updates['reports/' + fid] = {
             crop: this.state.crop,
-            location: this.state.location,
+            location: this.state.location.latitude + "," + this.state.location.longitude,
             gs: this.state.gs,
             pest: this.state.pest,
             notes: this.state.notes,
@@ -55,10 +55,9 @@ export default class Reports extends Component {
           }
         updates['users/' + uid + '/reports/' + fid] = true;
         firebase.database().ref().update(updates).then(() => {
-            
             photos.forEach((imageURL, index) => {
                 firebase.storage().ref().child('images').child(fid).child(index.toString()).put(imageURL).then(snapshot => {
-                    console.log(snapshot);
+                    
                     firebase.database().ref('reports/' + fid + '/images').push(snapshot.downloadURL)
                 })
             });
@@ -99,7 +98,7 @@ export default class Reports extends Component {
 
         reader.onloadend = () => {
             this.state.images[this.state.images.length] = file;
-            console.log(this.state.images);
+            
         }
 
         reader.onerror = function () {
@@ -153,8 +152,8 @@ export default class Reports extends Component {
                               data.push(ss.child('name').val());
                            });
                             this.state.list = data;
-                           console.log(this.state.list);
-                           console.log(this.state.list.pop());
+                           //console.log(this.state.list);
+                           //console.log(this.state.list.pop());
                         })
                     
                     return(
@@ -164,7 +163,7 @@ export default class Reports extends Component {
                             <input placeholder="Name of Field" name="field" value={this.state.field} onChange={this.handleChange} required />
                             <br/>
                         
-                       <SearchableList onChange={this.handleChange} placeholder='crop' listRef="crops/"/>
+                            <SearchableList onChange={this.handleChange} placeholder='crop' listRef="crops/"/>
                         
 
                             <input placeholder="Growth Stage of Crop" name="gs" value={this.state.gs} onChange={this.handleChange} required />
