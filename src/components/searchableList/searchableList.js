@@ -25,8 +25,8 @@ export default class SearchableList extends Component {
         this.props.handleChange(this.state.term);
     }
     
-    update(){
-        var toSearch = this.state.term;
+    update(event){
+        var toSearch = event.target.value;
         var searchFrom = this.state.rootList;
         var matches = [];
         var l = searchFrom.length;

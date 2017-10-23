@@ -96,8 +96,7 @@ export default class Reports extends Component {
         
     }
     
-    componentWillMount(){
-        firebase.database().ref('/users/'+firebase.auth().currentUser.uid+'/reports/').on('value', snap =>  {
+    
     
     
     readFile(event) {
