@@ -10,21 +10,26 @@ export default class Reports extends Component {
         this.state = {
             crop: '',
             gs: '',
-            location: '',
+            location: {},
             images: [],
             pest: '',
             notes: '',
             view: 'current',
             list: [],
             reports: [],
-            test: ''
+            test: '',
         }
         this.handleCreate = this.handleCreate.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.handleLocation = this.handleLocation.bind(this);
         this.toggleView = this.toggleView.bind(this);
         this.readFile = this.readFile.bind(this);
         this.getReports();
         
+    }
+    
+    handleLocation(coords){
+        this.setState({location: coords});
     }
     
     handleChange(event) {
@@ -165,13 +170,12 @@ export default class Reports extends Component {
                             <input placeholder="Crop Dropdown" name="crop" value={this.state.crop} onChange={this.handleChange} required />
                             <br/>
                             <input placeholder="Growth Stage of Crop" name="gs" value={this.state.gs} onChange={this.handleChange} required />
-                            <br/>
-                            <input placeholder="Location" name="location" value={this.state.location} onChange={this.handleChange} required />
+                            
                             <br/>
                             <input placeholder="Pest" name="pest" value={this.state.pest} onChange={this.handleChange} required />
                             <br/>
                             
-                            <GeoLocation></GeoLocation>
+                            <GeoLocation location={this.state.location} onChange={this.handleLocation}></GeoLocation>
                             
                             <input id="file" type="file" accept="image/*" onChange={this.readFile}></input>
                             <input id="file" type="file" accept="image/*" onChange={this.readFile}></input>
