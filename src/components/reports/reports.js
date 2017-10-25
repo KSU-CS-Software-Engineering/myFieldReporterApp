@@ -19,6 +19,7 @@ export default class Reports extends Component {
             list: [],
             reports: [],
             test: '',
+            rName: ''
         }
         this.handleCreate = this.handleCreate.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -43,27 +44,41 @@ export default class Reports extends Component {
         var fid = firebase.database().ref('reports/').push().key;
         var photos = this.state.images;
         var uid = firebase.auth().currentUser.uid;
-        var updates = {}
-        updates['reports/' + fid] = {
-            crop: this.state.crop,
-            location: this.state.location,
-            gs: this.state.gs,
-            pest: this.state.pest,
-            notes: this.state.notes,
-            time: Date().toString(),
-            owner: uid
-          }
-        updates['users/' + uid + '/reports/' + fid] = true;
-        firebase.database().ref().update(updates).then(() => {
+        
+        firebase.database().ref('users/' + uid).once('value').then((snapshot) => {
+            var user = snapshot.val();
+            var reportCount = Object.keys(user.reports).length;
             
-            photos.forEach((imageURL, index) => {
-                firebase.storage().ref().child('images').child(fid).child(index.toString()).put(imageURL).then(snapshot => {
-                    console.log(snapshot);
-                    firebase.database().ref('reports/' + fid + '/images').push(snapshot.downloadURL)
-                })
-            });
-            
-        }).catch(err => console.error(err));
+      
+              this.setState({rName : user.fName.concat(user.lName.concat(reportCount))} );
+              console.log(this.state.rName);
+              
+              var updates = {}
+              updates['reports/' + fid] = {
+                    crop: this.state.crop,
+                    location: this.state.location.latitude + "," + this.state.location.longitude,
+                    gs: this.state.gs,
+                    pest: this.state.pest,
+                    notes: this.state.notes,
+                    time: Date().toString(),
+                    owner: uid,
+                    name: this.state.rName
+                  }
+                updates['users/' + uid + '/reports/' + fid] = true;
+                firebase.database().ref().update(updates).then(() => {
+                    photos.forEach((imageURL, index) => {
+                        firebase.storage().ref().child('images').child(fid).child(index.toString()).put(imageURL).then(snapshot => {
+
+                            firebase.database().ref('reports/' + fid + '/images').push(snapshot.downloadURL)
+                        })
+                    });
+
+                }).catch(err => console.error(err));
+
+           });
+        
+        console.log(this.state.rName);
+        
         
         this.toggleView();
         
@@ -99,7 +114,7 @@ export default class Reports extends Component {
 
         reader.onloadend = () => {
             this.state.images[this.state.images.length] = file;
-            console.log(this.state.images);
+            
         }
 
         reader.onerror = function () {
@@ -153,8 +168,8 @@ export default class Reports extends Component {
                               data.push(ss.child('name').val());
                            });
                             this.state.list = data;
-                           console.log(this.state.list);
-                           console.log(this.state.list.pop());
+                           //console.log(this.state.list);
+                           //console.log(this.state.list.pop());
                         })
                     
                     return(
