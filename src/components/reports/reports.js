@@ -165,7 +165,9 @@ export default class Reports extends Component {
                             <input placeholder="Name of Field" name="field" value={this.state.field} onChange={this.handleChange} required />
                             <br/>
                         
-                            <SearchableList onChange={this.handleChange} placeholder='crop' listRef="crops/"/>
+                            <div className="list-container">
+                                <SearchableList onChange={this.handleChange} placeholder='crop' listRef="crops/"/>
+                            </div>
                         
 
                             <input placeholder="Growth Stage of Crop" name="gs" value={this.state.gs} onChange={this.handleChange} required />

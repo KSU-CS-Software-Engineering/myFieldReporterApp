@@ -42,12 +42,12 @@ export default class SearchableList extends Component {
     }
     render() {
         var suggList = this.state.suggList.map((item) => {
-            return <div onClick={()=>this.handleClick(item)}>{item}</div>
+            return <div className="search-item" onClick={()=>this.handleClick(item)}>{item}</div>
         })
         return (
             <div>
             <input placeholder={this.props.placeholder} name="term" value={this.term} onChange={this.update} required/>
-                <div>{suggList}</div>
+                <div className="search-list">{suggList}</div>
             </div>
         );
     }

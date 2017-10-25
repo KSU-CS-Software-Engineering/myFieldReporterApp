@@ -2,6 +2,7 @@
     max-width: 300px;
     padding: 15px;
     width: 100%;
+    position: relative;
 }
 
 .reports-container input{
@@ -10,4 +11,28 @@
 
 .reports-container select{
     margin-bottom: 7px;
+}
+
+.reports-container .search-list{
+    position: absolute;
+    background-color: #FFFFFF;
+    width: 100%;
+    text-align: left;
+    overflow-y: auto;
+    box-sizing:border-box;
+    max-height: 400%;
+}
+
+.reports-container .search-item{
+    width: inherit;
+    padding: 5px 8px;
+    display: block;
+    cursor: pointer;
+    box-sizing: border-box;
+    text-transform: capitalize;
+}
+
+.reports-container .list-container{
+    position: relative;
+    width: 100%;
 }
