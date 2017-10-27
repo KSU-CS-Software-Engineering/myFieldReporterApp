@@ -28,7 +28,6 @@ export default class Reports extends Component {
         this.handleLocation = this.handleLocation.bind(this);
         this.toggleView = this.toggleView.bind(this);
         this.readFile = this.readFile.bind(this);
-        this.getReports();
         
     }
     
@@ -103,12 +102,6 @@ export default class Reports extends Component {
         
     }
     
-    getReports(){
-    
-        var info = firebase.database().ref('users/' + firebase.auth().currentUser.uid + '/reports/').key;
-        
-        
-    }
         
     toggleView(){
         this.setState({view:(this.state.view== 'newReport')?'current':'newReport'})
@@ -191,7 +184,7 @@ export default class Reports extends Component {
                             <br/>
                         
                             <div className="list-container">
-                                <SearchableList onChange={(term) => this.handleSelect('crop', term)} placeholder='crop' listRef="crops/" value={this.state.crop}/>
+                                <SearchableList onChange={(term) => this.handleSelect('crop', term)} placeholder='Crop' listRef="crops/" value={this.state.crop}/>
                             </div>
                         
 

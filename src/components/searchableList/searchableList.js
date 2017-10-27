@@ -14,7 +14,7 @@ export default class SearchableList extends Component {
     
     componentWillMount(){
         firebase.database().ref(this.props.listRef).once('value', snapshot => {
-            var keys = Object.keys(snapshot.val())
+            var keys = Object.values(snapshot.val()).map(item => item.name)
             this.setState({rootList: keys})
         })
     }
@@ -47,7 +47,7 @@ export default class SearchableList extends Component {
     render() {
         var suggList = this.state.suggList.map((item) => {
             console.log("item", item);
-            return <div className="search-item" onClick={()=>this.handleClick(item)}>{item}</div>
+            return <div key={item.name} className="search-item" onClick={()=>this.handleClick(item)}>{item}</div>
         })
         return (
             <div>
