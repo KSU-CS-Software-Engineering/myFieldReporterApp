@@ -181,7 +181,7 @@ export default class Reports extends Component {
                             <br/>
                         
                             <div className="list-container">
-                                <SearchableList onChange={this.handleChange} placeholder='crop' listRef="crops/"/>
+                                <SearchableList onChange={this.handleChange} placeholder='Crop' listRef="crops/"/>
                             </div>
                         
 
@@ -201,11 +201,9 @@ export default class Reports extends Component {
                             
                             <button onClick={this.handleCreate}>Submit</button>
                             
-                            <br/>
-                            <br/>
                             {this.state.message}
 
-                            <a onClick={this.toggleView}>Dashboard</a>
+                            <a onClick={this.toggleView}>Go To Dashboard</a>
                         </div>
 
                     )

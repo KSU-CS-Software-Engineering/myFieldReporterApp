@@ -24,9 +24,12 @@ export default class GeoLocation extends Component{
           <button onClick={this.getCurrentLocation}>Get Position</button>
           {this.state.errorMessage}
           <pre>
+            <div className="left-direction">
             latitude: {this.props.location.latitude}
-              <br/>
+            </div>
+            <div className="right-direction">
             longitude: {this.props.location.longitude}
+            </div>
           </pre>
         </div>
       )

@@ -1,5 +1,5 @@
 .login-form-container{
-    max-width: 300px;
+    width: 300px;
     padding: 15px;
 }
 
@@ -112,9 +112,6 @@
 }
 
 .login-form-container a{
-    cursor: pointer;
-    margin: 10px 0;
-    display: inline-block;
     float: left;
 }
 
