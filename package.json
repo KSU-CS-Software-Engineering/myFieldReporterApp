@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "firebase": "^4.4.0",
+    "moment": "^2.19.1",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-geolocated": "^2.1.0",
