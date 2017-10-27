@@ -43,6 +43,7 @@ export default class SearchableList extends Component {
         this.setState({suggList: matches});
         this.props.onChange(value);
     }
+    
     render() {
         var suggList = this.state.suggList.map((item) => {
             console.log("item", item);

@@ -206,11 +206,9 @@ export default class Reports extends Component {
                             
                             <button onClick={this.handleCreate}>Submit</button>
                             
-                            <br/>
-                            <br/>
                             {this.state.message}
 
-                            <a onClick={this.toggleView}>Dashboard</a>
+                            <a onClick={this.toggleView}>Go To Dashboard</a>
                         </div>
 
                     )
