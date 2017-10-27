@@ -27,16 +27,14 @@ export default class Dashboard extends Component {
             }
             this.setState({reports: reports});
             
-            //var time = report.time;
-            //time= moment(time).format('MMMM Do YYYY, h:mm a');
-            //var id = report.name
             
         });
     }
         
  
     render(){
-        var reports = this.state.reports.map((item) =>{
+        var reps = this.state.reports.reverse();
+        var reports = reps.map((item) =>{
             return <a key={item.url} href={item.url}>{item.name} ,{moment(item.date).format('MMMM Do YYYY h:mm a')}</a> 
         })
         return( 
