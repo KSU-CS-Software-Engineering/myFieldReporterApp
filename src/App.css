@@ -5,6 +5,14 @@
     font-weight:inherit;
 }
 
+a{
+    cursor: pointer;
+    margin: 10px 0;
+    display: inline-block;
+    text-decoration: none;
+    color: #000000;
+}
+
 input, [class*="input"]{
     padding: 5px 5px 5px 5px;
     width: 100%;
@@ -27,6 +35,7 @@ button, [class*="button"]{
     text-transform: uppercase;
     box-sizing: border-box;
     display: inline-block;
+    cursor: pointer;
 }
 
 select{
@@ -40,6 +49,16 @@ select{
 h1{
     margin: 0 0 10px 0;;
     text-align: left;
+}
+
+#log-out{
+    float: right;
+}
+
+.log-container{
+    width: 300px;
+    padding: 0 15px;
+    margin-top: -15px;
 }
 
 .App {

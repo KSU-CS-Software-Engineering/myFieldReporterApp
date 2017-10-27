@@ -37,8 +37,10 @@ class App extends Component {
                         </div>
                     )}/>
                 </Switch>
-
-                <a href='' onClick={this.handleLogOut}>Log Out</a>
+                
+                <div className="log-container">
+                    <a href='' id="log-out" onClick={this.handleLogOut}>Log Out</a>
+                </div>
 
             </Auth>
           </div>
