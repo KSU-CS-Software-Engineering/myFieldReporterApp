@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import './reports.css';
+import Dashboard from '../dashboard/dashboard';
 import SearchableList from '../searchableList/searchableList';
 import * as firebase from 'firebase';
 import {HashRouter as Router, Route, Switch, Link} from 'react-router-dom';
@@ -47,7 +48,8 @@ export default class Reports extends Component {
         
         firebase.database().ref('users/' + uid).once('value').then((snapshot) => {
             var user = snapshot.val();
-            var reportCount = Object.keys(user.reports).length;
+            var reportCount = 0;
+            if(user.reports) reportCount = Object.keys(user.reports).length;
             
       
               this.setState({rName : user.fName.concat(user.lName.concat(reportCount))} );
@@ -60,7 +62,7 @@ export default class Reports extends Component {
                     gs: this.state.gs,
                     pest: this.state.pest,
                     notes: this.state.notes,
-                    time: Date().toString(),
+                    time: new Date().toJSON(),
                     owner: uid,
                     name: this.state.rName
                   }
@@ -151,6 +153,9 @@ export default class Reports extends Component {
                         <button onClick={this.toggleView}>Create Report</button>
                        
                         <h1>Your Reports</h1>
+                        
+                        <Dashboard></Dashboard>
+                        
                         
                         <br/><br/>
                     </div>
