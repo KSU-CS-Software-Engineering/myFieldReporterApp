@@ -23,6 +23,7 @@ export default class Reports extends Component {
         }
         this.handleCreate = this.handleCreate.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.handleSelect = this.handleSelect.bind(this);
         this.handleLocation = this.handleLocation.bind(this);
         this.toggleView = this.toggleView.bind(this);
         this.readFile = this.readFile.bind(this);
@@ -38,6 +39,10 @@ export default class Reports extends Component {
         this.setState({
             [event.target.name]: event.target.value
         });
+    }
+    
+    handleSelect(name, value){
+        this.setState({[name]: value})
     }
     
     handleCreate(){
@@ -181,7 +186,7 @@ export default class Reports extends Component {
                             <br/>
                         
                             <div className="list-container">
-                                <SearchableList onChange={this.handleChange} placeholder='crop' listRef="crops/"/>
+                                <SearchableList onChange={(term) => this.handleSelect('crop', term)} placeholder='crop' listRef="crops/" value={this.state.crop}/>
                             </div>
                         
 

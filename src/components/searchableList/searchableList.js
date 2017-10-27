@@ -5,7 +5,6 @@ export default class SearchableList extends Component {
     constructor(props){
         super(props);
         this.state = {
-            term: '',
             rootList: [],
             suggList: []
         }
@@ -20,33 +19,38 @@ export default class SearchableList extends Component {
         })
     }
     
+    componentWillReceiveProps(props) {
+        //this.setState({term: props.value});
+    }
+    
     handleClick(term){
-        return;
-        this.props.handleChange(this.state.term);
+        console.log("ERM", term, this.state.suggList)
+        this.props.onChange(term);
+        this.setState({suggList: []});
     }
     
     update(event){
-        var toSearch = event.target.value;
+        var value = event.target.value;
+        this.props.onChange(value);
         var searchFrom = this.state.rootList;
         var matches = [];
         var l = searchFrom.length;
-        console.log('BEFORE', toSearch, matches)
         for (var i = 0; i < l; i++){
-            if (searchFrom[i].includes(toSearch)){
+            if (searchFrom[i].includes(value)){
                 matches.push(searchFrom[i]);
             }
         }
-        console.log('AFTER', matches)
         this.setState({suggList: matches});
-        
+        this.props.onChange(value);
     }
     render() {
         var suggList = this.state.suggList.map((item) => {
+            console.log("item", item);
             return <div className="search-item" onClick={()=>this.handleClick(item)}>{item}</div>
         })
         return (
             <div>
-            <input placeholder={this.props.placeholder} name="term" value={this.term} onChange={this.update} required/>
+            <input placeholder={this.props.placeholder} name="term" value={this.props.value} onChange={this.update} required/>
                 <div className="search-list">{suggList}</div>
             </div>
         );
