@@ -6,7 +6,7 @@ export default class SearchableList extends Component {
         super(props);
         this.state = {
             rootList: [],
-            suggList: []
+            suggList: [],
         }
         this.update = this.update.bind(this);
         this.handleClick = this.handleClick.bind(this);
@@ -44,7 +44,7 @@ export default class SearchableList extends Component {
         var matches = [];
         var l = searchFrom.length;
         for (var i = 0; i < l; i++){
-            if (searchFrom[i].toLowerCase().includes(value)){
+            if (searchFrom[i].toLowerCase().includes(value.toLowerCase())){
                 matches.push(searchFrom[i]);
             }
         }
