@@ -10,6 +10,7 @@ export default class SearchableList extends Component {
         }
         this.update = this.update.bind(this);
         this.handleClick = this.handleClick.bind(this);
+        this.handleKeyPress = this.handleKeyPress.bind(this);
     }
     
     componentWillMount(){
@@ -24,9 +25,16 @@ export default class SearchableList extends Component {
     }
     
     handleClick(term){
-        console.log("ERM", term, this.state.suggList)
         this.props.onChange(term);
         this.setState({suggList: []});
+    }
+    
+    handleKeyPress(target){
+        if (target.charCode == 13){
+            var value = this.state.suggList[0];
+            this.props.onChange(value);
+            this.setState({suggList: []});
+        }
     }
     
     update(event){
@@ -36,7 +44,7 @@ export default class SearchableList extends Component {
         var matches = [];
         var l = searchFrom.length;
         for (var i = 0; i < l; i++){
-            if (searchFrom[i].includes(value)){
+            if (searchFrom[i].toLowerCase().includes(value)){
                 matches.push(searchFrom[i]);
             }
         }
@@ -51,7 +59,7 @@ export default class SearchableList extends Component {
         })
         return (
             <div>
-            <input placeholder={this.props.placeholder} name="term" value={this.props.value} onChange={this.update} required/>
+            <input placeholder={this.props.placeholder} name="term" value={this.props.value} onChange={this.update} onKeyPress={this.handleKeyPress} required/>
                 <div className="search-list">{suggList}</div>
             </div>
         );
