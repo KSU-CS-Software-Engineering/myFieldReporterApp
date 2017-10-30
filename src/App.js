@@ -5,6 +5,7 @@ import {HashRouter as Router, Route, Switch} from 'react-router-dom';
 import Auth from './components/auth/auth';
 import * as firebase from 'firebase';
 import Reports from './components/reports/reports';
+import './opensans/stylesheet.css';
 
 class App extends Component {
     handleLogOut(event){

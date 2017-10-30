@@ -20,6 +20,7 @@
     overflow-y: auto;
     box-sizing:border-box;
     max-height: 400%;
+    border: 1px solid #719ECE;
 }
 
 .reports-container .search-item{
@@ -29,6 +30,11 @@
     cursor: pointer;
     box-sizing: border-box;
     text-transform: capitalize;
+}
+
+.reports-container .search-item:hover{
+    background-color: #719ECE;
+    color: #FFFFFF;
 }
 
 .reports-container .list-container{
