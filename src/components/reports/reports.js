@@ -19,8 +19,7 @@ export default class Reports extends Component {
             view: 'current',
             list: [],
             reports: [],
-            test: '',
-            rName: ''
+            test: ''
         }
         this.handleCreate = this.handleCreate.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -49,28 +48,28 @@ export default class Reports extends Component {
         var fid = firebase.database().ref('reports/').push().key;
         var photos = this.state.images;
         var uid = firebase.auth().currentUser.uid;
-        
+        var state = this.state;
+        console.log(this.state);
         firebase.database().ref('users/' + uid).once('value').then((snapshot) => {
             var user = snapshot.val();
             var reportCount = 0;
             if(user.reports) reportCount = Object.keys(user.reports).length;
             
-      
-              this.setState({rName : user.fName.concat(user.lName.concat(reportCount))} );
-              console.log(this.state.rName);
+             var rName= user.fName.concat(user.lName.concat(reportCount));
               
               var updates = {}
               updates['reports/' + fid] = {
-                    crop: this.state.crop,
-                    location: this.state.location.latitude + "," + this.state.location.longitude,
-                    gs: this.state.gs,
-                    pest: this.state.pest,
-                    notes: this.state.notes,
+                    crop: state.crop,
+                    location: state.location.latitude + "," + state.location.longitude,
+                    gs: state.gs,
+                    pest: state.pest,
+                    notes: state.notes,
                     time: new Date().toJSON(),
                     owner: uid,
-                    name: this.state.rName
+                    name: rName
                   }
                 updates['users/' + uid + '/reports/' + fid] = true;
+            console.log('updates', updates)
                 firebase.database().ref().update(updates).then(() => {
                     photos.forEach((imageURL, index) => {
                         firebase.storage().ref().child('images').child(fid).child(index.toString()).put(imageURL).then(snapshot => {
@@ -83,7 +82,6 @@ export default class Reports extends Component {
 
            });
         
-        console.log(this.state.rName);
         
         
         this.toggleView();
