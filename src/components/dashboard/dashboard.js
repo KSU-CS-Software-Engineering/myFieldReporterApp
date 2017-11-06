@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import './dashboard.css';
 import * as firebase from 'firebase';
 import moment from 'moment';
+import Reports from '../reports/reports';
+import {Link} from 'react-router-dom';
 
 export default class Dashboard extends Component {
 
@@ -14,6 +16,7 @@ export default class Dashboard extends Component {
     
     }
     
+    
     componentWillMount() {
         var uid = firebase.auth().currentUser.uid;
         
@@ -22,13 +25,14 @@ export default class Dashboard extends Component {
             var reports = [];
             for(var key in reportData) {
                 let report = reportData[key];
-                report.url = 'reports/' + key;
+                report.url = '/reports/' + key;
                 reports.push(report);
             }
             this.setState({reports: reports});
             
             
         });
+        
     }
         
  
@@ -38,8 +42,15 @@ export default class Dashboard extends Component {
             return <a key={item.url} href={item.url}>{item.name} ,{moment(item.time).format('MMMM Do YYYY hh:mm a')}</a> 
         })
         return( 
+            <div>
+                
+            <Link className="create-report-button" to="/reports">Create Report</Link>
+
+            <h1>Your Reports</h1>
             <div className="report-list" style={{display: 'flex', flexDirection: 'column'}}>
                 {reports}
+            </div>
+                
             </div>
         );
     }

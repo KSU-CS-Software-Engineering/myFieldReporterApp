@@ -6,6 +6,7 @@ import Auth from './components/auth/auth';
 import * as firebase from 'firebase';
 import Reports from './components/reports/reports';
 import './opensans/stylesheet.css';
+import Dashboard from './components/dashboard/dashboard'
 
 class App extends Component {
     handleLogOut(event){
@@ -29,13 +30,14 @@ class App extends Component {
             </div>
             <Auth>
                 <Switch>
+                    <Route path="/reports/:reportID" render={({match})=>(
+                        <Reports reportID={match.params.reportID}/>
+                    )}/>
                     <Route path="/reports" render={()=>(
-                        <Reports />
+                        <Reports/>
                     )}/>
                     <Route path="/" render={()=>(
-                        <div>
-                            <Reports></Reports>
-                        </div>
+                        <Dashboard />
                     )}/>
                 </Switch>
                 
