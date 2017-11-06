@@ -34,13 +34,13 @@ export default class Reports extends Component {
         this.setState({location: coords});
     }
     
-    handleChange(event) {
+    handleChange(event) { //Change state values with whatever was entered. if crop is the name, crop value will be changed.
         this.setState({
             [event.target.name]: event.target.value
         });
     }
     
-    handleSelect(name, value){
+    handleSelect(name, value){ //Change a specific state with a specific value. Used in searchableList
         this.setState({[name]: value})
     }
     
@@ -208,7 +208,7 @@ export default class Reports extends Component {
                         </div>
 
                     )
-                }
+         }
     }
     
 }
