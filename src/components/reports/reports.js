@@ -34,16 +34,17 @@ export default class Reports extends Component {
     handleLocation(coords){
         this.setState({location: coords});
     }
-    
-    //Sets the state of any object from the value entered below
-    handleChange(event) {
+
+    //Change state values with whatever was entered. if crop is the name, crop value will be changed.
+    handleChange(event) { 
         this.setState({
             [event.target.name]: event.target.value
         });
     }
     
-    //Sets the State name of the value for the Searchable list
-    handleSelect(name, value){
+
+    //Change a specific state with a specific value. Used in searchableList
+    handleSelect(name, value){ 
         this.setState({[name]: value})
     }
     
@@ -124,7 +125,6 @@ export default class Reports extends Component {
     
     
     render() {
-        
         if (window.File && window.FileReader && window.FormData) {
             var $inputField = this.state.file;
 
@@ -182,7 +182,6 @@ export default class Reports extends Component {
             </div>
 
         )
-
     }
     
 }

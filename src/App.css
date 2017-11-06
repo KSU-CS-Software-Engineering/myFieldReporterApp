@@ -61,8 +61,15 @@ h1{
     margin-top: -15px;
 }
 
+Router{
+    border: 1px solid blue;
+}
+
 .App {
     text-align: center;
+    position: relative;
+    min-height: 550px;
+    height: 100vh;
 }
 
 .App-logo {
