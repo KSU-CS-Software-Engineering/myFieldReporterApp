@@ -1,0 +1,61 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renders a login form 1`] = `
+<div
+  className="login-form-container"
+>
+  <h1>
+    Login
+  </h1>
+  <div
+    className="message"
+  />
+  <div
+    id="login-container"
+  >
+    <input
+      className="first-line"
+      name="email"
+      onChange={[Function]}
+      placeholder="Email Address"
+      required={true}
+      type="email"
+      value=""
+    />
+    <input
+      className="second-line"
+      name="password"
+      onChange={[Function]}
+      onKeyPress={[Function]}
+      placeholder="Password"
+      required={true}
+      type="password"
+      value=""
+    />
+    <div
+      className="email-icon first-icon"
+    />
+    <div
+      className="password-icon second-icon"
+    />
+  </div>
+  <button
+    onClick={[Function]}
+  >
+    Login
+  </button>
+  <button
+    onClick={[Function]}
+  >
+    New User
+  </button>
+  <a
+    onClick={[Function]}
+  >
+    Forgot Password?
+  </a>
+  <div
+    className="grass"
+  />
+</div>
+`;
