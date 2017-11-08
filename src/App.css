@@ -21,12 +21,17 @@ input, [class*="input"]{
     font-size: 16px;
     display: inline-block;
     text-align: left;
+    outline: none;
+}
+
+input:focus, [class*="input"]:focus{
+    border: 1px solid #4ca6de;
 }
 
 button, [class*="button"]{
     width: 100%;
     margin: 5px 0;
-    padding: 10px;
+    height: 45px;
     font-size: 18px;
     font-family: 'open_sansbold', sans-serif;
     color: #ffffff;
@@ -36,6 +41,11 @@ button, [class*="button"]{
     box-sizing: border-box;
     display: inline-block;
     cursor: pointer;
+    outline: none;
+}
+
+button:focus, [class*="button"]:focus{
+    border: 1px solid #4ca6de;
 }
 
 select{
@@ -44,6 +54,11 @@ select{
     box-sizing: border-box;
     border: 1px solid #dddddd;
     font-size: 16px;
+    outline: none;
+}
+
+select:focus{
+    border: 1px solid #4ca6de;
 }
 
 h1{
