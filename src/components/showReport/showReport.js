@@ -19,7 +19,7 @@ export default class showReport extends Component {
             view: 'current',
             list: [],
             reports: [],
-            test: '',
+            time: '',
             reportName: ''
         }
     
@@ -38,6 +38,7 @@ export default class showReport extends Component {
                     gs: report.gs,
                     pest: report.pest,
                     notes: report.notes,
+                    time: report.time
                               
                 });
                 
@@ -49,22 +50,27 @@ export default class showReport extends Component {
     render(){
         return(
             <div className="reports-container">
-                <h1>New Report</h1>
+                <h1>{this.state.reportName}</h1>
 
-             
-                <label className="bold"> Crop:</label>
+                
+                <label className="bold">Submitted: </label>
+                <label>{moment(this.state.time).format('MMM Do YYYY hh:mm a')}</label>
+                
+                <br/>
+                <label className="bold">Crop: </label>
                 <label>{this.state.crop}</label>
                 
-
-                <label/>
+                <br/>
+                <label className="bold">Growth Stage: </label>
+                <label>{this.state.gs}</label>
 
                 <br/>
-
-                <label placeholder="Pest" name="pest" value={this.state.pest} onChange={this.handleChange} required />
-
-
-
-                <label placeholder="Notes" name="notes" value={this.state.notes} onChange={this.handleChange}/>
+                <label className="bold">Pests: </label>
+                <label>{this.state.pest}</label>
+                
+                <br/>
+                <label className="bold">Notes: </label>
+                <label>{this.state.notes}</label>
 
 
                 {this.state.message}
