@@ -19,7 +19,7 @@ export default class showReport extends Component {
             view: 'current',
             list: [],
             reports: [],
-            test: '',
+            time: '',
             reportName: ''
         }
     
@@ -38,6 +38,7 @@ export default class showReport extends Component {
                     gs: report.gs,
                     pest: report.pest,
                     notes: report.notes,
+                    time: report.time
                               
                 });
                 
@@ -49,22 +50,32 @@ export default class showReport extends Component {
     render(){
         return(
             <div className="reports-container">
-                <h1>New Report</h1>
-
-             
-                <label> Crop:</label>
-                <label className="bold">{this.state.crop}</label>
-                
-
-                <label/>
-
-                <br/>
-
-                <label placeholder="Pest" name="pest" value={this.state.pest} onChange={this.handleChange} required />
-
-
-
-                <label placeholder="Notes" name="notes" value={this.state.notes} onChange={this.handleChange}/>
+                <h1>{this.state.reportName}</h1>
+            
+                <div className="report-header-wrap">
+                    <label className="bold">Submitted:&nbsp;</label>
+                    <br/>
+                    <label className="bold">Crop:&nbsp;</label>
+                    <br/>
+                    <label className="bold">Growth Stage:&nbsp;</label>
+                    <br/>
+                    <label className="bold">Pests:&nbsp;</label>
+                    <br/>
+                    <label className="bold">Notes:&nbsp;</label>
+                </div>
+                <div className="report-info-wrap">
+                    <div className="hide-overflow">
+                        <label>{moment(this.state.time).format('MMM Do YYYY hh:mm a')}</label>
+                    </div>
+                    <br/>
+                    <label>{this.state.crop}</label>
+                    <br/>
+                    <label>{this.state.gs}</label>
+                    <br/>
+                    <label>{this.state.pest}</label>
+                    <br/>
+                    <label>{this.state.notes}</label>
+                </div>
 
 
                 {this.state.message}
