@@ -10,13 +10,68 @@ export default class showReport extends Component {
     constructor(props){
         super(props);
         this.state = {
-                     }
+            crop: '',
+            gs: '',
+            location: {},
+            images: [],
+            pest: '',
+            notes: '',
+            view: 'current',
+            list: [],
+            reports: [],
+            test: '',
+            reportName: ''
+        }
     
     }
  
+    componentWillMount() {
+        
+        if(this.props.reportID){
+            firebase.database().ref('reports/' + this.props.reportID).once('value').then((snapshot) =>{
+               var report = snapshot.val();
+                var locs = report.location.split(',');
+                this.setState({
+                    reportName: report.name,
+                    location: locs.map,
+                    crop: report.crop,
+                    gs: report.gs,
+                    pest: report.pest,
+                    notes: report.notes,
+                              
+                });
+                
+            });
+        }
+           
+    }
  
     render(){
-        return(<h1>Here</h1>);
+        return(
+            <div className="reports-container">
+                <h1>New Report</h1>
+
+             
+                <label className="bold"> Crop:</label>
+                <label>{this.state.crop}</label>
+                
+
+                <label/>
+
+                <br/>
+
+                <label placeholder="Pest" name="pest" value={this.state.pest} onChange={this.handleChange} required />
+
+
+
+                <label placeholder="Notes" name="notes" value={this.state.notes} onChange={this.handleChange}/>
+
+
+                {this.state.message}
+
+                <Link className="dashboard-button" to="/">Go To Dashboard</Link>
+            </div>
+              );
     }
     
     

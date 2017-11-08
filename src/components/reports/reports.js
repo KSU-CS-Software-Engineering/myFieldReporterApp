@@ -19,7 +19,8 @@ export default class Reports extends Component {
             view: 'current',
             list: [],
             reports: [],
-            test: ''
+            test: '',
+            reportName: ''
         }
         this.handleCreate = this.handleCreate.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -30,8 +31,11 @@ export default class Reports extends Component {
     }
     
     
+    
+    
     //Sets the coords state from what it got from the buttton click
     handleLocation(coords){
+        console.log(coords);
         this.setState({location: coords});
     }
 
@@ -88,8 +92,6 @@ export default class Reports extends Component {
            });
         
         
-        
-        this.toggleView();
         
         this.setState({
             crop: '',
@@ -151,9 +153,6 @@ export default class Reports extends Component {
 
             <div className="reports-container">
                 <h1>New Report</h1>
-
-                <input placeholder="Name of Field" name="field" value={this.state.field} onChange={this.handleChange} required />
-                <br/>
 
                 <div className="list-container">
                     <SearchableList onChange={(term) => this.handleSelect('crop', term)} placeholder='Crop' listRef="crops/" value={this.state.crop}/>

@@ -39,7 +39,7 @@ export default class Dashboard extends Component {
     render(){
         var reps = this.state.reports.reverse();
         var reports = reps.map((item) =>{
-            return <a key={item.url} href={item.url}>{item.name} ,{moment(item.time).format('MMMM Do YYYY hh:mm a')}</a> 
+            return <Link to={item.url}>{item.name} ,{moment(item.time).format('MMMM Do YYYY hh:mm a')}</Link> 
         })
         return( 
             <div>
