@@ -52,8 +52,8 @@ export default class showReport extends Component {
                 <h1>New Report</h1>
 
              
-                <label className="bold"> Crop:</label>
-                <label>{this.state.crop}</label>
+                <label> Crop:</label>
+                <label className="bold">{this.state.crop}</label>
                 
 
                 <label/>
