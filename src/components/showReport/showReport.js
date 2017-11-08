@@ -12,7 +12,7 @@ export default class showReport extends Component {
         this.state = {
             crop: '',
             gs: '',
-            location: {},
+            location: '',
             images: [],
             pest: '',
             notes: '',
@@ -30,21 +30,22 @@ export default class showReport extends Component {
         if(this.props.reportID){
             firebase.database().ref('reports/' + this.props.reportID).once('value').then((snapshot) =>{
                var report = snapshot.val();
-                var locs = report.location.split(',');
+                console.log
                 this.setState({
                     reportName: report.name,
-                    location: locs.map,
+                    location: report.location,
                     crop: report.crop,
                     gs: report.gs,
                     pest: report.pest,
                     notes: report.notes,
-                    time: report.time
+                    time: report.time,
+                    images: report.images
                               
                 });
                 
             });
         }
-           
+         console.log(this.state.images);  
     }
  
     render(){
@@ -62,6 +63,8 @@ export default class showReport extends Component {
                     <label className="bold">Pests:&nbsp;</label>
                     <br/>
                     <label className="bold">Notes:&nbsp;</label>
+                    <br/>
+                    <label className="bold">Location:&nbsp;</label>
                 </div>
                 <div className="report-info-wrap">
                     <div className="hide-overflow">
@@ -75,8 +78,10 @@ export default class showReport extends Component {
                     <label>{this.state.pest}</label>
                     <br/>
                     <label>{this.state.notes}</label>
+                    <br/>
+                    <label>{this.state.location}</label>
                 </div>
-
+                <img src={this.state.images}></img>
 
                 {this.state.message}
 
