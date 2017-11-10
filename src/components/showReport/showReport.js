@@ -52,34 +52,53 @@ export default class showReport extends Component {
         return(
             <div className="reports-container">
                 <h1>{this.state.reportName}</h1>
-            
-                <div className="report-header-wrap">
-                    <label className="bold">Submitted:&nbsp;</label>
-                    <br/>
-                    <label className="bold">Crop:&nbsp;</label>
-                    <br/>
-                    <label className="bold">Growth Stage:&nbsp;</label>
-                    <br/>
-                    <label className="bold">Pests:&nbsp;</label>
-                    <br/>
-                    <label className="bold">Notes:&nbsp;</label>
-                    <br/>
-                    <label className="bold">Location:&nbsp;</label>
-                </div>
-                <div className="report-info-wrap">
-                    <div className="hide-overflow">
+                <div className="report-section-wrap">
+                    <div className="report-header-wrap">
+                        <label className="bold">Submitted:&nbsp;</label>
+                    </div>
+                    <div className="report-info-wrap">
                         <label>{moment(this.state.time).format('MMM Do YYYY hh:mm a')}</label>
                     </div>
-                    <br/>
-                    <label>{this.state.crop}</label>
-                    <br/>
-                    <label>{this.state.gs}</label>
-                    <br/>
-                    <label>{this.state.pest}</label>
-                    <br/>
-                    <label>{this.state.notes}</label>
-                    <br/>
-                    <label>{this.state.location}</label>
+                </div>
+                <div className="report-section-wrap">
+                    <div className="report-header-wrap">
+                        <label className="bold">Crop:&nbsp;</label>
+                    </div>
+                    <div className="report-info-wrap">
+                        <label>{this.state.crop}</label>
+                    </div>
+                </div>
+                <div className="report-section-wrap">
+                    <div className="report-header-wrap">
+                        <label className="bold">Growth Stage:&nbsp;</label>
+                    </div>
+                    <div className="report-info-wrap">
+                        <label>{this.state.gs}</label>
+                    </div>
+                </div>
+                <div className="report-section-wrap">
+                    <div className="report-header-wrap">
+                        <label className="bold">Pests:&nbsp;</label>
+                    </div>
+                    <div className="report-info-wrap">
+                        <label>{this.state.pest}</label>
+                    </div>
+                </div>
+                <div className="report-section-wrap">
+                    <div className="report-header-wrap">
+                        <label className="bold">Notes:&nbsp;</label>
+                    </div>
+                    <div className="report-info-wrap">
+                        <label>{this.state.notes}</label>
+                    </div>
+                </div>
+                <div className="report-section-wrap">
+                    <div className="report-header-wrap">
+                        <label className="bold">Location:&nbsp;</label>
+                    </div>
+                    <div className="report-info-wrap">
+                        <label>{this.state.location}</label>
+                    </div>
                 </div>
                 <img src={this.state.images}></img>
 
