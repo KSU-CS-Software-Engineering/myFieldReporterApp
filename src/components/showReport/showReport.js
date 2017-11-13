@@ -104,7 +104,7 @@ export default class showReport extends Component {
 
                 {this.state.message}
 
-                <Link className="dashboard-button" to="/">Go To Dashboard</Link>
+                <Link to="/">Go To Dashboard</Link>
             </div>
               );
     }
