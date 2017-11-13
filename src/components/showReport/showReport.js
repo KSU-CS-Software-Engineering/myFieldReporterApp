@@ -40,10 +40,9 @@ export default class showReport extends Component {
                     pest: report.pest,
                     notes: report.notes,
                     time: report.time,
-                    images: report.images.toString()
+                    images: report.images
                               
                 });
-                    console.log(this.state.images);
             });
         }
     }
@@ -55,6 +54,8 @@ export default class showReport extends Component {
     }
  
     render(){
+        
+                    console.log(this.state.images);
         return(
             <div className="reports-container">
                 <h1>{this.state.reportName}</h1>
