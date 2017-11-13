@@ -31,6 +31,9 @@ class App extends Component {
             </div>
             <Auth>
                 <Switch>
+                    <Route path="/reports/:reportID/edit" render={({match})=>(
+                        <Reports reportID={match.params.reportID}/>
+                    )}/>
                     <Route path="/reports/:reportID" render={({match})=>(
                         <ShowReport reportID={match.params.reportID}/>
                     )}/>
