@@ -42,6 +42,7 @@ button, [class*="button"]{
     display: inline-block;
     cursor: pointer;
     outline: none;
+    text-align: center;
 }
 
 button:focus, [class*="button"]:focus{

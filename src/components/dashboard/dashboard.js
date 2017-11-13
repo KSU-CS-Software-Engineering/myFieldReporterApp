@@ -39,17 +39,19 @@ export default class Dashboard extends Component {
     render(){
         var reps = this.state.reports.reverse();
         var reports = reps.map((item) =>{
-            return <Link to={item.url}>{item.name} <br></br> {moment(item.time).format('MMMM Do YYYY hh:mm a')}</Link> 
+            return <Link to={item.url}><div className="line"></div><div className="report-name">{item.name}</div> {moment(item.time).format('MMMM Do YYYY hh:mm a')}</Link> 
         })
         return( 
-            <div>
-                
-            <Link className="create-report-button" to="/reports">Create Report</Link>
+            <div className="dashboard-container">
 
-            <h1>Your Reports</h1>
-            <div className="report-list" style={{display: 'flex', flexDirection: 'column'}}>
-                {reports}
-            </div>
+                <Link className="create-report-button" to="/reports">New Report</Link>
+            
+                <h1>Past Reports</h1>
+                
+                <div className="report-list" style={{display: 'flex', flexDirection: 'column'}}>
+                    {reports}
+                </div>
+                <div className="line"></div>
                 
             </div>
         );

@@ -32,3 +32,8 @@
 .pictures{
     width: 300px;
 }
+
+.edit-button{
+    padding-top: 10px;
+    margin-top: 10px;
+}
