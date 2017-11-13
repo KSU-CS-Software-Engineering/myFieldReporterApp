@@ -30,7 +30,25 @@ export default class Reports extends Component {
         
     }
     
-    
+    componentWillMount() {
+        
+        if(this.props.reportID){
+            firebase.database().ref('reports/' + this.props.reportID).once('value').then((snapshot) =>{
+               var report = snapshot.val();
+                console.log
+                this.setState({
+                    reportName: report.name,
+                    crop: report.crop,
+                    gs: report.gs,
+                    pest: report.pest,
+                    notes: report.notes,
+                    time: report.time
+                              
+                });
+                
+            });
+        }  
+    }
     
     
     //Sets the coords state from what it got from the buttton click

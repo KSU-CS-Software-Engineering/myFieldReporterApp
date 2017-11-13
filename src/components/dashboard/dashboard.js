@@ -42,14 +42,15 @@ export default class Dashboard extends Component {
             return <Link to={item.url}>{item.name} ,{moment(item.time).format('MMMM Do YYYY hh:mm a')}</Link> 
         })
         return( 
-            <div>
-                
-            <Link className="create-report-button" to="/reports">Create Report</Link>
+            <div className="dashboard-container">
 
-            <h1>Your Reports</h1>
-            <div className="report-list" style={{display: 'flex', flexDirection: 'column'}}>
-                {reports}
-            </div>
+                <Link className="create-report-button" to="/reports">New Report</Link>
+            
+                <h1>Past Reports</h1>
+                
+                <div className="report-list" style={{display: 'flex', flexDirection: 'column'}}>
+                    {reports}
+                </div>
                 
             </div>
         );
