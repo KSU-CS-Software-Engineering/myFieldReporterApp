@@ -8,6 +8,7 @@ import Reports from './components/reports/reports';
 import './opensans/stylesheet.css';
 import Dashboard from './components/dashboard/dashboard';
 import ShowReport from './components/showReport/showReport';
+import EditReport from './components/editReport/editReport';
 
 class App extends Component {
     handleLogOut(event){
@@ -32,7 +33,7 @@ class App extends Component {
             <Auth>
                 <Switch>
                     <Route path="/reports/:reportID/edit" render={({match})=>(
-                        <Reports reportID={match.params.reportID}/>
+                        <EditReport reportID={match.params.reportID}/>
                     )}/>
                     <Route path="/reports/:reportID" render={({match})=>(
                         <ShowReport reportID={match.params.reportID}/>

@@ -55,11 +55,13 @@ export default class showReport extends Component {
  
     render(){
         
+        if(this.state.images){
            var pics = Object.values(this.state.images);
         
             var pictures = pics.map((item) =>{
                 return <img className="pictures" src={item}></img> 
             })
+        }
         
         return(
             <div className="reports-container">
@@ -112,7 +114,7 @@ export default class showReport extends Component {
                         <label>{this.state.location}</label>
                     </div>
                 </div>
-                  <div>
+                <div>
                     {pictures}
                 </div>
                 
