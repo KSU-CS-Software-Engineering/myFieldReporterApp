@@ -16,7 +16,6 @@ export default class Reports extends Component {
             images: [],
             pest: '',
             notes: '',
-            view: 'current',
             list: [],
             reports: [],
             test: '',
@@ -30,25 +29,6 @@ export default class Reports extends Component {
         
     }
     
-    componentWillMount() {
-        
-        if(this.props.reportID){
-            firebase.database().ref('reports/' + this.props.reportID).once('value').then((snapshot) =>{
-               var report = snapshot.val();
-                console.log
-                this.setState({
-                    reportName: report.name,
-                    crop: report.crop,
-                    gs: report.gs,
-                    pest: report.pest,
-                    notes: report.notes,
-                    time: report.time
-                              
-                });
-                
-            });
-        }  
-    }
     
     
     //Sets the coords state from what it got from the buttton click
@@ -87,7 +67,7 @@ export default class Reports extends Component {
               var updates = {}
               updates['reports/' + fid] = {
                     crop: state.crop,
-                    location: state.location.latitude + "," + state.location.longitude,
+                    location: state.location.latitude + ", " + state.location.longitude,
                     gs: state.gs,
                     pest: state.pest,
                     notes: state.notes,
@@ -109,19 +89,10 @@ export default class Reports extends Component {
 
            });
         
+        window.location.hash = "/";
         
         
-        this.setState({
-            crop: '',
-            gs: '',
-            location: '',
-            images: [],
-            pest: '',
-            notes: '',
-            view: 'current',
-            list: []
-        })
-        
+    
         
     }
     
@@ -176,15 +147,14 @@ export default class Reports extends Component {
                     <SearchableList onChange={(term) => this.handleSelect('crop', term)} placeholder='Crop' listRef="crops/" value={this.state.crop}/>
                 </div>
 
-
-                <input placeholder="Growth Stage of Crop" name="gs" value={this.state.gs} onChange={this.handleChange} required />
+                <input placeholder="Growth Stage of Crop" name="gs" value={this.state.gs} onChange={this.handleChange} required/>
 
                 <br/>
 
                 <input placeholder="Pest" name="pest" value={this.state.pest} onChange={this.handleChange} required />
 
 
-                <GeoLocation location={this.state.location} onChange={this.handleLocation}></GeoLocation>
+                <GeoLocation location={this.state.location} onChange={this.handleLocation} required ></GeoLocation>
 
                 <input id="file" type="file" accept="image/*" onChange={this.readFile}></input>
                 <input id="file" type="file" accept="image/*" onChange={this.readFile}></input>
