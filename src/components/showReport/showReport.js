@@ -48,9 +48,7 @@ export default class showReport extends Component {
     }
     
     handleEdit(){
-        <Link path="/reports/:reportID" render={({match})=>(
-            <Reports reportID={this.props.reportID}/>
-        )}/>
+        window.location.hash = "/reports/" + this.props.reportID;
     }
  
     render(){

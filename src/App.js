@@ -42,7 +42,7 @@ class App extends Component {
                         <Reports/>
                     )}/>
                     <Route path="/" render={()=>(
-                        <Dashboard />
+                        <Dashboard/>
                     )}/>
                 </Switch>
                 
