@@ -27,11 +27,12 @@ export default class SearchableList extends Component {
         this.state = {
             rootList: [], //List to match from
             suggList: [], //List of suggestions. Duh
+            err: '',
         }
         this.update = this.update.bind(this);
         this.handleClick = this.handleClick.bind(this);
         this.handleKeyPress = this.handleKeyPress.bind(this);
-        this.handleBlur = this.handleBlur.bind(this);
+        this.checkValid = this.checkValid.bind(this);
     }
     
     componentWillMount(){   //Gets the rootlist
@@ -41,23 +42,29 @@ export default class SearchableList extends Component {
         })
     }
     
-    componentWillReceiveProps(props) { //I don't know why this is here
-        //this.setState({term: props.value});
-    }
-    
     handleClick(term){ //Handle click and clear suggestions (we found what we need)
         this.props.onChange(term);
         this.setState({suggList: []});
     }
     
-    handleBlur(){ //Clears list when user click outside the box/suggList
-        this.setState({suggList: []});
+    checkValid(event){
+        var searchFrom = this.state.rootList;
+        var value = event.target.value;
+        var l = searchFrom.length;
+        for (var i = 0; i < l ; i++){
+            if (searchFrom[i].toLowerCase() == value.toLowerCase()){ 
+                this.setState({err: ''});
+                return;
+            }
+        this.setState({err: "Invalid Option"});
+        }
     }
     
     handleKeyPress(target){ //Handle enter key. Autoselect top suggestion and clear list (we found what we need)
         if (target.charCode == 13){
             var value = this.state.suggList[0];
             this.props.onChange(value);
+            //this.checkValid();
             this.setState({suggList: []});
         }
     }
@@ -83,8 +90,9 @@ export default class SearchableList extends Component {
         })
         return ( //Render the sugglist
             <div>
-            <input placeholder={this.props.placeholder} name="term" value={this.props.value} onChange={this.update} onKeyPress={this.handleKeyPress} onClick={this.update} /*onBlur={this.handleBlur}*/ required/>
+            <input placeholder={this.props.placeholder} name="term" value={this.props.value} onChange={this.update} onKeyPress={this.handleKeyPress} onClick={this.update} required/>
                 <div className="search-list">{suggList}</div>
+                <div className="err">{this.state.err}</div>
             </div>
         );
     }

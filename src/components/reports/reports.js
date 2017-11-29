@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import './reports.css';
 import Dashboard from '../dashboard/dashboard';
-import SearchableList from '../searchableList/searchableList';
+import CropSelect from '../searchableList/cropSelect';
+import PestSelect from '../pestSelect/pestSelect';
 import * as firebase from 'firebase';
 import {HashRouter as Router, Route, Switch, Link} from 'react-router-dom';
 import GeoLocation from '../GeoLocation/GeoLocation';
@@ -44,10 +45,9 @@ export default class Reports extends Component {
         });
     }
     
-
-    //Change a specific state with a specific value. Used in searchableList
-    handleSelect(name, value){ 
-        this.setState({[name]: value})
+    handleSelect(name, value){ //Change a specific state with a specific value. Used in searchableList
+        this.setState({[name]: value});
+        console.log("handleSelect", name, value)
     }
     
     //Creates the entry for the database from the state objects when submit is clicked
@@ -119,6 +119,7 @@ export default class Reports extends Component {
         if (window.File && window.FileReader && window.FormData) {
             var $inputField = this.state.file;
 
+
         } else {
             alert("File upload is not supported!");
 
@@ -143,15 +144,13 @@ export default class Reports extends Component {
             <div className="reports-container">
                 <h1>New Report</h1>
 
-                <div className="list-container">
-                    <SearchableList onChange={(term) => this.handleSelect('crop', term)} placeholder='Crop' listRef="crops/" value={this.state.crop}/>
-                </div>
+                <CropSelect onChange={(term => this.handleSelect('crop', term))} placeholder='Crop' value={this.state.crop} listRef="crops/" />
 
                 <input placeholder="Growth Stage of Crop" name="gs" value={this.state.gs} onChange={this.handleChange} required/>
 
                 <br/>
 
-                <input placeholder="Pest" name="pest" value={this.state.pest} onChange={this.handleChange} required />
+                <PestSelect onChange={(term) => this.handleSelect('pest', term)} placeholder='Pest' value={this.state.pest} crop={this.state.crop}/>
 
 
                 <GeoLocation location={this.state.location} onChange={this.handleLocation} required ></GeoLocation>
@@ -169,6 +168,7 @@ export default class Reports extends Component {
             </div>
 
         )
+
     }
     
 }
