@@ -62,7 +62,7 @@ export default class Reports extends Component {
             var reportCount = 0;
             if(user.reports) reportCount = Object.keys(user.reports).length;
             
-             var rName= user.fName.concat(user.lName.concat(reportCount));
+             var rName= user.fName.concat(user.lName.concat(" " + (reportCount+1)));
               
               var updates = {}
               updates['reports/' + fid] = {

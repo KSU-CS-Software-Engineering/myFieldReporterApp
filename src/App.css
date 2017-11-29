@@ -68,6 +68,7 @@ h1{
 }
 
 #log-out{
+    width: 50%;
     float: right;
 }
 
@@ -75,6 +76,11 @@ h1{
     width: 300px;
     padding: 0 15px;
     margin-top: -15px;
+    height: 35px; 
+    position: fixed; 
+    bottom:0%;
+    background: white;
+    width: 100%
 }
 
 Router{
