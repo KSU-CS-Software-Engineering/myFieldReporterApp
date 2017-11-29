@@ -21,12 +21,17 @@ input, [class*="input"]{
     font-size: 16px;
     display: inline-block;
     text-align: left;
+    outline: none;
+}
+
+input:focus, [class*="input"]:focus{
+    border: 1px solid #4ca6de;
 }
 
 button, [class*="button"]{
     width: 100%;
     margin: 5px 0;
-    padding: 10px;
+    height: 45px;
     font-size: 18px;
     font-family: 'open_sansbold', sans-serif;
     color: #ffffff;
@@ -36,6 +41,12 @@ button, [class*="button"]{
     box-sizing: border-box;
     display: inline-block;
     cursor: pointer;
+    outline: none;
+    text-align: center;
+}
+
+button:focus, [class*="button"]:focus{
+    border: 1px solid #4ca6de;
 }
 
 select{
@@ -44,6 +55,11 @@ select{
     box-sizing: border-box;
     border: 1px solid #dddddd;
     font-size: 16px;
+    outline: none;
+}
+
+select:focus{
+    border: 1px solid #4ca6de;
 }
 
 h1{
@@ -61,8 +77,15 @@ h1{
     margin-top: -15px;
 }
 
+Router{
+    border: 1px solid blue;
+}
+
 .App {
     text-align: center;
+    position: relative;
+    min-height: 550px;
+    height: 100vh;
 }
 
 .App-logo {

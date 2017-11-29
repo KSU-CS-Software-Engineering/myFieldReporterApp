@@ -1,0 +1,43 @@
+.bold{
+    font-family: 'open-sansbold', sans-serif;
+    font-weight: 700;
+}
+
+.reports-container .report-info-wrap{
+    text-align: left;
+    float: left;
+    box-sizing: border-box;
+    width: 186px;
+    overflow: hidden;
+}
+
+.reports-container .report-header-wrap{
+    text-align: right;
+    float: left;
+    width: 114px;
+    box-sizing: border-box;
+}
+
+.reports-container label{
+    height: 50px;
+    overflow: hidden;
+    width: 186px;
+}
+
+.reports-container .hide-overflow{
+    width: 300px;
+    height: 0px;
+}
+
+.pictures{
+    width: 300px;
+}
+
+.edit-button{
+    padding-top: 10px;
+    margin-top: 10px;
+}
+
+.report-section-wrap{
+    clear: both;
+}

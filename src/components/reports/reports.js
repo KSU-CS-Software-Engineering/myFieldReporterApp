@@ -17,25 +17,29 @@ export default class Reports extends Component {
             images: [],
             pest: '',
             notes: '',
-            view: 'current',
             list: [],
             reports: [],
-            test: ''
+            test: '',
+            reportName: ''
         }
         this.handleCreate = this.handleCreate.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleSelect = this.handleSelect.bind(this);
         this.handleLocation = this.handleLocation.bind(this);
-        this.toggleView = this.toggleView.bind(this);
         this.readFile = this.readFile.bind(this);
         
     }
     
+    
+    
+    //Sets the coords state from what it got from the buttton click
     handleLocation(coords){
+        console.log(coords);
         this.setState({location: coords});
     }
-    
-    handleChange(event) { //Change state values with whatever was entered. if crop is the name, crop value will be changed.
+
+    //Change state values with whatever was entered. if crop is the name, crop value will be changed.
+    handleChange(event) { 
         this.setState({
             [event.target.name]: event.target.value
         });
@@ -46,6 +50,7 @@ export default class Reports extends Component {
         console.log("handleSelect", name, value)
     }
     
+    //Creates the entry for the database from the state objects when submit is clicked
     handleCreate(){
         var fid = firebase.database().ref('reports/').push().key;
         var photos = this.state.images;
@@ -62,7 +67,7 @@ export default class Reports extends Component {
               var updates = {}
               updates['reports/' + fid] = {
                     crop: state.crop,
-                    location: state.location.latitude + "," + state.location.longitude,
+                    location: state.location.latitude + ", " + state.location.longitude,
                     gs: state.gs,
                     pest: state.pest,
                     notes: state.notes,
@@ -84,30 +89,15 @@ export default class Reports extends Component {
 
            });
         
+        window.location.hash = "/";
         
         
-        this.toggleView();
-        
-        this.setState({
-            crop: '',
-            gs: '',
-            location: '',
-            images: [],
-            pest: '',
-            notes: '',
-            view: 'current',
-            list: []
-        })
-        
+    
         
     }
     
-        
-    toggleView(){
-        this.setState({view:(this.state.view== 'newReport')?'current':'newReport'})
-    }
     
-    
+    //Processes the image selected from user below
     readFile(event) {
         var file = event.target.files[0];
         var reader = new FileReader();
@@ -126,87 +116,59 @@ export default class Reports extends Component {
     
     
     render() {
-                    if (window.File && window.FileReader && window.FormData) {
-                    var $inputField = this.state.file;
+        if (window.File && window.FileReader && window.FormData) {
+            var $inputField = this.state.file;
 
-                } else {
-                    alert("File upload is not supported!");
-                    
-                }
-        
-            if(this.state.view == 'current'){
-                firebase.database().ref('/users/'+firebase.auth().currentUser.uid+'/reports/').on('value', snap =>  {
 
-                           var data = [];
-                           snap.forEach(ss => {
-                              data.push(ss.child('name').val());
-                           });
-                            this.state.reports = data;
-                        })
-                 
-                
-                return (
-                    <div className="container">
-            
-                        <button onClick={this.toggleView}>Create Report</button>
-                       
-                        <h1>Your Reports</h1>
-                        
-                        <Dashboard></Dashboard>
-                        
-                        
-                        <br/><br/>
-                    </div>
-                );
-            }
-            else
-                {
-                    
-                    var imageTags = this.state.images.map((imageURL, index) => {
-                        return <img key={index} src={imageURL}/>
-                    })
-                    firebase.database().ref('crops/').on('value', snap =>  {
-                           var data = [];
-                           snap.forEach(ss => {
-                              data.push(ss.child('name').val());
-                           });
-                            this.state.list = data;
-                           //console.log(this.state.list);
-                           //console.log(this.state.list.pop());
-                        })
-                    return(
-                         
-                        <div className="reports-container">
-                            <h1>New Report</h1>
-                        
-                            <input placeholder="Name of Field" name="field" value={this.state.field} onChange={this.handleChange} required />
-                            <br/>             
-                        
-                            <CropSelect onChange={(term => this.handleSelect('crop', term))} placeholder='Crop' value={this.state.crop} listRef="crops/" />
-                        
-                            <input placeholder="Growth Stage of Crop" name="gs" value={this.state.gs} onChange={this.handleChange} required />
-                            
-                            <br/>
-                                
-                            <PestSelect onChange={(term) => this.handleSelect('pest', term)} placeholder='Pest' value={this.state.pest} crop={this.state.crop}/>
-                            
-                            
-                            <GeoLocation location={this.state.location} onChange={this.handleLocation}></GeoLocation>
-                            
-                            <input id="file" type="file" accept="image/*" onChange={this.readFile}></input>
-                            <input id="file" type="file" accept="image/*" onChange={this.readFile}></input>
-                            
-                            <input placeholder="Notes" name="notes" value={this.state.notes} onChange={this.handleChange}/>
-                            
-                            <button onClick={this.handleCreate}>Submit</button>
-                            
-                            {this.state.message}
+        } else {
+            alert("File upload is not supported!");
 
-                            <a onClick={this.toggleView}>Go To Dashboard</a>
-                        </div>
+        }
 
-                    )
-         }
+
+
+
+        var imageTags = this.state.images.map((imageURL, index) => {
+            return <img key={index} src={imageURL}/>
+        })
+        firebase.database().ref('crops/').on('value', snap =>  {
+               var data = [];
+               snap.forEach(ss => {
+                  data.push(ss.child('name').val());
+               });
+                this.state.list = data;
+            })
+
+        return(
+
+            <div className="reports-container">
+                <h1>New Report</h1>
+
+                <CropSelect onChange={(term => this.handleSelect('crop', term))} placeholder='Crop' value={this.state.crop} listRef="crops/" />
+
+                <input placeholder="Growth Stage of Crop" name="gs" value={this.state.gs} onChange={this.handleChange} required/>
+
+                <br/>
+
+                <PestSelect onChange={(term) => this.handleSelect('pest', term)} placeholder='Pest' value={this.state.pest} crop={this.state.crop}/>
+
+
+                <GeoLocation location={this.state.location} onChange={this.handleLocation} required ></GeoLocation>
+
+                <input id="file" type="file" accept="image/*" onChange={this.readFile}></input>
+                <input id="file" type="file" accept="image/*" onChange={this.readFile}></input>
+
+                <input placeholder="Notes" name="notes" value={this.state.notes} onChange={this.handleChange}/>
+
+                <button onClick={this.handleCreate}>Submit</button>
+
+                {this.state.message}
+
+                <Link to="/">Go To Dashboard</Link>
+            </div>
+
+        )
+
     }
     
 }
