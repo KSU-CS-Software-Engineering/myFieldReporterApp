@@ -47,7 +47,6 @@ export default class Reports extends Component {
     
     handleSelect(name, value){ //Change a specific state with a specific value. Used in searchableList
         this.setState({[name]: value});
-        console.log("handleSelect", name, value)
     }
     
     //Creates the entry for the database from the state objects when submit is clicked
