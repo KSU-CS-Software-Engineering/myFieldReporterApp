@@ -9,6 +9,7 @@
     box-sizing: border-box;
     width: 186px;
     overflow: hidden;
+    word-wrap: break-word;
 }
 
 .reports-container .report-header-wrap{
@@ -40,4 +41,8 @@
 
 .report-section-wrap{
     clear: both;
+}
+
+.reports-container h1{
+    word-wrap: break-word;
 }
