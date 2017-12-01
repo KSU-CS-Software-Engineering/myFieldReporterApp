@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
 import './reports.css';
 import Dashboard from '../dashboard/dashboard';
-import CropSelect from '../searchableList/cropSelect';
-import PestSelect from '../pestSelect/pestSelect';
+import CropSelect from '../Select/cropSelect';
+import PestSelect from '../Select/pestSelect';
+import GrowthStageSelect from '../Select/growthstageSelect'
 import * as firebase from 'firebase';
 import {HashRouter as Router, Route, Switch, Link} from 'react-router-dom';
 import GeoLocation from '../GeoLocation/GeoLocation';
@@ -145,8 +146,8 @@ export default class Reports extends Component {
 
                 <CropSelect onChange={(term => this.handleSelect('crop', term))} placeholder='Crop' value={this.state.crop} listRef="crops/" />
 
-                <input placeholder="Growth Stage of Crop" name="gs" value={this.state.gs} onChange={this.handleChange} required/>
-
+                <GrowthStageSelect onChange={(term => this.handleSelect('gs', term))} placeholder='GrowthStage' value={this.state.gs} crop={this.state.crop} />
+                
                 <br/>
 
                 <PestSelect onChange={(term) => this.handleSelect('pest', term)} placeholder='Pest' value={this.state.pest} crop={this.state.crop}/>
