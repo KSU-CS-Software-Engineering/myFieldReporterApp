@@ -10,6 +10,7 @@ export default class GrowthStageSelect extends Component{
     constructor(props){
         super(props);
         this.state = {
+            value: props.value,
             cList: []
         }
     }
@@ -17,8 +18,9 @@ export default class GrowthStageSelect extends Component{
     componentWillReceiveProps(props){
         var refr = "crops/" + props.crop.toLowerCase() + "/growthStages"
         firebase.database().ref(refr).once('value', snapshot => {
+            if (!snapshot.exists()) return;
             var keys = Object.values(snapshot.val()).map(item => item.name)
-            this.setState({cList: keys});
+            this.setState({cList: keys, value: props.value});
         })
     }
     
@@ -27,7 +29,10 @@ export default class GrowthStageSelect extends Component{
             return <option key={item} value={item}>{item}</option>
         });
         return ( //Render the sugglist
-            <select value={this.state.value} onChange={(event)=>this.props.onChange(event.target.value)}>{options}</select>
+            <select value={this.state.value} onChange={(event)=>this.props.onChange(event.target.value)}>
+                <option disabled value=''>Select the Growth Stage</option>
+                {options}
+            </select>
         );
     }
 }

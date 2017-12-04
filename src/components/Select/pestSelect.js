@@ -13,6 +13,7 @@ export default class PestSelect extends Component{
             arthropodList: [], //List to match from
             diseaseList: [],
             weedList: [],
+            value: props.value
         }
     }
     
@@ -34,6 +35,7 @@ export default class PestSelect extends Component{
             var keys = Object.values(snapshot.val()).map(item => item.name)
             this.setState({weedList: keys})
         })
+        this.setState({value: props.value});
     }
     
     render() {
@@ -60,7 +62,8 @@ export default class PestSelect extends Component{
             );
         }
         return ( //Render the sugglist
-            <select value={this.state.value} onChange={this.update}>
+            <select value={this.state.value} onChange={(event)=>this.props.onChange(event.target.value)}>
+              <option disabled value=''>Select a Pest</option>
               {options}
             </select>
         );

@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
 import './editReport.css';
 import Dashboard from '../dashboard/dashboard';
-import SearchableList from '../searchableList/searchableList';
+import CropSelect from '../Select/cropSelect';
+import PestSelect from '../Select/pestSelect';
+import GrowthStageSelect from '../Select/growthstageSelect';
 import * as firebase from 'firebase';
 import {HashRouter as Router, Route, Switch, Link} from 'react-router-dom';
 
@@ -147,32 +149,12 @@ export default class editReports extends Component {
             <div className="reports-container">
                 <h1>{this.state.reportName}</h1>
                 
-                <div className="report-section-wrap">
-                    <div className="report-header-wrap">
-                        <label className="bold">Crop:&nbsp;</label>
-                    </div>
-                    <div className="report-info-wrap">
-                        <div className="list-container">
-                            <SearchableList onChange={(term) => this.handleSelect('crop', term)} placeholder='Crop' listRef="crops/" value={this.state.crop}/>
-                        </div>
-                    </div>
-                </div>
-                <div className="report-section-wrap">
-                    <div className="report-header-wrap">
-                        <label className="bold">Growth Stage:&nbsp;</label>
-                    </div>
-                    <div className="report-info-wrap">
-                        <input placeholder="Growth Stage of Crop" name="gs" value={this.state.gs} onChange={this.handleChange} required/>
-                    </div>
-                </div>
-                <div className="report-section-wrap">
-                    <div className="report-header-wrap">
-                        <label className="bold">Pests:&nbsp;</label>
-                    </div>
-                    <div className="report-info-wrap">
-                        <input placeholder="Pest" name="pest" value={this.state.pest} onChange={this.handleChange} required />
-                    </div>
-                </div>
+                <CropSelect onChange={(term => this.handleSelect('crop', term))} placeholder='Crop' value={this.state.crop} listRef="crops/" />
+
+                <GrowthStageSelect onChange={(term => this.handleSelect('gs', term))} placeholder='GrowthStage' value={this.state.gs} crop={this.state.crop} />
+
+                <PestSelect onChange={(term) => this.handleSelect('pest', term)} placeholder='Pest' value={this.state.pest} crop={this.state.crop}/>
+
                 <div className="report-section-wrap">
                     <div className="report-header-wrap">
                         <label className="bold">Notes:&nbsp;</label>

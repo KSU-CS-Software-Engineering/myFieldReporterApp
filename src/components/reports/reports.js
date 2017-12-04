@@ -3,7 +3,7 @@ import './reports.css';
 import Dashboard from '../dashboard/dashboard';
 import CropSelect from '../Select/cropSelect';
 import PestSelect from '../Select/pestSelect';
-import GrowthStageSelect from '../Select/growthstageSelect'
+import GrowthStageSelect from '../Select/growthstageSelect';
 import * as firebase from 'firebase';
 import {HashRouter as Router, Route, Switch, Link} from 'react-router-dom';
 import GeoLocation from '../GeoLocation/GeoLocation';
@@ -151,7 +151,6 @@ export default class Reports extends Component {
                 <br/>
 
                 <PestSelect onChange={(term) => this.handleSelect('pest', term)} placeholder='Pest' value={this.state.pest} crop={this.state.crop}/>
-
 
                 <GeoLocation location={this.state.location} onChange={this.handleLocation} required ></GeoLocation>
 
