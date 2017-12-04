@@ -10,6 +10,7 @@ export default class CropSelect extends Component{
     constructor(props){
         super(props);
         this.state = {
+            value: this.props.value,
             cList: []
         }
     }
@@ -17,7 +18,7 @@ export default class CropSelect extends Component{
     componentWillMount(){
         firebase.database().ref(this.props.listRef).once('value', snapshot => {
           var keys = Object.values(snapshot.val()).map(item => item.name)
-          this.setState({cList: keys})
+          this.setState({cList: keys, value: this.props.value});
         })
     }
     
@@ -26,7 +27,9 @@ export default class CropSelect extends Component{
             return <option key={item} value={item}>{item}</option>
         });
         return ( //Render the sugglist
-            <select value={this.state.value} onChange={(event)=>this.props.onChange(event.target.value)}><option disabled selected value>Select a Crop</option> {options}</select>
+            <select value={this.state.value} onChange={(event)=>this.props.onChange(event.target.value)}>
+                <option disabled value=''>Select a Crop</option>{options}
+            </select>
         );
     }
 }
