@@ -69,9 +69,13 @@ export default class LoginForm extends Component {
         var emailAddress = this.state.email;
         
         auth.sendPasswordResetEmail(emailAddress).then(function() {
+           
           alert("Email has been sent");
         }).catch(function(error) {
-            
+             console.log(emailAddress);
+            if(emailAddress == ""){
+                alert("Please enter Email adress");
+            }
           switch(error.code){
               case "auth/user-not-found":
                   alert("Email account was not found");
