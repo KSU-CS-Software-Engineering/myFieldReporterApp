@@ -98,12 +98,12 @@ export default class Reports extends Component {
     
     
     //Processes the image selected from user below
-    readFile(event) {
+    readFile(event, num) {
         var file = event.target.files[0];
         var reader = new FileReader();
 
         reader.onloadend = () => {
-            this.state.images[this.state.images.length] = file;
+            this.state.images[num] = file;
             
         }
 
@@ -144,7 +144,6 @@ export default class Reports extends Component {
             <div className="reports-container">
                 
                 <h1>New Report</h1>
-                <form>
                 <CropSelect onChange={(term => this.handleSelect('crop', term))} placeholder='Crop' value={this.state.crop} listRef="crops/" required/>
 
                 <GrowthStageSelect onChange={(term => this.handleSelect('gs', term))} placeholder='GrowthStage' value={this.state.gs} crop={this.state.crop}/>
@@ -155,8 +154,8 @@ export default class Reports extends Component {
 
                 <GeoLocation location={this.state.location} onChange={this.handleLocation} required ></GeoLocation>
 
-                <input id="file" type="file" accept="image/*" onChange={this.readFile}></input>
-                <input id="file" type="file" accept="image/*" onChange={this.readFile}></input>
+                <input id="file" type="file" accept="image/*" onChange={(e) =>this.readFile(e,0)}></input>
+                <input id="file" type="file" accept="image/*" onChange={(e) =>this.readFile(e,1)}></input>
                 
                     <label>Distribution:</label> 
                     <input type="radio" name="distribution" value="Uniform" className="dist"></input>Uniform
@@ -170,7 +169,7 @@ export default class Reports extends Component {
                 <input placeholder="Notes" name="notes" value={this.state.notes} onChange={this.handleChange}/>
 
                 <button type="submit" onClick={this.handleCreate}>Submit</button>
-                </form>
+             
 
                 {this.state.message}
 
