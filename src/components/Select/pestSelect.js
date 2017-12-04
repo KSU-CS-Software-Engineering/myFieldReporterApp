@@ -18,7 +18,6 @@ export default class PestSelect extends Component{
     
     componentWillReceiveProps(props) { //Get's the rootlists
         var refr;
-        console.log(props.crop);
         refr = "crops/" + props.crop.toLowerCase() + "/"
         firebase.database().ref(refr + "arthropod").once('value', snapshot => {
             if (!snapshot.exists()) return;

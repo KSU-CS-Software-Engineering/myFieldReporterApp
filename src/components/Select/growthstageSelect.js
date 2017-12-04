@@ -2,11 +2,11 @@ import React, {Component} from 'react';
 import * as firebase from 'firebase';
 
 /**********************************
-* CropSelect
+* GrowthStageSelect
 * Creates a dropdown which displays multiple lists from which can be selected from
 ***********************************/
 
-export default class CropSelect extends Component{
+export default class GrowthStageSelect extends Component{
     constructor(props){
         super(props);
         this.state = {
@@ -14,10 +14,11 @@ export default class CropSelect extends Component{
         }
     }
     
-    componentWillMount(){
-        firebase.database().ref(this.props.listRef).once('value', snapshot => {
-          var keys = Object.values(snapshot.val()).map(item => item.name)
-          this.setState({cList: keys})
+    componentWillReceiveProps(props){
+        var refr = "crops/" + props.crop.toLowerCase() + "/growthStages"
+        firebase.database().ref(refr).once('value', snapshot => {
+            var keys = Object.values(snapshot.val()).map(item => item.name)
+            this.setState({cList: keys});
         })
     }
     
