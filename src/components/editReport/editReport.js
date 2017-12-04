@@ -83,7 +83,7 @@ export default class editReports extends Component {
                     owner: uid,
                     name: this.state.reportName,
                     location: state.location,
-                    images: state.images
+                     //images: state.images //Keep edited out until implement ability to change images
                   }
                 updates['users/' + uid + '/reports/' + this.props.reportID] = true;
             console.log('updates', updates)

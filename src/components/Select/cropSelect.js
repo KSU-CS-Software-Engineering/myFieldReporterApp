@@ -18,8 +18,12 @@ export default class CropSelect extends Component{
     componentWillMount(){
         firebase.database().ref(this.props.listRef).once('value', snapshot => {
           var keys = Object.values(snapshot.val()).map(item => item.name)
-          this.setState({cList: keys, value: this.props.value});
+          this.setState({cList: keys});
         })
+    }
+    
+    componentWillReceiveProps(props){
+        this.setState({value: props.value});
     }
     
     render() {
