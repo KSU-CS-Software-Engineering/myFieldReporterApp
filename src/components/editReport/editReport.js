@@ -86,7 +86,7 @@ export default class editReports extends Component {
                     images: state.images
                   }
                 updates['users/' + uid + '/reports/' + this.props.reportID] = true;
-            console.log('updates', updates)
+                console.log('updates', updates);
                 firebase.database().ref().update(updates);
         
         

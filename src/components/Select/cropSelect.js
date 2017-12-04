@@ -27,7 +27,7 @@ export default class CropSelect extends Component{
             return <option key={item} value={item}>{item}</option>
         });
         return ( //Render the sugglist
-            <select value={this.state.value} onChange={(event)=>this.props.onChange(event.target.value)}>
+            <select value={this.state.value} onChange={(event)=>this.props.onChange(event.target.value)} required>
                 <option disabled value=''>Select a Crop</option>{options}
             </select>
         );

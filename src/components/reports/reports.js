@@ -142,24 +142,35 @@ export default class Reports extends Component {
         return(
 
             <div className="reports-container">
+                
                 <h1>New Report</h1>
+                <form>
+                <CropSelect onChange={(term => this.handleSelect('crop', term))} placeholder='Crop' value={this.state.crop} listRef="crops/" required/>
 
-                <CropSelect onChange={(term => this.handleSelect('crop', term))} placeholder='Crop' value={this.state.crop} listRef="crops/" />
-
-                <GrowthStageSelect onChange={(term => this.handleSelect('gs', term))} placeholder='GrowthStage' value={this.state.gs} crop={this.state.crop} />
+                <GrowthStageSelect onChange={(term => this.handleSelect('gs', term))} placeholder='GrowthStage' value={this.state.gs} crop={this.state.crop}/>
                 
                 <br/>
 
-                <PestSelect onChange={(term) => this.handleSelect('pest', term)} placeholder='Pest' value={this.state.pest} crop={this.state.crop}/>
+                <PestSelect onChange={(term) => this.handleSelect('pest', term)} placeholder='Pest' value={this.state.pest} crop={this.state.crop} />
 
                 <GeoLocation location={this.state.location} onChange={this.handleLocation} required ></GeoLocation>
 
                 <input id="file" type="file" accept="image/*" onChange={this.readFile}></input>
                 <input id="file" type="file" accept="image/*" onChange={this.readFile}></input>
-
+                
+                    <label>Distribution:</label> 
+                    <input type="radio" name="distribution" value="Uniform" className="dist"></input>Uniform
+                    <input type="radio" name="distribution" value="Patchy" className="dist"></input>Patchy
+                    <br/>
+                    <label>Severity:</label> 
+                    <input type="radio" name="severity" value="Low" className="dist"></input>Low
+                    <input type="radio" name="severity" value="Medium" className="dist"></input>Medium
+                    <input type="radio" name="severity" value="High" className="dist"></input>High
+                    
                 <input placeholder="Notes" name="notes" value={this.state.notes} onChange={this.handleChange}/>
 
-                <button onClick={this.handleCreate}>Submit</button>
+                <button type="submit" onClick={this.handleCreate}>Submit</button>
+                </form>
 
                 {this.state.message}
 
