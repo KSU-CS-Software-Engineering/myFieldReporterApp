@@ -148,18 +148,18 @@ export default class editReports extends Component {
 
             <div className="reports-container">
                 <h1>{this.state.reportName}</h1>
-                
-                <CropSelect onChange={(term => this.handleSelect('crop', term))} placeholder='Crop' value={this.state.crop} listRef="crops/" />
-
-                <GrowthStageSelect onChange={(term => this.handleSelect('gs', term))} placeholder='GrowthStage' value={this.state.gs} crop={this.state.crop} />
-
-                <PestSelect onChange={(term) => this.handleSelect('pest', term)} placeholder='Pest' value={this.state.pest} crop={this.state.crop}/>
 
                 <div className="report-section-wrap">
                     <div className="report-header-wrap">
+                        <label className="bold">Crop:&nbsp;</label>
+                        <label className="bold">Growth Stage:&nbsp;</label>
+                        <label className="bold">Pest:&nbsp;</label>
                         <label className="bold">Notes:&nbsp;</label>
                     </div>
                     <div className="report-info-wrap">
+                        <CropSelect onChange={(term => this.handleSelect('crop', term))} placeholder='Crop' value={this.state.crop} listRef="crops/" />
+                        <GrowthStageSelect onChange={(term => this.handleSelect('gs', term))} placeholder='GrowthStage' value={this.state.gs} crop={this.state.crop} />
+                        <PestSelect onChange={(term) => this.handleSelect('pest', term)} placeholder='Pest' value={this.state.pest} crop={this.state.crop}/>
                         <input placeholder="Notes" name="notes" value={this.state.notes} onChange={this.handleChange}/>
                     </div>
                 </div>
