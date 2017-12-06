@@ -6,3 +6,11 @@
 .location-wrap .float-right{
     float: right;
 }
+.county{
+    width:48%;
+    float: left;
+}
+.state{
+    width:48%;
+    float: right;
+}

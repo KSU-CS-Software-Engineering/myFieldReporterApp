@@ -50,7 +50,10 @@ export default class LocationInput extends Component {
                     <GeoLocation location={this.state.location} onChange={this.handleLocation} required ></GeoLocation>
                 </div>
                 <div className="give-location" style={{display: this.state.type}}>
-                    <p> this is a test</p>
+                    <p> 
+                        <input className="county" placeholder="County"></input>
+                        <input className="state" placeholder="State"></input>
+                    </p>
                 </div>
             </div>
               );
