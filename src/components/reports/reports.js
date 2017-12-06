@@ -21,7 +21,9 @@ export default class Reports extends Component {
             list: [],
             reports: [],
             test: '',
-            reportName: ''
+            reportName: '',
+            dist: '',
+            sevr: ''
         }
         this.handleCreate = this.handleCreate.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -73,7 +75,9 @@ export default class Reports extends Component {
                     notes: state.notes,
                     time: new Date().toJSON(),
                     owner: uid,
-                    name: rName
+                    name: rName,
+                    dist: state.dist,
+                    sevr: state.sevr
                   }
                 updates['users/' + uid + '/reports/' + fid] = true;
             console.log('updates', updates)
@@ -158,13 +162,13 @@ export default class Reports extends Component {
                 <input id="file" type="file" accept="image/*" onChange={(e) =>this.readFile(e,1)}></input>
                 
                     <label>Distribution:</label> 
-                    <input type="radio" name="distribution" value="Uniform" className="dist"></input>Uniform
-                    <input type="radio" name="distribution" value="Patchy" className="dist"></input>Patchy
+                    <input type="radio" name="dist" value="Uniform" onChange={this.handleChange} className="dist"></input>Uniform
+                    <input type="radio" name="dist" value="Patchy" onChange={this.handleChange} className="dist"></input>Patchy
                     <br/>
                     <label>Severity:</label> 
-                    <input type="radio" name="severity" value="Low" className="dist"></input>Low
-                    <input type="radio" name="severity" value="Medium" className="dist"></input>Medium
-                    <input type="radio" name="severity" value="High" className="dist"></input>High
+                    <input type="radio" name="sevr" value="Low" onChange={this.handleChange} className="dist"/>Low
+                    <input type="radio" name="sevr" value="Medium" onChange={this.handleChange} className="dist"/>Medium
+                    <input type="radio" name="sevr" value="High" onChange={this.handleChange} className="dist"/>High
                     
                 <input placeholder="Notes" name="notes" value={this.state.notes} onChange={this.handleChange}/>
 
