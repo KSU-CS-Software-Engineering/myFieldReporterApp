@@ -21,7 +21,9 @@ export default class Reports extends Component {
             list: [],
             reports: [],
             test: '',
-            reportName: ''
+            reportName: '',
+            dist: '',
+            sevr: ''
         }
         this.handleCreate = this.handleCreate.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -64,7 +66,9 @@ export default class Reports extends Component {
                     notes: state.notes,
                     time: new Date().toJSON(),
                     owner: uid,
-                    name: rName
+                    name: rName,
+                    dist: state.dist,
+                    sevr: state.sevr
                   }
                 updates['users/' + uid + '/reports/' + fid] = true;
             console.log('updates', updates)
@@ -89,12 +93,12 @@ export default class Reports extends Component {
     
     
     //Processes the image selected from user below
-    readFile(event) {
+    readFile(event, num) {
         var file = event.target.files[0];
         var reader = new FileReader();
 
         reader.onloadend = () => {
-            this.state.images[this.state.images.length] = file;
+            this.state.images[num] = file;
             
         }
 
@@ -133,24 +137,34 @@ export default class Reports extends Component {
         return(
 
             <div className="reports-container">
+                
                 <h1>New Report</h1>
+                <CropSelect onChange={(term => this.handleSelect('crop', term))} placeholder='Crop' value={this.state.crop} listRef="crops/" required/>
 
-                <CropSelect onChange={(term => this.handleSelect('crop', term))} placeholder='Crop' value={this.state.crop} listRef="crops/" />
-
-                <GrowthStageSelect onChange={(term => this.handleSelect('gs', term))} placeholder='GrowthStage' value={this.state.gs} crop={this.state.crop} />
+                <GrowthStageSelect onChange={(term => this.handleSelect('gs', term))} placeholder='GrowthStage' value={this.state.gs} crop={this.state.crop}/>
                 
                 <br/>
 
-                <PestSelect onChange={(term) => this.handleSelect('pest', term)} placeholder='Pest' value={this.state.pest} crop={this.state.crop}/>
+                <PestSelect onChange={(term) => this.handleSelect('pest', term)} placeholder='Pest' value={this.state.pest} crop={this.state.crop} />
 
                 <LocationInput></LocationInput>
 
-                <input id="file" type="file" accept="image/*" onChange={this.readFile}></input>
-                <input id="file" type="file" accept="image/*" onChange={this.readFile}></input>
-
+                <input id="file" type="file" accept="image/*" onChange={(e) =>this.readFile(e,0)}></input>
+                <input id="file" type="file" accept="image/*" onChange={(e) =>this.readFile(e,1)}></input>
+                
+                    <label>Distribution:</label> 
+                    <input type="radio" name="dist" value="Uniform" onChange={this.handleChange} className="dist"></input>Uniform
+                    <input type="radio" name="dist" value="Patchy" onChange={this.handleChange} className="dist"></input>Patchy
+                    <br/>
+                    <label>Severity:</label> 
+                    <input type="radio" name="sevr" value="Low" onChange={this.handleChange} className="dist"/>Low
+                    <input type="radio" name="sevr" value="Medium" onChange={this.handleChange} className="dist"/>Medium
+                    <input type="radio" name="sevr" value="High" onChange={this.handleChange} className="dist"/>High
+                    
                 <input placeholder="Notes" name="notes" value={this.state.notes} onChange={this.handleChange}/>
 
-                <button onClick={this.handleCreate}>Submit</button>
+                <button type="submit" onClick={this.handleCreate}>Submit</button>
+             
 
                 {this.state.message}
 

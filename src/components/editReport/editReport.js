@@ -22,7 +22,9 @@ export default class editReports extends Component {
             reports: [],
             test: '',
             reportName: '',
-            reportID: ''
+            reportID: '',
+            dist: '',
+            sevr: ''
         }
         this.handleCreate = this.handleCreate.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -46,7 +48,9 @@ export default class editReports extends Component {
                     notes: report.notes,
                     time: report.time,
                     images: report.images,
-                    location: report.location
+                    location: report.location,
+                    dist: report.dist,
+                    sevr: report.sevr
                               
                 });
                 
@@ -83,10 +87,12 @@ export default class editReports extends Component {
                     owner: uid,
                     name: this.state.reportName,
                     location: state.location,
-                    images: state.images
+                    dist: state.dist,
+                    sevr: state.sevr,
+                     //images: state.images //Keep edited out until implement ability to change images
                   }
                 updates['users/' + uid + '/reports/' + this.props.reportID] = true;
-            console.log('updates', updates)
+                console.log('updates', updates);
                 firebase.database().ref().update(updates);
         
         
@@ -160,6 +166,15 @@ export default class editReports extends Component {
                         <CropSelect onChange={(term => this.handleSelect('crop', term))} placeholder='Crop' value={this.state.crop} listRef="crops/" />
                         <GrowthStageSelect onChange={(term => this.handleSelect('gs', term))} placeholder='GrowthStage' value={this.state.gs} crop={this.state.crop} />
                         <PestSelect onChange={(term) => this.handleSelect('pest', term)} placeholder='Pest' value={this.state.pest} crop={this.state.crop}/>
+                        
+                    <label>Distribution:</label> 
+                    <input type="radio" name="dist" value="Uniform" onChange={this.handleChange} className="dist"></input>Uniform
+                    <input type="radio" name="dist" value="Patchy" onChange={this.handleChange} className="dist"></input>Patchy
+                    <br/>
+                    <label>Severity:</label> 
+                    <input type="radio" name="sevr" value="Low" onChange={this.handleChange} className="dist"/>Low
+                    <input type="radio" name="sevr" value="Medium" onChange={this.handleChange} className="dist"/>Medium
+                    <input type="radio" name="sevr" value="High" onChange={this.handleChange} className="dist"/>High
                         <input placeholder="Notes" name="notes" value={this.state.notes} onChange={this.handleChange}/>
                     </div>
                 </div>

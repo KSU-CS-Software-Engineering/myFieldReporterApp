@@ -32,6 +32,12 @@
     text-transform: capitalize;
 }
 
+.dist{
+    display: inline;
+    width: 10%;
+    
+}
+
 .reports-container .search-item:hover{
     background-color: #719ECE;
     color: #FFFFFF;
