@@ -168,7 +168,7 @@ export default class Reports extends Component {
 
                 {this.state.message}
 
-                <Link to="/">Go To Dashboard</Link>
+                <Link className="dashboard-fix" to="/">Go To Dashboard</Link>
             </div>
 
         )

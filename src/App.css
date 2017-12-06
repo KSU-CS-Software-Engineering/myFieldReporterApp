@@ -70,6 +70,7 @@ h1{
 #log-out{
     width: 50%;
     float: right;
+    margin-top: 3px;
 }
 
 .log-container{

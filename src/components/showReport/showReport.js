@@ -139,7 +139,7 @@ export default class showReport extends Component {
         
                 <Link className="edit-button" to={"/reports/"+this.props.reportID + "/edit"}>Edit Report</Link> 
 
-                <Link to="/">Go To Dashboard</Link>
+                <Link className="dashboard-fix" to="/">Go To Dashboard</Link>
             </div>
               );
     }
