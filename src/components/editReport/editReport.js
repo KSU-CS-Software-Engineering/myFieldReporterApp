@@ -160,21 +160,20 @@ export default class editReports extends Component {
                         <label className="bold">Crop:&nbsp;</label>
                         <label className="bold">Growth Stage:&nbsp;</label>
                         <label className="bold">Pest:&nbsp;</label>
+                        <label className="bold">Distribution:&nbsp;</label>
+                        <label className="bold">Severity:&nbsp;</label> 
                         <label className="bold">Notes:&nbsp;</label>
                     </div>
                     <div className="report-info-wrap">
                         <CropSelect onChange={(term => this.handleSelect('crop', term))} placeholder='Crop' value={this.state.crop} listRef="crops/" />
                         <GrowthStageSelect onChange={(term => this.handleSelect('gs', term))} placeholder='GrowthStage' value={this.state.gs} crop={this.state.crop} />
                         <PestSelect onChange={(term) => this.handleSelect('pest', term)} placeholder='Pest' value={this.state.pest} crop={this.state.crop}/>
-                        
-                    <label>Distribution:</label> 
-                    <input type="radio" name="dist" value="Uniform" onChange={this.handleChange} className="dist"></input>Uniform
-                    <input type="radio" name="dist" value="Patchy" onChange={this.handleChange} className="dist"></input>Patchy
-                    <br/>
-                    <label>Severity:</label> 
-                    <input type="radio" name="sevr" value="Low" onChange={this.handleChange} className="dist"/>Low
-                    <input type="radio" name="sevr" value="Medium" onChange={this.handleChange} className="dist"/>Medium
-                    <input type="radio" name="sevr" value="High" onChange={this.handleChange} className="dist"/>High
+                        <input type="radio" name="dist" value="Uniform" onChange={this.handleChange} className="dist"></input>Uniform
+                        <input type="radio" name="dist" value="Patchy" onChange={this.handleChange} className="dist"></input>Patchy
+                        <br/>
+                        <input type="radio" name="sevr" value="Low" onChange={this.handleChange} className="dist"/>Low
+                        <input type="radio" name="sevr" value="Medium" onChange={this.handleChange} className="dist"/>Medium
+                        <input type="radio" name="sevr" value="High" onChange={this.handleChange} className="dist"/>High
                         <input placeholder="Notes" name="notes" value={this.state.notes} onChange={this.handleChange}/>
                     </div>
                 </div>
