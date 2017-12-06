@@ -45,6 +45,7 @@ export default class Reports extends Component {
     
     //Creates the entry for the database from the state objects when submit is clicked
     handleCreate(){
+        if(this.state.crop != ''){
         var fid = firebase.database().ref('reports/').push().key;
         var photos = this.state.images;
         var uid = firebase.auth().currentUser.uid;
@@ -83,7 +84,7 @@ export default class Reports extends Component {
                 }).catch(err => console.error(err));
 
            });
-        
+        }
         window.location.hash = "/";
         
         
