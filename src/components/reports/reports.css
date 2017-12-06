@@ -42,14 +42,6 @@
     width: 100%;
 }
 
-.reports-container .left-direction{
-    float: left;
-}
-
-.reports-container .right-direction{
-    float: right;
-}
-
 .reports-container [class*="direction"]{
     width: 48%;
     overflow: hidden;

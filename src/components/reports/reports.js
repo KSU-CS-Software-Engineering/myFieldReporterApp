@@ -6,7 +6,7 @@ import PestSelect from '../Select/pestSelect';
 import GrowthStageSelect from '../Select/growthstageSelect';
 import * as firebase from 'firebase';
 import {HashRouter as Router, Route, Switch, Link} from 'react-router-dom';
-import GeoLocation from '../GeoLocation/GeoLocation';
+import LocationInput from '../location-input/location-input';
 
 export default class Reports extends Component {
     constructor(props) {
@@ -26,17 +26,8 @@ export default class Reports extends Component {
         this.handleCreate = this.handleCreate.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleSelect = this.handleSelect.bind(this);
-        this.handleLocation = this.handleLocation.bind(this);
         this.readFile = this.readFile.bind(this);
         
-    }
-    
-    
-    
-    //Sets the coords state from what it got from the buttton click
-    handleLocation(coords){
-        console.log(coords);
-        this.setState({location: coords});
     }
 
     //Change state values with whatever was entered. if crop is the name, crop value will be changed.
@@ -152,7 +143,7 @@ export default class Reports extends Component {
 
                 <PestSelect onChange={(term) => this.handleSelect('pest', term)} placeholder='Pest' value={this.state.pest} crop={this.state.crop}/>
 
-                <GeoLocation location={this.state.location} onChange={this.handleLocation} required ></GeoLocation>
+                <LocationInput></LocationInput>
 
                 <input id="file" type="file" accept="image/*" onChange={this.readFile}></input>
                 <input id="file" type="file" accept="image/*" onChange={this.readFile}></input>

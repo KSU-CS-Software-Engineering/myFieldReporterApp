@@ -83,6 +83,10 @@ h1{
     width: 100%
 }
 
+.float-right{
+    float: right;
+}
+
 Router{
     border: 1px solid blue;
 }
