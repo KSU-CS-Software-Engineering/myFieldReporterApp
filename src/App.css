@@ -70,6 +70,7 @@ h1{
 #log-out{
     width: 50%;
     float: right;
+    margin-top: 3px;
 }
 
 .log-container{
@@ -81,6 +82,10 @@ h1{
     bottom:0%;
     background: white;
     width: 100%
+}
+
+.float-right{
+    float: right;
 }
 
 Router{

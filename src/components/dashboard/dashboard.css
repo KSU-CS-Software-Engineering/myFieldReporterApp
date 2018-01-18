@@ -29,3 +29,8 @@
     margin-top: 0;
     display: hidden;
 }
+
+.dashboard-fix{
+    position: relative;
+    z-index: 1000;
+}

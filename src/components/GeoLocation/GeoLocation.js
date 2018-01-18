@@ -1,4 +1,5 @@
 import React,{Component} from "react";
+import './GeoLocation.css';
 
 export default class GeoLocation extends Component{
     constructor(props) {
@@ -20,8 +21,7 @@ export default class GeoLocation extends Component{
     render(){
         if(!this.state.navAvailable) return (<pre>GPS not available on this device</pre>)
         return (
-        <div>
-          <button onClick={this.getCurrentLocation}>Get Position</button>
+        <div className="geolocation-wrap">
           {this.state.errorMessage}
           <pre>
             <div className="left-direction">
@@ -31,6 +31,7 @@ export default class GeoLocation extends Component{
             longitude: {this.props.location.longitude}
             </div>
           </pre>
+          <button onClick={this.getCurrentLocation}>Calculate Position</button>
         </div>
       )
     }

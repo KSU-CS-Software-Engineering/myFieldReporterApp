@@ -4,3 +4,7 @@
     height: 36px;
     padding-top: 5px;
 }
+
+.report-info-wrap input{
+    margin: 10px 0 15px 0;
+}

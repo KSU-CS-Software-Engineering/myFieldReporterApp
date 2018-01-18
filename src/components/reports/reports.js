@@ -6,7 +6,7 @@ import PestSelect from '../Select/pestSelect';
 import GrowthStageSelect from '../Select/growthstageSelect';
 import * as firebase from 'firebase';
 import {HashRouter as Router, Route, Switch, Link} from 'react-router-dom';
-import GeoLocation from '../GeoLocation/GeoLocation';
+import LocationInput from '../location-input/location-input';
 
 export default class Reports extends Component {
     constructor(props) {
@@ -21,22 +21,15 @@ export default class Reports extends Component {
             list: [],
             reports: [],
             test: '',
-            reportName: ''
+            reportName: '',
+            dist: '',
+            sevr: ''
         }
         this.handleCreate = this.handleCreate.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleSelect = this.handleSelect.bind(this);
-        this.handleLocation = this.handleLocation.bind(this);
         this.readFile = this.readFile.bind(this);
         
-    }
-    
-    
-    
-    //Sets the coords state from what it got from the buttton click
-    handleLocation(coords){
-        console.log(coords);
-        this.setState({location: coords});
     }
 
     //Change state values with whatever was entered. if crop is the name, crop value will be changed.
@@ -52,6 +45,7 @@ export default class Reports extends Component {
     
     //Creates the entry for the database from the state objects when submit is clicked
     handleCreate(){
+        if(this.state.crop != ''){
         var fid = firebase.database().ref('reports/').push().key;
         var photos = this.state.images;
         var uid = firebase.auth().currentUser.uid;
@@ -73,7 +67,9 @@ export default class Reports extends Component {
                     notes: state.notes,
                     time: new Date().toJSON(),
                     owner: uid,
-                    name: rName
+                    name: rName,
+                    dist: state.dist,
+                    sevr: state.sevr
                   }
                 updates['users/' + uid + '/reports/' + fid] = true;
             console.log('updates', updates)
@@ -88,7 +84,7 @@ export default class Reports extends Component {
                 }).catch(err => console.error(err));
 
            });
-        
+        }
         window.location.hash = "/";
         
         
@@ -98,12 +94,12 @@ export default class Reports extends Component {
     
     
     //Processes the image selected from user below
-    readFile(event) {
+    readFile(event, num) {
         var file = event.target.files[0];
         var reader = new FileReader();
 
         reader.onloadend = () => {
-            this.state.images[this.state.images.length] = file;
+            this.state.images[num] = file;
             
         }
 
@@ -142,28 +138,38 @@ export default class Reports extends Component {
         return(
 
             <div className="reports-container">
+                
                 <h1>New Report</h1>
+                <CropSelect onChange={(term => this.handleSelect('crop', term))} placeholder='Crop' value={this.state.crop} listRef="crops/" required/>
 
-                <CropSelect onChange={(term => this.handleSelect('crop', term))} placeholder='Crop' value={this.state.crop} listRef="crops/" />
-
-                <GrowthStageSelect onChange={(term => this.handleSelect('gs', term))} placeholder='GrowthStage' value={this.state.gs} crop={this.state.crop} />
+                <GrowthStageSelect onChange={(term => this.handleSelect('gs', term))} placeholder='GrowthStage' value={this.state.gs} crop={this.state.crop}/>
                 
                 <br/>
 
-                <PestSelect onChange={(term) => this.handleSelect('pest', term)} placeholder='Pest' value={this.state.pest} crop={this.state.crop}/>
+                <PestSelect onChange={(term) => this.handleSelect('pest', term)} placeholder='Pest' value={this.state.pest} crop={this.state.crop} />
 
-                <GeoLocation location={this.state.location} onChange={this.handleLocation} required ></GeoLocation>
+                <LocationInput></LocationInput>
 
-                <input id="file" type="file" accept="image/*" onChange={this.readFile}></input>
-                <input id="file" type="file" accept="image/*" onChange={this.readFile}></input>
-
+                <input id="file" type="file" accept="image/*" onChange={(e) =>this.readFile(e,0)}></input>
+                <input id="file" type="file" accept="image/*" onChange={(e) =>this.readFile(e,1)}></input>
+                
+                    <label>Distribution:</label> 
+                    <input type="radio" name="dist" value="Uniform" onChange={this.handleChange} className="dist"></input>Uniform
+                    <input type="radio" name="dist" value="Patchy" onChange={this.handleChange} className="dist"></input>Patchy
+                    <br/>
+                    <label>Severity:</label> 
+                    <input type="radio" name="sevr" value="Low" onChange={this.handleChange} className="dist"/>Low
+                    <input type="radio" name="sevr" value="Medium" onChange={this.handleChange} className="dist"/>Medium
+                    <input type="radio" name="sevr" value="High" onChange={this.handleChange} className="dist"/>High
+                    
                 <input placeholder="Notes" name="notes" value={this.state.notes} onChange={this.handleChange}/>
 
-                <button onClick={this.handleCreate}>Submit</button>
+                <button type="submit" onClick={this.handleCreate}>Submit</button>
+             
 
                 {this.state.message}
 
-                <Link to="/">Go To Dashboard</Link>
+                <Link className="dashboard-fix" to="/">Go To Dashboard</Link>
             </div>
 
         )

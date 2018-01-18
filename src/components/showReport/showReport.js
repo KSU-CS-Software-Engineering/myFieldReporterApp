@@ -20,7 +20,8 @@ export default class showReport extends Component {
             list: [],
             reports: [],
             time: '',
-            reportName: ''
+            reportName: '',
+            dist: ''
         }
         
         this.handleEdit = this.handleEdit.bind(this);
@@ -40,7 +41,9 @@ export default class showReport extends Component {
                     pest: report.pest,
                     notes: report.notes,
                     time: report.time,
-                    images: report.images
+                    images: report.images,
+                    dist: report.dist,
+                    sevr: report.sevr
                               
                 });
             });
@@ -98,6 +101,22 @@ export default class showReport extends Component {
                 </div>
                 <div className="report-section-wrap">
                     <div className="report-header-wrap">
+                        <label className="bold">Distribution:&nbsp;</label>
+                    </div>
+                    <div className="report-info-wrap">
+                        <label>{this.state.dist}</label>
+                    </div>
+                </div>
+                <div className="report-section-wrap">
+                    <div className="report-header-wrap">
+                        <label className="bold">Severity:&nbsp;</label>
+                    </div>
+                    <div className="report-info-wrap">
+                        <label>{this.state.sevr}</label>
+                    </div>
+                </div>
+                <div className="report-section-wrap">
+                    <div className="report-header-wrap">
                         <label className="bold">Notes:&nbsp;</label>
                     </div>
                     <div className="report-info-wrap">
@@ -120,7 +139,7 @@ export default class showReport extends Component {
         
                 <Link className="edit-button" to={"/reports/"+this.props.reportID + "/edit"}>Edit Report</Link> 
 
-                <Link to="/">Go To Dashboard</Link>
+                <Link className="dashboard-fix" to="/">Go To Dashboard</Link>
             </div>
               );
     }

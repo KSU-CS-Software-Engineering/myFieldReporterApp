@@ -1,0 +1,13 @@
+.left-direction{
+    float: left;
+    padding: 10px 0 0 0;
+}
+
+.right-direction{
+    float: right;
+    padding: 10px 0 0 0;
+}
+
+.geolocation-wrap > button{
+    margin-bottom: 10px;
+}
