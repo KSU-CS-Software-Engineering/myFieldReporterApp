@@ -16,7 +16,7 @@ export default class PestSelect extends Component{
             value: props.value
         }
     }
-    
+
     componentWillReceiveProps(props) { //Get's the rootlists
         var refr;
         refr = "crops/" + props.crop.toLowerCase() + "/"
@@ -37,7 +37,7 @@ export default class PestSelect extends Component{
         })
         this.setState({value: props.value});
     }
-    
+
     render() {
         var groups = {};
         if(this.state.arthropodList.length > 0) {
@@ -56,6 +56,7 @@ export default class PestSelect extends Component{
             ));
         }
         var options = [];
+            options.push(<option>Unknown</option>);
         for(var name in groups) {
             options.push(
                 <optgroup label={name}>{groups[name]}</optgroup>
