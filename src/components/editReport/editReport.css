@@ -8,3 +8,9 @@
 .report-info-wrap input{
     margin: 10px 0 15px 0;
 }
+
+.report-info-wrap textarea{
+    margin: 10px 0 15px 0;
+    max-width: 100%;
+    min-height: 150px;
+}

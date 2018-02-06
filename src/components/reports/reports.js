@@ -162,7 +162,8 @@ export default class Reports extends Component {
                     <input type="radio" name="sevr" value="Medium" onChange={this.handleChange} className="dist"/>Medium
                     <input type="radio" name="sevr" value="High" onChange={this.handleChange} className="dist"/>High
 
-                <input placeholder="Notes" name="notes" value={this.state.notes} onChange={this.handleChange}/>
+
+                <textarea className="text-input" placeholder="Notes: Suggested, how much of field is affected, environmental conditions, notable production practices." name="notes" value={this.state.notes} onChange={this.handleChange}></textarea>
 
                 <button type="submit" onClick={this.handleCreate}>Submit</button>
 
