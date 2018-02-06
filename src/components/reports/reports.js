@@ -29,20 +29,20 @@ export default class Reports extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleSelect = this.handleSelect.bind(this);
         this.readFile = this.readFile.bind(this);
-        
+
     }
 
     //Change state values with whatever was entered. if crop is the name, crop value will be changed.
-    handleChange(event) { 
+    handleChange(event) {
         this.setState({
             [event.target.name]: event.target.value
         });
     }
-    
+
     handleSelect(name, value){ //Change a specific state with a specific value. Used in searchableList
         this.setState({[name]: value});
     }
-    
+
     //Creates the entry for the database from the state objects when submit is clicked
     handleCreate(){
         if(this.state.crop != ''){
@@ -55,9 +55,9 @@ export default class Reports extends Component {
             var user = snapshot.val();
             var reportCount = 0;
             if(user.reports) reportCount = Object.keys(user.reports).length;
-            
+
              var rName= user.fName.concat(user.lName.concat(" " + (reportCount+1)));
-              
+
               var updates = {}
               updates['reports/' + fid] = {
                     crop: state.crop,
@@ -86,13 +86,13 @@ export default class Reports extends Component {
            });
         }
         window.location.hash = "/";
-        
-        
-    
-        
+
+
+
+
     }
-    
-    
+
+
     //Processes the image selected from user below
     readFile(event, num) {
         var file = event.target.files[0];
@@ -100,7 +100,7 @@ export default class Reports extends Component {
 
         reader.onloadend = () => {
             this.state.images[num] = file;
-            
+
         }
 
         reader.onerror = function () {
@@ -109,8 +109,8 @@ export default class Reports extends Component {
         reader.readAsDataURL(file);
     }
 
-    
-    
+
+
     render() {
         if (window.File && window.FileReader && window.FormData) {
             var $inputField = this.state.file;
@@ -138,12 +138,12 @@ export default class Reports extends Component {
         return(
 
             <div className="reports-container">
-                
+
                 <h1>New Report</h1>
                 <CropSelect onChange={(term => this.handleSelect('crop', term))} placeholder='Crop' value={this.state.crop} listRef="crops/" required/>
 
                 <GrowthStageSelect onChange={(term => this.handleSelect('gs', term))} placeholder='GrowthStage' value={this.state.gs} crop={this.state.crop}/>
-                
+
                 <br/>
 
                 <PestSelect onChange={(term) => this.handleSelect('pest', term)} placeholder='Pest' value={this.state.pest} crop={this.state.crop} />
@@ -152,20 +152,19 @@ export default class Reports extends Component {
 
                 <input id="file" type="file" accept="image/*" onChange={(e) =>this.readFile(e,0)}></input>
                 <input id="file" type="file" accept="image/*" onChange={(e) =>this.readFile(e,1)}></input>
-                
-                    <label>Distribution:</label> 
+
+                    <label>Distribution:</label>
                     <input type="radio" name="dist" value="Uniform" onChange={this.handleChange} className="dist"></input>Uniform
                     <input type="radio" name="dist" value="Patchy" onChange={this.handleChange} className="dist"></input>Patchy
                     <br/>
-                    <label>Severity:</label> 
+                    <label>Severity:</label>
                     <input type="radio" name="sevr" value="Low" onChange={this.handleChange} className="dist"/>Low
                     <input type="radio" name="sevr" value="Medium" onChange={this.handleChange} className="dist"/>Medium
                     <input type="radio" name="sevr" value="High" onChange={this.handleChange} className="dist"/>High
-                    
+
                 <input placeholder="Notes" name="notes" value={this.state.notes} onChange={this.handleChange}/>
 
                 <button type="submit" onClick={this.handleCreate}>Submit</button>
-             
 
                 {this.state.message}
 
@@ -175,5 +174,5 @@ export default class Reports extends Component {
         )
 
     }
-    
+
 }
