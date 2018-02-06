@@ -45,47 +45,69 @@ export default class Reports extends Component {
     
     //Creates the entry for the database from the state objects when submit is clicked
     handleCreate(){
-        if(this.state.crop != ''){
-        var fid = firebase.database().ref('reports/').push().key;
-        var photos = this.state.images;
-        var uid = firebase.auth().currentUser.uid;
-        var state = this.state;
-        console.log(this.state);
-        firebase.database().ref('users/' + uid).once('value').then((snapshot) => {
-            var user = snapshot.val();
-            var reportCount = 0;
-            if(user.reports) reportCount = Object.keys(user.reports).length;
-            
-             var rName= user.fName.concat(user.lName.concat(" " + (reportCount+1)));
-              
-              var updates = {}
-              updates['reports/' + fid] = {
-                    crop: state.crop,
-                    location: state.location.latitude + ", " + state.location.longitude,
-                    gs: state.gs,
-                    pest: state.pest,
-                    notes: state.notes,
-                    time: new Date().toJSON(),
-                    owner: uid,
-                    name: rName,
-                    dist: state.dist,
-                    sevr: state.sevr
-                  }
-                updates['users/' + uid + '/reports/' + fid] = true;
-            console.log('updates', updates)
-                firebase.database().ref().update(updates).then(() => {
-                    photos.forEach((imageURL, index) => {
-                        firebase.storage().ref().child('images').child(fid).child(index.toString()).put(imageURL).then(snapshot => {
-
-                            firebase.database().ref('reports/' + fid + '/images').push(snapshot.downloadURL)
-                        })
-                    });
-
-                }).catch(err => console.error(err));
-
-           });
+        console.log(this.state.location.latitude);
+        var valid = true;
+        if(this.state.crop == ''){
+            valid = false;
         }
-        window.location.hash = "/";
+        if(this.state.gs == ''){
+            valid = false;
+        }
+        if(this.state.pest == ''){
+            valid = false;
+        }
+        //currently not working**********
+        if(this.state.location.latitude == 'undefined' || this.state.location.longitude == 'undefined'){
+            valid = false;
+        }
+        if(this.state.dist == ''){
+            valid = false;
+        }
+        if(this.state.sevr == ''){
+            valid = false;
+        }
+        if(valid){
+            var fid = firebase.database().ref('reports/').push().key;
+            var photos = this.state.images;
+            var uid = firebase.auth().currentUser.uid;
+            var state = this.state;
+            console.log(this.state);
+            firebase.database().ref('users/' + uid).once('value').then((snapshot) => {
+                var user = snapshot.val();
+                var reportCount = 0;
+                if(user.reports) reportCount = Object.keys(user.reports).length;
+
+                 var rName= user.fName.concat(user.lName.concat(" " + (reportCount+1)));
+
+                  var updates = {}
+                  updates['reports/' + fid] = {
+                        crop: state.crop,
+                        location: state.location.latitude + ", " + state.location.longitude,
+                        gs: state.gs,
+                        pest: state.pest,
+                        notes: state.notes,
+                        time: new Date().toJSON(),
+                        owner: uid,
+                        name: rName,
+                        dist: state.dist,
+                        sevr: state.sevr
+                      }
+                    updates['users/' + uid + '/reports/' + fid] = true;
+                console.log('updates', updates)
+                    firebase.database().ref().update(updates).then(() => {
+                        photos.forEach((imageURL, index) => {
+                            firebase.storage().ref().child('images').child(fid).child(index.toString()).put(imageURL).then(snapshot => {
+
+                                firebase.database().ref('reports/' + fid + '/images').push(snapshot.downloadURL)
+                            })
+                        });
+
+                    }).catch(err => console.error(err));
+
+               });
+            window.location.hash = "/";
+        }
+        
         
         
     
