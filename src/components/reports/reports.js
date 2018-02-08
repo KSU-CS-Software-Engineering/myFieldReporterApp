@@ -146,7 +146,7 @@ export default class Reports extends Component {
 
                 <br/>
 
-                <PestSelect onChange={(term) => this.handleSelect('pest', term)} placeholder='Pest' value={this.state.pest} crop={this.state.crop} />
+                <PestSelect onChange={(term) => this.handleSelect('pest', term)} placeholder='Pest' value={this.state.pest} crop={this.state.crop}/>
 
                 <LocationInput></LocationInput>
 
