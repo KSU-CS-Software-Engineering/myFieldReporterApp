@@ -128,7 +128,7 @@ export default class showReport extends Component {
                         <label className="bold">Location:&nbsp;</label>
                     </div>
                     <div className="report-info-wrap">
-                        <label>{this.state.location}</label>
+                        <label>{this.state.location.county + ", " + this.state.location.state}</label>
                     </div>
                 </div>
                 <div>
