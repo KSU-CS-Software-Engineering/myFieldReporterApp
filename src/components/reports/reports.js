@@ -33,6 +33,7 @@ export default class Reports extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleButtonSelection = this.handleButtonSelection.bind(this);
         this.handleSelect = this.handleSelect.bind(this);
+        this.handleLocation = this.handleLocation.bind(this);
         this.readFile = this.readFile.bind(this);
 
     }
@@ -50,6 +51,7 @@ export default class Reports extends Component {
 
     //Creates the entry for the database from the state objects when submit is clicked
     handleCreate(){
+
         console.log(this.state.location.latitude);
         var valid = true;
         if(this.state.crop == ''){
@@ -87,7 +89,7 @@ export default class Reports extends Component {
                   var updates = {}
                   updates['reports/' + fid] = {
                         crop: state.crop,
-                        location: state.location.latitude + ", " + state.location.longitude,
+                        location: state.location,
                         gs: state.gs,
                         pest: state.pest,
                         notes: state.notes,
@@ -172,6 +174,11 @@ export default class Reports extends Component {
         }
     }
 
+    //Sets the coords state from what it got from the buttton click
+    handleLocation(coords){
+        this.setState({location: coords});
+    }
+
 
     //Processes the image selected from user below
     readFile(event, num) {
@@ -190,7 +197,6 @@ export default class Reports extends Component {
     }
 
 
-
     render() {
         if (window.File && window.FileReader && window.FormData) {
             var $inputField = this.state.file;
@@ -200,9 +206,6 @@ export default class Reports extends Component {
             alert("File upload is not supported!");
 
         }
-
-
-
 
         var imageTags = this.state.images.map((imageURL, index) => {
             return <img key={index} src={imageURL}/>
@@ -228,8 +231,7 @@ export default class Reports extends Component {
 
                 <PestSelect onChange={(term) => this.handleSelect('pest', term)} placeholder='Pest' value={this.state.pest} crop={this.state.crop} />
 
-                <LocationInput></LocationInput>
-
+                <LocationInput location={this.state.location} onChange={this.handleLocation}></LocationInput>
                 <input id="file" type="file" accept="image/*" onChange={(e) =>this.readFile(e,0)}></input>
                 <input id="file" type="file" accept="image/*" onChange={(e) =>this.readFile(e,1)}></input>
 
