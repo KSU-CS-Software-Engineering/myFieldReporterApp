@@ -41,7 +41,7 @@
 .dist{
     display: inline;
     width: 10%;
-    
+
 }
 
 .reports-container .search-item:hover{
@@ -68,4 +68,33 @@
 
 #notes{
     height: 30px;
+}
+
+.selectiion-button{
+    float:left;
+    margin: 5px 2% 8px 2%;
+}
+
+.select-three{
+    width: 28%;
+}
+
+.select-two{
+    width: 44%;
+}
+
+.select-left{
+    margin-left: 4%
+}
+
+.select-right{
+    float: right;
+    margin-right: 4%
+}
+
+.selection-wrap{
+    box-sizing: border-box;
+    border: 1px solid #dddddd;
+    margin: 2% 0;
+    padding-top: 5px;
 }

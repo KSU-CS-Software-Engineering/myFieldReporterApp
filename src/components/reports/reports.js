@@ -23,10 +23,15 @@ export default class Reports extends Component {
             test: '',
             reportName: '',
             dist: '',
-            sevr: ''
+            sevr: '',
+            distBorder: ["none", "none"],
+            sevrBorder: ["none", "none", "none"],
+            distPadding: ["10px 0", "10px 0"],
+            sevrPadding: ["10px 0", "10px 0", "10px 0"]
         }
         this.handleCreate = this.handleCreate.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.handleButtonSelection = this.handleButtonSelection.bind(this);
         this.handleSelect = this.handleSelect.bind(this);
         this.readFile = this.readFile.bind(this);
 
@@ -110,6 +115,63 @@ export default class Reports extends Component {
 
     }
 
+    handleButtonSelection(category, id){
+        switch (category) {
+          case "severity":
+            //document.getElementById("severity-low").style.border = "none";
+            //document.getElementById("severity-medium").style.border = "none";
+            //document.getElementById("severity-high").style.border = "none";
+            //document.getElementById(id).style.border = "5px solid white";
+            switch(id){
+              case "severity-low":
+                this.setState({
+                    sevrBorder: ['5px solid white', 'none', 'none'],
+                    sevrPadding: ["5px 0", "10px 0", "10px 0"],
+                    sevr: 'Low'
+                });
+                break;
+              case "severity-medium":
+                this.setState({
+                    sevrBorder: ['none', '5px solid white', 'none'],
+                    sevrPadding: ["10px 0", "5px 0", "10px 0"],
+                    sevr: 'Medium'
+                });
+                break;
+              case "severity-high":
+                this.setState({
+                    sevrBorder: ['none', 'none', '5px solid white'],
+                    sevrPadding: ["10px 0", "10px 0", "5px 0"],
+                    sevr: 'High'
+                });
+                break;
+              default:
+                break;
+            }
+            break;
+          case "distribution":
+            switch(id){
+              case "distribution-uniform":
+                this.setState({
+                    distBorder: ['5px solid white', 'none'],
+                    distPadding: ["5px 0", "10px 0"],
+                    dist: 'Uniform'
+                });
+                break;
+              case "distribution-patchy":
+                this.setState({
+                    distBorder: ['none', '5px solid white'],
+                    distPadding: ["10px 0", "5px 0"],
+                    dist: 'Patchy'
+                });
+                break;
+              default:
+                break;
+            }
+          default:
+            break;
+        }
+    }
+
 
     //Processes the image selected from user below
     readFile(event, num) {
@@ -171,15 +233,20 @@ export default class Reports extends Component {
                 <input id="file" type="file" accept="image/*" onChange={(e) =>this.readFile(e,0)}></input>
                 <input id="file" type="file" accept="image/*" onChange={(e) =>this.readFile(e,1)}></input>
 
-                    <label>Distribution:</label>
-                    <input type="radio" name="dist" value="Uniform" onChange={this.handleChange} className="dist"></input>Uniform
-                    <input type="radio" name="dist" value="Patchy" onChange={this.handleChange} className="dist"></input>Patchy
-                    <br/>
-                    <label>Severity:</label>
-                    <input type="radio" name="sevr" value="Low" onChange={this.handleChange} className="dist"/>Low
-                    <input type="radio" name="sevr" value="Medium" onChange={this.handleChange} className="dist"/>Medium
-                    <input type="radio" name="sevr" value="High" onChange={this.handleChange} className="dist"/>High
+                <div className="selection-wrap">
+                    <p>Severity</p>
+                    <div className="selectiion-button select-three select-left" id="severity-low" onClick={() => this.handleButtonSelection("severity", "severity-low")} style={{border: this.state.sevrBorder[0], padding: this.state.sevrPadding[0]}}>Low</div>
+                    <div className="selectiion-button select-three" id="severity-medium" onClick={() => this.handleButtonSelection("severity", "severity-medium")} style={{border: this.state.sevrBorder[1], padding: this.state.sevrPadding[1]}}>Med</div>
+                    <div className="selectiion-button select-three select-right" id="severity-high" onClick={() => this.handleButtonSelection("severity", "severity-high")} style={{border: this.state.sevrBorder[2], padding: this.state.sevrPadding[2]}}>High</div>
+                    <div className="clearfix"></div>
+                </div>
 
+                <div className="selection-wrap">
+                    <p>Distribution</p>
+                    <div className="selectiion-button select-two select-left" id="distribution-uniform" onClick={() => this.handleButtonSelection("distribution", "distribution-uniform")} style={{border: this.state.distBorder[0], padding: this.state.distPadding[0]}}>Uniform</div>
+                    <div className="selectiion-button select-two select-right" id="distribution-patchy" onClick={() => this.handleButtonSelection("distribution", "distribution-patchy")} style={{border: this.state.distBorder[1], padding: this.state.distPadding[1]}}>Patchy</div>
+                    <div className="clearfix"></div>
+                </div>
 
                 <textarea className="text-input" placeholder="Notes: Suggested, how much of field is affected, environmental conditions, notable production practices." name="notes" value={this.state.notes} onChange={this.handleChange}></textarea>
 
@@ -195,3 +262,14 @@ export default class Reports extends Component {
     }
 
 }
+
+/*
+    <label>Distribution:</label>
+    <input type="radio" name="dist" value="Uniform" onChange={this.handleChange} className="dist"></input>Uniform
+    <input type="radio" name="dist" value="Patchy" onChange={this.handleChange} className="dist"></input>Patchy
+    <br/>
+    <label>Severity:</label>
+    <input type="radio" name="sevr" value="Low" onChange={this.handleChange} className="dist"/>Low
+    <input type="radio" name="sevr" value="Medium" onChange={this.handleChange} className="dist"/>Medium
+    <input type="radio" name="sevr" value="High" onChange={this.handleChange} className="dist"/>High
+*/

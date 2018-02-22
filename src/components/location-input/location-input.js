@@ -22,7 +22,7 @@ export default class LocationInput extends Component {
         console.log(coords);
         this.setState({location: coords});
     }
-    
+
     changeDisplay(name){
         switch(name){
             case 'gps':
@@ -39,18 +39,18 @@ export default class LocationInput extends Component {
                 break;
          };
     }
- 
-    render(){        
+
+    render(){
         return(
             <div className="location-wrap">
                 <button onClick={() => this.changeDisplay('gps')}>Use GPS</button>
-                <button className="float-right" onClick={() => this.changeDisplay('type')}>Type Location</button>
-            
+                <button className="float-right" onClick={() => this.changeDisplay('type')}>Manual</button>
+
                 <div className="gps-location" style={{display: this.state.gps}}>
                     <GeoLocation location={this.state.location} onChange={this.handleLocation} required ></GeoLocation>
                 </div>
                 <div className="give-location" style={{display: this.state.type}}>
-                    <p> 
+                    <p>
                         <input className="county" placeholder="County"></input>
                         <input className="state" placeholder="State"></input>
                     </p>
@@ -58,6 +58,6 @@ export default class LocationInput extends Component {
             </div>
               );
     }
-    
-    
+
+
 }
