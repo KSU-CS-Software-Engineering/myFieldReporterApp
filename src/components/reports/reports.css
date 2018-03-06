@@ -38,6 +38,12 @@
     text-transform: capitalize;
 }
 
+.reports-container .message{
+    color: #e52828;
+    margin-bottom: 0px;
+    text-align: left;
+}
+
 .dist{
     display: inline;
     width: 10%;

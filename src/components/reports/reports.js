@@ -27,7 +27,8 @@ export default class Reports extends Component {
             distBorder: ["none", "none"],
             sevrBorder: ["none", "none", "none"],
             distPadding: ["10px 0", "10px 0"],
-            sevrPadding: ["10px 0", "10px 0", "10px 0"]
+            sevrPadding: ["10px 0", "10px 0", "10px 0"],
+            required: ["none", "none", "none", "none", "none", "none"]
         }
         this.handleCreate = this.handleCreate.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -51,28 +52,36 @@ export default class Reports extends Component {
 
     //Creates the entry for the database from the state objects when submit is clicked
     handleCreate(){
-
-        console.log(this.state.location.latitude);
+        var require = ["none", "none", "none", "none", "none", "none"];
         var valid = true;
         if(this.state.crop == ''){
             valid = false;
+            require[0] = "block";
         }
         if(this.state.gs == ''){
             valid = false;
+            require[1] = "block";
         }
         if(this.state.pest == ''){
             valid = false;
+            require[2] = "block";
         }
         //currently not working**********
         if(this.state.location.latitude == 'undefined' || this.state.location.longitude == 'undefined'){
             valid = false;
+            require[3] = "block";
         }
         if(this.state.dist == ''){
             valid = false;
+            require[4] = "block";
         }
         if(this.state.sevr == ''){
             valid = false;
+            require[5] = "block";
         }
+        this.setState({
+            required: require
+        });
         if(valid){
             var fid = firebase.database().ref('reports/').push().key;
             var photos = this.state.images;
@@ -223,18 +232,22 @@ export default class Reports extends Component {
             <div className="reports-container">
 
                 <h1>New Report</h1>
+                <div className="message" style={{display: this.state.required[0]}}>* Crop is a required</div>
                 <CropSelect onChange={(term => this.handleSelect('crop', term))} placeholder='Crop' value={this.state.crop} listRef="crops/" required/>
 
+                <div className="message" style={{display: this.state.required[1]}}>* Growth Stage is a required</div>
                 <GrowthStageSelect onChange={(term => this.handleSelect('gs', term))} placeholder='GrowthStage' value={this.state.gs} crop={this.state.crop}/>
 
                 <br/>
-
+                <div className="message" style={{display: this.state.required[2]}}>* Pest is a required</div>
                 <PestSelect onChange={(term) => this.handleSelect('pest', term)} placeholder='Pest' value={this.state.pest} crop={this.state.crop} />
 
+                <div className="message" style={{display: this.state.required[3]}}>* Location is a required</div>
                 <LocationInput location={this.state.location} onChange={this.handleLocation}></LocationInput>
                 <input id="file" type="file" accept="image/*" onChange={(e) =>this.readFile(e,0)}></input>
                 <input id="file" type="file" accept="image/*" onChange={(e) =>this.readFile(e,1)}></input>
 
+                <div className="message" style={{display: this.state.required[4]}}>* Severity is a required</div>
                 <div className="selection-wrap">
                     <p>Severity</p>
                     <div className="selectiion-button select-three select-left" id="severity-low" onClick={() => this.handleButtonSelection("severity", "severity-low")} style={{border: this.state.sevrBorder[0], padding: this.state.sevrPadding[0]}}>Low</div>
@@ -243,6 +256,7 @@ export default class Reports extends Component {
                     <div className="clearfix"></div>
                 </div>
 
+                <div className="message" style={{display: this.state.required[5]}}>* Distribution is a required</div>
                 <div className="selection-wrap">
                     <p>Distribution</p>
                     <div className="selectiion-button select-two select-left" id="distribution-uniform" onClick={() => this.handleButtonSelection("distribution", "distribution-uniform")} style={{border: this.state.distBorder[0], padding: this.state.distPadding[0]}}>Uniform</div>
