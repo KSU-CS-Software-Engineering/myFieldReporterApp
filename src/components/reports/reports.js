@@ -23,11 +23,18 @@ export default class Reports extends Component {
             test: '',
             reportName: '',
             dist: '',
-            sevr: ''
+            sevr: '',
+            distBorder: ["none", "none"],
+            sevrBorder: ["none", "none", "none"],
+            distPadding: ["10px 0", "10px 0"],
+            sevrPadding: ["10px 0", "10px 0", "10px 0"],
+            required: ["none", "none", "none", "none", "none", "none"]
         }
         this.handleCreate = this.handleCreate.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.handleButtonSelection = this.handleButtonSelection.bind(this);
         this.handleSelect = this.handleSelect.bind(this);
+        this.handleLocation = this.handleLocation.bind(this);
         this.readFile = this.readFile.bind(this);
 
     }
@@ -45,27 +52,36 @@ export default class Reports extends Component {
 
     //Creates the entry for the database from the state objects when submit is clicked
     handleCreate(){
-        console.log(this.state.location.latitude);
+        var require = ["none", "none", "none", "none", "none", "none"];
         var valid = true;
         if(this.state.crop == ''){
             valid = false;
+            require[0] = "block";
         }
         if(this.state.gs == ''){
             valid = false;
+            require[1] = "block";
         }
         if(this.state.pest == ''){
             valid = false;
+            require[2] = "block";
         }
         //currently not working**********
         if(this.state.location.latitude == 'undefined' || this.state.location.longitude == 'undefined'){
             valid = false;
+            require[3] = "block";
         }
         if(this.state.dist == ''){
             valid = false;
+            require[4] = "block";
         }
         if(this.state.sevr == ''){
             valid = false;
+            require[5] = "block";
         }
+        this.setState({
+            required: require
+        });
         if(valid){
             var fid = firebase.database().ref('reports/').push().key;
             var photos = this.state.images;
@@ -82,7 +98,7 @@ export default class Reports extends Component {
                   var updates = {}
                   updates['reports/' + fid] = {
                         crop: state.crop,
-                        location: state.location.latitude + ", " + state.location.longitude,
+                        location: state.location,
                         gs: state.gs,
                         pest: state.pest,
                         notes: state.notes,
@@ -110,6 +126,68 @@ export default class Reports extends Component {
 
     }
 
+    handleButtonSelection(category, id){
+        switch (category) {
+          case "severity":
+            //document.getElementById("severity-low").style.border = "none";
+            //document.getElementById("severity-medium").style.border = "none";
+            //document.getElementById("severity-high").style.border = "none";
+            //document.getElementById(id).style.border = "5px solid white";
+            switch(id){
+              case "severity-low":
+                this.setState({
+                    sevrBorder: ['5px solid white', 'none', 'none'],
+                    sevrPadding: ["5px 0", "10px 0", "10px 0"],
+                    sevr: 'Low'
+                });
+                break;
+              case "severity-medium":
+                this.setState({
+                    sevrBorder: ['none', '5px solid white', 'none'],
+                    sevrPadding: ["10px 0", "5px 0", "10px 0"],
+                    sevr: 'Medium'
+                });
+                break;
+              case "severity-high":
+                this.setState({
+                    sevrBorder: ['none', 'none', '5px solid white'],
+                    sevrPadding: ["10px 0", "10px 0", "5px 0"],
+                    sevr: 'High'
+                });
+                break;
+              default:
+                break;
+            }
+            break;
+          case "distribution":
+            switch(id){
+              case "distribution-uniform":
+                this.setState({
+                    distBorder: ['5px solid white', 'none'],
+                    distPadding: ["5px 0", "10px 0"],
+                    dist: 'Uniform'
+                });
+                break;
+              case "distribution-patchy":
+                this.setState({
+                    distBorder: ['none', '5px solid white'],
+                    distPadding: ["10px 0", "5px 0"],
+                    dist: 'Patchy'
+                });
+                break;
+              default:
+                break;
+            }
+          default:
+            break;
+        }
+    }
+
+    //Sets the coords state from what it got from the buttton click
+    handleLocation(coords){
+        this.setState({location: coords});
+    }
+
 
     //Processes the image selected from user below
     readFile(event, num) {
@@ -128,7 +206,6 @@ export default class Reports extends Component {
     }
 
 
-
     render() {
         if (window.File && window.FileReader && window.FormData) {
             var $inputField = this.state.file;
@@ -138,9 +215,6 @@ export default class Reports extends Component {
             alert("File upload is not supported!");
 
         }
-
-
-
 
         var imageTags = this.state.images.map((imageURL, index) => {
             return <img key={index} src={imageURL}/>
@@ -158,28 +232,42 @@ export default class Reports extends Component {
             <div className="reports-container">
 
                 <h1>New Report</h1>
+                <div className="message" style={{display: this.state.required[0]}}>* Crop is a required</div>
                 <CropSelect onChange={(term => this.handleSelect('crop', term))} placeholder='Crop' value={this.state.crop} listRef="crops/" required/>
 
+                <div className="message" style={{display: this.state.required[1]}}>* Growth Stage is a required</div>
                 <GrowthStageSelect onChange={(term => this.handleSelect('gs', term))} placeholder='GrowthStage' value={this.state.gs} crop={this.state.crop}/>
 
                 <br/>
+<<<<<<< HEAD
 
                 <PestSelect onChange={(term) => this.handleSelect('pest', term)} placeholder='Pest' value={this.state.pest} crop={this.state.crop}/>
+=======
+                <div className="message" style={{display: this.state.required[2]}}>* Pest is a required</div>
+                <PestSelect onChange={(term) => this.handleSelect('pest', term)} placeholder='Pest' value={this.state.pest} crop={this.state.crop} />
+>>>>>>> 54ed3048352349eb463d3848140d44408cfd3bb0
 
-                <LocationInput></LocationInput>
-
+                <div className="message" style={{display: this.state.required[3]}}>* Location is a required</div>
+                <LocationInput location={this.state.location} onChange={this.handleLocation}></LocationInput>
                 <input id="file" type="file" accept="image/*" onChange={(e) =>this.readFile(e,0)}></input>
                 <input id="file" type="file" accept="image/*" onChange={(e) =>this.readFile(e,1)}></input>
 
-                    <label>Distribution:</label>
-                    <input type="radio" name="dist" value="Uniform" onChange={this.handleChange} className="dist"></input>Uniform
-                    <input type="radio" name="dist" value="Patchy" onChange={this.handleChange} className="dist"></input>Patchy
-                    <br/>
-                    <label>Severity:</label>
-                    <input type="radio" name="sevr" value="Low" onChange={this.handleChange} className="dist"/>Low
-                    <input type="radio" name="sevr" value="Medium" onChange={this.handleChange} className="dist"/>Medium
-                    <input type="radio" name="sevr" value="High" onChange={this.handleChange} className="dist"/>High
+                <div className="message" style={{display: this.state.required[4]}}>* Severity is a required</div>
+                <div className="selection-wrap">
+                    <p>Severity</p>
+                    <div className="selectiion-button select-three select-left" id="severity-low" onClick={() => this.handleButtonSelection("severity", "severity-low")} style={{border: this.state.sevrBorder[0], padding: this.state.sevrPadding[0]}}>Low</div>
+                    <div className="selectiion-button select-three" id="severity-medium" onClick={() => this.handleButtonSelection("severity", "severity-medium")} style={{border: this.state.sevrBorder[1], padding: this.state.sevrPadding[1]}}>Med</div>
+                    <div className="selectiion-button select-three select-right" id="severity-high" onClick={() => this.handleButtonSelection("severity", "severity-high")} style={{border: this.state.sevrBorder[2], padding: this.state.sevrPadding[2]}}>High</div>
+                    <div className="clearfix"></div>
+                </div>
 
+                <div className="message" style={{display: this.state.required[5]}}>* Distribution is a required</div>
+                <div className="selection-wrap">
+                    <p>Distribution</p>
+                    <div className="selectiion-button select-two select-left" id="distribution-uniform" onClick={() => this.handleButtonSelection("distribution", "distribution-uniform")} style={{border: this.state.distBorder[0], padding: this.state.distPadding[0]}}>Uniform</div>
+                    <div className="selectiion-button select-two select-right" id="distribution-patchy" onClick={() => this.handleButtonSelection("distribution", "distribution-patchy")} style={{border: this.state.distBorder[1], padding: this.state.distPadding[1]}}>Patchy</div>
+                    <div className="clearfix"></div>
+                </div>
 
                 <textarea className="text-input" placeholder="Notes: Suggested, how much of field is affected, environmental conditions, notable production practices." name="notes" value={this.state.notes} onChange={this.handleChange}></textarea>
 
@@ -195,3 +283,14 @@ export default class Reports extends Component {
     }
 
 }
+
+/*
+    <label>Distribution:</label>
+    <input type="radio" name="dist" value="Uniform" onChange={this.handleChange} className="dist"></input>Uniform
+    <input type="radio" name="dist" value="Patchy" onChange={this.handleChange} className="dist"></input>Patchy
+    <br/>
+    <label>Severity:</label>
+    <input type="radio" name="sevr" value="Low" onChange={this.handleChange} className="dist"/>Low
+    <input type="radio" name="sevr" value="Medium" onChange={this.handleChange} className="dist"/>Medium
+    <input type="radio" name="sevr" value="High" onChange={this.handleChange} className="dist"/>High
+*/

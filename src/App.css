@@ -62,6 +62,10 @@ select:focus{
     border: 1px solid #4ca6de;
 }
 
+.clearfix{
+    clear: both;
+}
+
 h1{
     margin: 0 0 10px 0;;
     text-align: left;
@@ -77,8 +81,8 @@ h1{
     width: 300px;
     padding: 0 15px;
     margin-top: -15px;
-    height: 35px; 
-    position: fixed; 
+    height: 35px;
+    position: fixed;
     bottom:0%;
     background: white;
     width: 100%

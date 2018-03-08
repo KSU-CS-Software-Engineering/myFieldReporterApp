@@ -9,20 +9,31 @@ export default class LocationInput extends Component {
     constructor(props){
         super(props);
         this.state = {
-            location: '',
             gps: 'block',
-            type: 'none'
+            type: 'none',
+            county: '',
+            state: ''
         }
-        this.handleLocation = this.handleLocation.bind(this);
         this.changeDisplay = this.changeDisplay.bind(this);
+        this.handleChange = this.handleChange.bind(this);
     }
 
-    //Sets the coords state from what it got from the buttton click
-    handleLocation(coords){
-        console.log(coords);
-        this.setState({location: coords});
+      //Change state values with whatever was entered.
+    handleChange(event) {
+        this.setState({
+            [event.target.name]: event.target.value
+        }, () => {
+        console.log(this.state.county + ", " + this.state.state);
+        this.props.onChange({
+                        county: this.state.county,
+                        state: this.state.state,
+                        latitude: null,
+                        longitude: null
+                    })
+        })
+
     }
-    
+
     changeDisplay(name){
         switch(name){
             case 'gps':
@@ -39,25 +50,25 @@ export default class LocationInput extends Component {
                 break;
          };
     }
- 
-    render(){        
+
+    render(){
         return(
             <div className="location-wrap">
                 <button onClick={() => this.changeDisplay('gps')}>Use GPS</button>
-                <button className="float-right" onClick={() => this.changeDisplay('type')}>Type Location</button>
-            
+                <button className="float-right" onClick={() => this.changeDisplay('type')}>Manual</button>
+
                 <div className="gps-location" style={{display: this.state.gps}}>
-                    <GeoLocation location={this.state.location} onChange={this.handleLocation} required ></GeoLocation>
+                    <GeoLocation location={this.props.location} onChange={this.props.onChange} required ></GeoLocation>
                 </div>
                 <div className="give-location" style={{display: this.state.type}}>
-                    <p> 
-                        <input className="county" placeholder="County"></input>
-                        <input className="state" placeholder="State"></input>
+                    <p>
+                        <input className="county" name="county" placeholder="County" value={this.state.county} onChange={this.handleChange}></input>
+                        <input className="state" name="state" placeholder="State" value={this.state.state} onChange={this.handleChange}></input>
                     </p>
                 </div>
             </div>
               );
     }
-    
-    
+
+
 }

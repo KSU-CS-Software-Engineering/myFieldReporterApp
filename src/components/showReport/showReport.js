@@ -23,13 +23,13 @@ export default class showReport extends Component {
             reportName: '',
             dist: ''
         }
-        
+
         this.handleEdit = this.handleEdit.bind(this);
-    
+
     }
- 
+
     componentWillMount() {
-        
+
         if(this.props.reportID){
             firebase.database().ref('reports/' + this.props.reportID).once('value').then((snapshot) =>{
                var report = snapshot.val();
@@ -44,26 +44,26 @@ export default class showReport extends Component {
                     images: report.images,
                     dist: report.dist,
                     sevr: report.sevr
-                              
+
                 });
             });
         }
     }
-    
+
     handleEdit(){
         window.location.hash = "/reports/" + this.props.reportID;
     }
- 
+
     render(){
-        
+
         if(this.state.images){
            var pics = Object.values(this.state.images);
-        
+
             var pictures = pics.map((item) =>{
-                return <img className="pictures" src={item}></img> 
+                return <img className="pictures" src={item}></img>
             })
         }
-        
+
         return(
             <div className="reports-container">
                 <h1>{this.state.reportName}</h1>
@@ -128,21 +128,21 @@ export default class showReport extends Component {
                         <label className="bold">Location:&nbsp;</label>
                     </div>
                     <div className="report-info-wrap">
-                        <label>{this.state.location}</label>
+                        <label>{this.state.location.county + ", " + this.state.location.state}</label>
                     </div>
                 </div>
                 <div>
                     {pictures}
                 </div>
-                
+
                 {this.state.message}
-        
-                <Link className="edit-button" to={"/reports/"+this.props.reportID + "/edit"}>Edit Report</Link> 
+
+                <Link className="edit-button" to={"/reports/"+this.props.reportID + "/edit"}>Edit Report</Link>
 
                 <Link className="dashboard-fix" to="/">Go To Dashboard</Link>
             </div>
               );
     }
-    
-    
+
+
 }
