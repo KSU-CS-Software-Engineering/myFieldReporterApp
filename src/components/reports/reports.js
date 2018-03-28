@@ -74,6 +74,7 @@ export default class Reports extends Component {
             valid = false;
         }
         if(valid){
+          console.log(firebase.auth().currentUser);
             var fid = firebase.database().ref('reports/').push().key;
             var photos = this.state.images;
             var uid = firebase.auth().currentUser.uid;

@@ -3,6 +3,7 @@
 import React, {Component} from 'react';
 import './login-form.css';
 import * as firebase from 'firebase';
+import $ from 'jquery';
 
 
 export default class LoginForm extends Component {
@@ -23,7 +24,7 @@ export default class LoginForm extends Component {
         this.toggleView = this.toggleView.bind(this);
         this.handleKeyPress = this.handleKeyPress.bind(this);
         this.handleFP = this.handleFP.bind(this);
-        
+
     }
     handleChange(event) {
         this.setState({
@@ -37,39 +38,95 @@ export default class LoginForm extends Component {
         }
     }
     handleSignIn() {
-        firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password).catch((err) => {
-            this.setState({message: err.message});
-        })
+      $.ajax({
+        beforeSend: function(request) {
+            //request.setRequestHeader("Authority", 'yes');
+        },
+        ContentType: 'json',
+        type: 'POST',
+        url: 'http://localhost:8888/Drupal/ajax/login.json', //SET
+        data: { 'email': this.state.email, 'password':this.state.password },
+        success: function(response) {
+            try{
+              var base64Url = response.split('.')[1];
+            var base64 = base64Url.replace('-', '+').replace('_', '/');
+            var us = JSON.parse(window.atob(base64));
+          }catch(err){
+              this.setState({
+                message : response
+              })
+              return;
+            }
+
+
+            this.setState({
+                fName: 'first',//us['firstName'], SET
+                lName: 'last',//us['lastName'], SET
+                email: us['email'],
+                state: us['state'],
+                county: us['county']
+            })
+            console.log(this.state.email);
+
+            firebase.auth().signInWithCustomToken(response).then( function(user) {
+                return user.updateEmail(this.state.email);
+              }.bind(this)).catch(function(error) {
+              // Handle Errors here.
+              console.log(error.code + " " + error.message);
+              // ...
+            }).then(function(){
+
+
+            firebase.database().ref('users/').once('value' , function(snapshot){
+              console.log(snapshot);
+              if(!snapshot.hasChild(us['uid']))
+                  console.log(this.state.email);
+                  firebase.database().ref('users/').child(us['uid']).set({
+                    email: this.state.email,
+                    fName: this.state.fName,
+                    lName: this.state.lName,
+                    //state: this.state.state,
+                    //county: this.state.county,
+                  }).catch(err => console.error(err));
+            }.bind(this))
+            console.log(this.state.email);
+          }.bind(this));
+
+          console.log(this.state.email);
+
+        }.bind(this),
+        fail: function(response){
+          console.log(response);
+        }
+
+      });
     }
     handleCreate() {
         // Helper function to write created user to the database
-        function writeUserData(userId, email,first,last,state,county) {
-          firebase.database().ref('users/').child(userId).set({
-            email: email,
-            fName: first,
-            lName: last,
-            state: state,
-            county: county,
-          }).catch(err => console.error(err));
-        }
+
         firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
         .then((firebaseUser) => {
             console.log('created user', firebaseUser.uid, firebaseUser)
-            writeUserData(firebaseUser.uid, firebaseUser.email,this.state.fName,this.state.lName,this.state.state,this.state.county);
+            //writeUserData(firebaseUser.uid, firebaseUser.email,this.state.fName,this.state.lName,this.state.state,this.state.county);
         })
-        .catch((err) => { 
+        .catch((err) => {
             this.setState({message: err.message});
         })
-        
+
 
     }
-    
+
+    showme(){
+        var x = document.getElementById("myFrame").src;
+        console.log(x);
+    }
+
     handleFP(){
         var auth = firebase.auth();
         var emailAddress = this.state.email;
-        
+
         auth.sendPasswordResetEmail(emailAddress).then(function() {
-           
+
           alert("Email has been sent");
         }).catch(function(error) {
              console.log(emailAddress);
@@ -81,15 +138,15 @@ export default class LoginForm extends Component {
                   alert("Email account was not found");
                   break;
                               }
-                    
+
         });
     }
-    
+
     toggleView(){
         this.state.message = "";
         this.setState({view:(this.state.view== 'signup')?'login':'signup'})
     }
-    
+
     render() {
         if(this.state.view == 'login'){
             return (
@@ -179,10 +236,11 @@ export default class LoginForm extends Component {
                             <div className="password-icon third-icon"></div>
                         </div>
                         <button onClick={this.handleCreate}>Submit</button>
+
                         <a onClick={this.toggleView}>Already have an account? Sign In</a>
                         <div className="grass"></div>
                     </div>
                 )
             }
     }
-} 
+}
