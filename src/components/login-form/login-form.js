@@ -64,7 +64,8 @@ export default class LoginForm extends Component {
                 lName: 'last',//us['lastName'], SET
                 email: us['email'],
                 state: us['state'],
-                county: us['county']
+                county: us['county'],
+                uid: us['uid']
             })
             console.log(this.state.email);
 
@@ -79,15 +80,16 @@ export default class LoginForm extends Component {
 
             firebase.database().ref('users/').once('value' , function(snapshot){
               console.log(snapshot);
-              if(!snapshot.hasChild(us['uid']))
+              if(!snapshot.hasChild(us['uid'])) {
                   console.log(this.state.email);
-                  firebase.database().ref('users/').child(us['uid']).set({
+                  firebase.database().ref('users/').child(this.state.uid).set({
                     email: this.state.email,
                     fName: this.state.fName,
-                    lName: this.state.lName,
+                    lName: this.state.lName
                     //state: this.state.state,
                     //county: this.state.county,
                   }).catch(err => console.error(err));
+                }
             }.bind(this))
             console.log(this.state.email);
           }.bind(this));
@@ -100,6 +102,7 @@ export default class LoginForm extends Component {
         }
 
       });
+
     }
     handleCreate() {
         // Helper function to write created user to the database

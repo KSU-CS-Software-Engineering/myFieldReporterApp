@@ -74,14 +74,15 @@ export default class Reports extends Component {
             valid = false;
         }
         if(valid){
-          console.log(firebase.auth().currentUser);
             var fid = firebase.database().ref('reports/').push().key;
             var photos = this.state.images;
             var uid = firebase.auth().currentUser.uid;
             var state = this.state;
             console.log(this.state);
             firebase.database().ref('users/' + uid).once('value').then((snapshot) => {
+                console.log("uid " + uid);
                 var user = snapshot.val();
+                console.log(user.reports);
                 var reportCount = 0;
                 if(user.reports) reportCount = Object.keys(user.reports).length;
 
@@ -100,7 +101,7 @@ export default class Reports extends Component {
                         dist: state.dist,
                         sevr: state.sevr
                       }
-                    updates['users/' + uid + '/reports/' + fid] = true;
+                    updates['users/' + uid + '/reports/' + fid + '/'] = true;
                 console.log('updates', updates)
                     firebase.database().ref().update(updates).then(() => {
                         photos.forEach((imageURL, index) => {

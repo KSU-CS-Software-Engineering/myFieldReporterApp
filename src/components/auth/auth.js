@@ -11,13 +11,14 @@ export default class Auth extends Component {
             user: null
                      }
     }
-    
+
     componentWillMount(){
         firebase.auth().onAuthStateChanged((user) => {
-            this.setState({user:user})
+            this.setState({user:user});
+            console.log("Change" + this.state.user.uid);
         })
     }
-    
+
     render() {
         if(this.state.user) {
             return (<div>{this.props.children}</div>);
@@ -26,4 +27,3 @@ export default class Auth extends Component {
         }
     }
 }
-                    

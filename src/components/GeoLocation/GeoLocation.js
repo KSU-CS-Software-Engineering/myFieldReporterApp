@@ -11,9 +11,8 @@ export default class GeoLocation extends Component{
         }
         this.getCurrentLocation = this.getCurrentLocation.bind(this);
     }
-    
+
     getCurrentLocation(){
-        console.log('here');
         navigator.geolocation.getCurrentPosition(
             (position) => {
                 console.log(position);
@@ -29,12 +28,12 @@ export default class GeoLocation extends Component{
                         state: data.results[0].state_code
                     });
                 }).catch(err=> this.setState({errorMessage: err.message}))
-                
+
             },
             (err) => {this.setState({errorMessage: err.message})}
         );
     }
-    
+
     render(){
         if(!this.state.navAvailable) return (<pre>GPS not available on this device</pre>)
         return (
@@ -52,6 +51,5 @@ export default class GeoLocation extends Component{
         </div>
       )
     }
-    
-}
 
+}
