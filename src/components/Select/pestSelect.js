@@ -3,7 +3,9 @@ import * as firebase from 'firebase';
 
 /**********************************
 * PestSelect
-* Creates a dropdown which displays multiple lists from which can be selected from
+* Creates a dropdown with at most 3 subcategories: arthropod, disease, and weed.
+* An Unknown option can be selected as well.
+* THE PESTS SHOWN ARE SPECIFIC TO THE CROP.
 ***********************************/
 
 export default class PestSelect extends Component{

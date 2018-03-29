@@ -38,6 +38,12 @@
     text-transform: capitalize;
 }
 
+.reports-container .message{
+    color: #e52828;
+    margin-bottom: 0px;
+    text-align: left;
+}
+
 .dist{
     display: inline;
     width: 10%;
@@ -55,11 +61,9 @@
 }
 
 .reports-container [class*="direction"]{
-    width: 48%;
     overflow: hidden;
     text-align: left;
     box-sizing: border-box;
-    margin: -3px 0 5px 0;
 }
 
 .reports-container a{
@@ -70,7 +74,7 @@
     height: 30px;
 }
 
-.selectiion-button{
+.selection-button{
     float:left;
     margin: 5px 2% 8px 2%;
 }

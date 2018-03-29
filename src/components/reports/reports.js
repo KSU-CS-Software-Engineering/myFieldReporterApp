@@ -8,26 +8,30 @@ import * as firebase from 'firebase';
 import {HashRouter as Router, Route, Switch, Link} from 'react-router-dom';
 import LocationInput from '../location-input/location-input';
 
+
+//File for the Create Report button. It will bring up all input fields necessary for a report
 export default class Reports extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            crop: '',
-            gs: '',
-            location: {},
-            images: [],
-            pest: '',
-            notes: '',
-            list: [],
-            reports: [],
-            test: '',
-            reportName: '',
-            dist: '',
-            sevr: '',
+            crop: '',         //Crop for report form
+            gs: '',           //Growth Stage
+            location: {},     //Location, using GeoLocation
+            images: [],       //Optional of one or two images
+            pest: '',         //Pest that is effecting the crop
+            notes: '',        //Extra notes
+            list: [],             //List
+            reports: [],          //Array of all of users reports
+            test: '',             //Unused
+            reportName: '',       //Unused
+            dist: '',         //Distribution
+            sevr: '',         //Severity
             distBorder: ["none", "none"],
             sevrBorder: ["none", "none", "none"],
             distPadding: ["10px 0", "10px 0"],
-            sevrPadding: ["10px 0", "10px 0", "10px 0"]
+            sevrPadding: ["10px 0", "10px 0", "10px 0"],
+            required: ["none", "none", "none", "none", "none", "none"],
+            displaySelection: "none"
         }
         this.handleCreate = this.handleCreate.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -39,57 +43,72 @@ export default class Reports extends Component {
     }
 
     //Change state values with whatever was entered. if crop is the name, crop value will be changed.
+    //Currently only used for the Notes. Since Notes is the event it's called in, the name and value will be taken from there.
     handleChange(event) {
         this.setState({
-            [event.target.name]: event.target.value
+            [event.target.name]: event.target.value,
         });
     }
 
+
     handleSelect(name, value){ //Change a specific state with a specific value. Used in searchableList
-        this.setState({[name]: value});
+        this.setState({
+            [name]: value,
+            displaySelection: "block"
+        });
+
     }
 
-    //Creates the entry for the database from the state objects when submit is clicked
+    //Creates the entry for the database from the state objects when submit is clicked.
+    //TODO: Shouldn't be able to submit if there is any information
     handleCreate(){
-
-        console.log(this.state.location.latitude);
+        var require = ["none", "none", "none", "none", "none", "none"];
         var valid = true;
         if(this.state.crop == ''){
             valid = false;
+            require[0] = "block";
         }
         if(this.state.gs == ''){
             valid = false;
+            require[1] = "block";
         }
         if(this.state.pest == ''){
             valid = false;
+            require[2] = "block";
         }
         //currently not working**********
-        if(this.state.location.latitude == 'undefined' || this.state.location.longitude == 'undefined'){
+        console.log(this.state.location.county);
+        if(this.state.location.latitude == undefined && this.state.location.county == undefined){
             valid = false;
+            require[3] = "block";
         }
         if(this.state.dist == ''){
             valid = false;
+            require[4] = "block";
         }
         if(this.state.sevr == ''){
             valid = false;
+            require[5] = "block";
         }
+        this.setState({
+            required: require
+        });
         if(valid){
             var fid = firebase.database().ref('reports/').push().key;
             var photos = this.state.images;
             var uid = firebase.auth().currentUser.uid;
             var state = this.state;
             console.log(this.state);
-            firebase.database().ref('users/' + uid).once('value').then((snapshot) => {
-                console.log("uid " + uid);
+            firebase.database().ref('users/' + uid).once('value').then((snapshot) => { //Inside the users tree in the database...
                 var user = snapshot.val();
                 console.log(user.reports);
                 var reportCount = 0;
-                if(user.reports) reportCount = Object.keys(user.reports).length;
+                if(user.reports) reportCount = Object.keys(user.reports).length; //Get the last spot
 
-                 var rName= user.fName.concat(user.lName.concat(" " + (reportCount+1)));
+                 var rName= user.fName.concat(user.lName.concat(" " + (reportCount+1))); //Report name
 
                   var updates = {}
-                  updates['reports/' + fid] = {
+                  updates['reports/' + fid] = { //Populate report
                         crop: state.crop,
                         location: state.location,
                         gs: state.gs,
@@ -103,7 +122,7 @@ export default class Reports extends Component {
                       }
                     updates['users/' + uid + '/reports/' + fid + '/'] = true;
                 console.log('updates', updates)
-                    firebase.database().ref().update(updates).then(() => {
+                    firebase.database().ref().update(updates).then(() => { //Handle uploading the images, if any
                         photos.forEach((imageURL, index) => {
                             firebase.storage().ref().child('images').child(fid).child(index.toString()).put(imageURL).then(snapshot => {
 
@@ -119,6 +138,7 @@ export default class Reports extends Component {
 
     }
 
+    //Buttons Selection for the Severity and Distribution radio buttons.
     handleButtonSelection(category, id){
         switch (category) {
           case "severity":
@@ -198,7 +218,7 @@ export default class Reports extends Component {
         reader.readAsDataURL(file);
     }
 
-
+    //Renders the option. Everything is created here.
     render() {
         if (window.File && window.FileReader && window.FormData) {
             var $inputField = this.state.file;
@@ -223,41 +243,57 @@ export default class Reports extends Component {
         return(
 
             <div className="reports-container">
+            //Every field has a message before it to state that it is required except Notes and Image.
 
                 <h1>New Report</h1>
+                //See CropSelect
+                <div className="message" style={{display: this.state.required[0]}}>* Crop is a required</div>
                 <CropSelect onChange={(term => this.handleSelect('crop', term))} placeholder='Crop' value={this.state.crop} listRef="crops/" required/>
 
-                <GrowthStageSelect onChange={(term => this.handleSelect('gs', term))} placeholder='GrowthStage' value={this.state.gs} crop={this.state.crop}/>
 
-                <br/>
+                <div className="display-after-crop-selection" style={{display: this.state.displaySelection}}>
+                    <div className="message" style={{display: this.state.required[1]}}>* Growth Stage is a required</div>
+                    <GrowthStageSelect onChange={(term => this.handleSelect('gs', term))} placeholder='GrowthStage' value={this.state.gs} crop={this.state.crop}/>
 
-                <PestSelect onChange={(term) => this.handleSelect('pest', term)} placeholder='Pest' value={this.state.pest} crop={this.state.crop} />
+                    <br/>
+                    <div className="message" style={{display: this.state.required[2]}}>* Pest is a required</div>
+                    <PestSelect onChange={(term) => this.handleSelect('pest', term)} placeholder='Pest' value={this.state.pest} crop={this.state.crop}/>
+                </div>
 
+                //Up to 2 images can be uploaded
+                <div className="message" style={{display: this.state.required[3]}}>* Location is a required</div>
                 <LocationInput location={this.state.location} onChange={this.handleLocation}></LocationInput>
                 <input id="file" type="file" accept="image/*" onChange={(e) =>this.readFile(e,0)}></input>
                 <input id="file" type="file" accept="image/*" onChange={(e) =>this.readFile(e,1)}></input>
 
+                //Severity has 3 options: Low, Medium, and High
+                <div className="message" style={{display: this.state.required[4]}}>* Severity is a required</div>
                 <div className="selection-wrap">
                     <p>Severity</p>
-                    <div className="selectiion-button select-three select-left" id="severity-low" onClick={() => this.handleButtonSelection("severity", "severity-low")} style={{border: this.state.sevrBorder[0], padding: this.state.sevrPadding[0]}}>Low</div>
-                    <div className="selectiion-button select-three" id="severity-medium" onClick={() => this.handleButtonSelection("severity", "severity-medium")} style={{border: this.state.sevrBorder[1], padding: this.state.sevrPadding[1]}}>Med</div>
-                    <div className="selectiion-button select-three select-right" id="severity-high" onClick={() => this.handleButtonSelection("severity", "severity-high")} style={{border: this.state.sevrBorder[2], padding: this.state.sevrPadding[2]}}>High</div>
+                    <div className="selection-button select-three select-left" id="severity-low" onClick={() => this.handleButtonSelection("severity", "severity-low")} style={{border: this.state.sevrBorder[0], padding: this.state.sevrPadding[0]}}>Low</div>
+                    <div className="selection-button select-three" id="severity-medium" onClick={() => this.handleButtonSelection("severity", "severity-medium")} style={{border: this.state.sevrBorder[1], padding: this.state.sevrPadding[1]}}>Med</div>
+                    <div className="selection-button select-three select-right" id="severity-high" onClick={() => this.handleButtonSelection("severity", "severity-high")} style={{border: this.state.sevrBorder[2], padding: this.state.sevrPadding[2]}}>High</div>
                     <div className="clearfix"></div>
                 </div>
 
+                //Distribution only has two options: Uniform or Patchy
+                <div className="message" style={{display: this.state.required[5]}}>* Distribution is a required</div>
                 <div className="selection-wrap">
                     <p>Distribution</p>
-                    <div className="selectiion-button select-two select-left" id="distribution-uniform" onClick={() => this.handleButtonSelection("distribution", "distribution-uniform")} style={{border: this.state.distBorder[0], padding: this.state.distPadding[0]}}>Uniform</div>
-                    <div className="selectiion-button select-two select-right" id="distribution-patchy" onClick={() => this.handleButtonSelection("distribution", "distribution-patchy")} style={{border: this.state.distBorder[1], padding: this.state.distPadding[1]}}>Patchy</div>
+                    <div className="selection-button select-two select-left" id="distribution-uniform" onClick={() => this.handleButtonSelection("distribution", "distribution-uniform")} style={{border: this.state.distBorder[0], padding: this.state.distPadding[0]}}>Uniform</div>
+                    <div className="selection-button select-two select-right" id="distribution-patchy" onClick={() => this.handleButtonSelection("distribution", "distribution-patchy")} style={{border: this.state.distBorder[1], padding: this.state.distPadding[1]}}>Patchy</div>
                     <div className="clearfix"></div>
                 </div>
 
+                //Text area for the Notes. Notes are optional for the user.
                 <textarea className="text-input" placeholder="Notes: Suggested, how much of field is affected, environmental conditions, notable production practices." name="notes" value={this.state.notes} onChange={this.handleChange}></textarea>
 
+                //Submit button. It submits the reports with the current information on screen. Need to allow stoppage if missing required fields
                 <button type="submit" onClick={this.handleCreate}>Submit</button>
 
                 {this.state.message}
 
+                //Goes back to the dashboard
                 <Link className="dashboard-fix" to="/">Go To Dashboard</Link>
             </div>
 
