@@ -9,7 +9,7 @@ export default class LocationInput extends Component {
     constructor(props){
         super(props);
         this.state = {
-            gps: 'block',
+            gps: 'none',
             type: 'none',
             county: '',
             state: ''
@@ -54,18 +54,19 @@ export default class LocationInput extends Component {
     render(){
         return(
             <div className="location-wrap">
-                <button onClick={() => this.changeDisplay('gps')}>Use GPS</button>
-                <button className="float-right" onClick={() => this.changeDisplay('type')}>Manual</button>
-
+                <p>Location</p>
+                <button className="content-within" onClick={() => this.changeDisplay('gps')}>Use GPS</button>
+                <button className="content-within float-right" onClick={() => this.changeDisplay('type')}>Manual</button>
                 <div className="gps-location" style={{display: this.state.gps}}>
                     <GeoLocation location={this.props.location} onChange={this.props.onChange} required ></GeoLocation>
                 </div>
                 <div className="give-location" style={{display: this.state.type}}>
                     <p>
-                        <input className="county" name="county" placeholder="County" value={this.state.county} onChange={this.handleChange}></input>
-                        <input className="state" name="state" placeholder="State" value={this.state.state} onChange={this.handleChange}></input>
+                        <input className="content-within county" name="county" placeholder="County" value={this.state.county} onChange={this.handleChange}></input>
+                        <input className="content-within float-right state" name="state" placeholder="State" value={this.state.state} onChange={this.handleChange}></input>
                     </p>
                 </div>
+                <div className="clearfix"></div>
             </div>
               );
     }
