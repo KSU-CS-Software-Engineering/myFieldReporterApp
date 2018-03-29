@@ -243,10 +243,8 @@ export default class Reports extends Component {
         return(
 
             <div className="reports-container">
-            //Every field has a message before it to state that it is required except Notes and Image.
 
                 <h1>New Report</h1>
-                //See CropSelect
                 <div className="message" style={{display: this.state.required[0]}}>* Crop is a required</div>
                 <CropSelect onChange={(term => this.handleSelect('crop', term))} placeholder='Crop' value={this.state.crop} listRef="crops/" required/>
 
@@ -260,13 +258,11 @@ export default class Reports extends Component {
                     <PestSelect onChange={(term) => this.handleSelect('pest', term)} placeholder='Pest' value={this.state.pest} crop={this.state.crop}/>
                 </div>
 
-                //Up to 2 images can be uploaded
                 <div className="message" style={{display: this.state.required[3]}}>* Location is a required</div>
                 <LocationInput location={this.state.location} onChange={this.handleLocation}></LocationInput>
                 <input id="file" type="file" accept="image/*" onChange={(e) =>this.readFile(e,0)}></input>
                 <input id="file" type="file" accept="image/*" onChange={(e) =>this.readFile(e,1)}></input>
 
-                //Severity has 3 options: Low, Medium, and High
                 <div className="message" style={{display: this.state.required[4]}}>* Severity is a required</div>
                 <div className="selection-wrap">
                     <p>Severity</p>
@@ -276,7 +272,6 @@ export default class Reports extends Component {
                     <div className="clearfix"></div>
                 </div>
 
-                //Distribution only has two options: Uniform or Patchy
                 <div className="message" style={{display: this.state.required[5]}}>* Distribution is a required</div>
                 <div className="selection-wrap">
                     <p>Distribution</p>
@@ -285,15 +280,12 @@ export default class Reports extends Component {
                     <div className="clearfix"></div>
                 </div>
 
-                //Text area for the Notes. Notes are optional for the user.
                 <textarea className="text-input" placeholder="Notes: Suggested, how much of field is affected, environmental conditions, notable production practices." name="notes" value={this.state.notes} onChange={this.handleChange}></textarea>
 
-                //Submit button. It submits the reports with the current information on screen. Need to allow stoppage if missing required fields
                 <button type="submit" onClick={this.handleCreate}>Submit</button>
 
                 {this.state.message}
 
-                //Goes back to the dashboard
                 <Link className="dashboard-fix" to="/">Go To Dashboard</Link>
             </div>
 
