@@ -30,13 +30,8 @@ export default class Reports extends Component {
             sevrBorder: ["none", "none", "none"],
             distPadding: ["10px 0", "10px 0"],
             sevrPadding: ["10px 0", "10px 0", "10px 0"],
-<<<<<<< HEAD
-            required: ["none", "none", "none", "none", "none", "none"] //Array for holding information for the reports
-            // Crop, GrowthStage, Pest, Location, Severity, Distribution in that order
-=======
             required: ["none", "none", "none", "none", "none", "none"],
             displaySelection: "none"
->>>>>>> c696b9a493adcd7d0bde20b167ff66815288e924
         }
         this.handleCreate = this.handleCreate.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -55,18 +50,13 @@ export default class Reports extends Component {
         });
     }
 
-<<<<<<< HEAD
 
-    //Change a specific state (name) with a specific value (value). Used in the three Search functions
-    handleSelect(name, value){
-        this.setState({[name]: value});
-=======
     handleSelect(name, value){ //Change a specific state with a specific value. Used in searchableList
         this.setState({
             [name]: value,
             displaySelection: "block"
         });
->>>>>>> c696b9a493adcd7d0bde20b167ff66815288e924
+
     }
 
     //Creates the entry for the database from the state objects when submit is clicked.
@@ -259,17 +249,7 @@ export default class Reports extends Component {
                 <div className="message" style={{display: this.state.required[0]}}>* Crop is a required</div>
                 <CropSelect onChange={(term => this.handleSelect('crop', term))} placeholder='Crop' value={this.state.crop} listRef="crops/" required/>
 
-<<<<<<< HEAD
-                //See GrowthStageSelect
-                <div className="message" style={{display: this.state.required[1]}}>* Growth Stage is a required</div>
-                <GrowthStageSelect onChange={(term => this.handleSelect('gs', term))} placeholder='GrowthStage' value={this.state.gs} crop={this.state.crop}/>
 
-                <br/>
-
-                //See PestSelect
-                <div className="message" style={{display: this.state.required[2]}}>* Pest is a required</div>
-                <PestSelect onChange={(term) => this.handleSelect('pest', term)} placeholder='Pest' value={this.state.pest} crop={this.state.crop} />
-=======
                 <div className="display-after-crop-selection" style={{display: this.state.displaySelection}}>
                     <div className="message" style={{display: this.state.required[1]}}>* Growth Stage is a required</div>
                     <GrowthStageSelect onChange={(term => this.handleSelect('gs', term))} placeholder='GrowthStage' value={this.state.gs} crop={this.state.crop}/>
@@ -278,7 +258,6 @@ export default class Reports extends Component {
                     <div className="message" style={{display: this.state.required[2]}}>* Pest is a required</div>
                     <PestSelect onChange={(term) => this.handleSelect('pest', term)} placeholder='Pest' value={this.state.pest} crop={this.state.crop}/>
                 </div>
->>>>>>> c696b9a493adcd7d0bde20b167ff66815288e924
 
                 //Up to 2 images can be uploaded
                 <div className="message" style={{display: this.state.required[3]}}>* Location is a required</div>
