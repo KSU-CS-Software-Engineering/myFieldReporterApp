@@ -293,7 +293,7 @@ export default class LoginForm extends Component {
                         <div className="email-icon first-icon"></div>
                         <div className="password-icon second-icon"></div>
                     </div>
-                    <button onClick={this.handleSignin}>Login</button>
+                    <button onClick={this.handleFbSignin}>Login</button>
                     <button onClick={this.toggleView}>New User</button>
                     <a onClick={this.handleFP}>Forgot Password?</a>
                     <div className="grass"></div>
@@ -369,7 +369,7 @@ export default class LoginForm extends Component {
                             <div className="email-icon second-icon"></div>
                             <div className="password-icon third-icon"></div>
                         </div>
-                        <button onClick={this.handleCreate}>Submit</button>
+                        <button onClick={this.handlefbCreate}>Submit</button>
 
                         <a onClick={this.toggleView}>Already have an account? Sign In</a>
                         <div className="grass"></div>
