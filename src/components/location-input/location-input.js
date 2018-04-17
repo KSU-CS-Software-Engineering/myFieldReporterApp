@@ -12,7 +12,9 @@ export default class LocationInput extends Component {
             gps: 'none',
             type: 'none',
             county: '',
-            state: ''
+            state: '',
+            locBg: ["#cbcbcb", "#cbcbcb"],
+            locColor: ["#ffffff","#ffffff"]
         }
         this.changeDisplay = this.changeDisplay.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -39,13 +41,17 @@ export default class LocationInput extends Component {
             case 'gps':
                 this.setState({
                     gps: 'block',
-                    type: 'none'
+                    type: 'none',
+                    locBg: ['#ffffff', '#cbcbcb'],
+                    locColor: ["#cbcbcb", "#ffffff"]
                 });
                 break;
             case 'type':
                 this.setState({
                     gps: 'none',
-                    type: 'block'
+                    type: 'block',
+                    locBg: ['#cbcbcb', '#ffffff'],
+                    locColor: ["#ffffff", "#cbcbcb"]
                 });
                 break;
          };
@@ -55,8 +61,8 @@ export default class LocationInput extends Component {
         return(
             <div className="location-wrap">
                 <p>Location</p>
-                <button className="content-within" onClick={() => this.changeDisplay('gps')}>Use GPS</button>
-                <button className="content-within float-right" onClick={() => this.changeDisplay('type')}>Manual</button>
+                <button className="content-within" onClick={() => this.changeDisplay('gps')} style={{backgroundColor: this.state.locBg[0], color: this.state.locColor[0]}}>Use GPS</button>
+                <button className="content-within float-right" onClick={() => this.changeDisplay('type')} style={{backgroundColor: this.state.locBg[1], color: this.state.locColor[1]}}>Manual</button>
                 <div className="gps-location" style={{display: this.state.gps}}>
                     <GeoLocation location={this.props.location} onChange={this.props.onChange} required ></GeoLocation>
                 </div>

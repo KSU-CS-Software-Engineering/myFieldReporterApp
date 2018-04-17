@@ -2,6 +2,7 @@
     width: 44%;
     float: left;
     margin: 5px 2% 8px 4%;
+    border: 1px solid #cbcbcb;
 }
 
 .location-wrap .float-right{
