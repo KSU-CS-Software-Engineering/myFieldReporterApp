@@ -24,12 +24,17 @@ export default class editReports extends Component {
             reportName: '',
             reportID: '',
             dist: '',
-            sevr: ''
+            sevr: '',
+            distBg: ["#cbcbcb", "#cbcbcb"],
+            sevrBg: ["#cbcbcb", "#cbcbcb", "#cbcbcb"],
+            distColor: ["#ffffff", "#ffffff"],
+            sevrColor: ["#ffffff", "#ffffff", "#ffffff"]
         }
         this.handleCreate = this.handleCreate.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleSelect = this.handleSelect.bind(this);
         this.readFile = this.readFile.bind(this);
+        this.handleButtonSelection=this.handleButtonSelection.bind(this);
 
     }
 
@@ -72,6 +77,64 @@ export default class editReports extends Component {
     //Change a specific state with a specific value. Used in searchableList
     handleSelect(name, value){
         this.setState({[name]: value})
+    }
+
+    //Buttons Selection for the Severity and Distribution radio buttons.
+    handleButtonSelection(category, id){
+        switch (category) {
+          case "severity":
+            //document.getElementById("severity-low").style.border = "none";
+            //document.getElementById("severity-medium").style.border = "none";
+            //document.getElementById("severity-high").style.border = "none";
+            //document.getElementById(id).style.border = "5px solid white";
+            switch(id){
+              case "severity-low":
+                this.setState({
+                    sevrBg: ['#ffffff', '#cbcbcb', '#cbcbcb'],
+                    sevrColor: ["#cbcbcb", "#ffffff", "#ffffff"],
+                    sevr: 'Low'
+                });
+                break;
+              case "severity-medium":
+                this.setState({
+                    sevrBg: ['#cbcbcb', '#ffffff', '#cbcbcb'],
+                    sevrColor: ["#ffffff", "#cbcbcb", "#ffffff"],
+                    sevr: 'Medium'
+                });
+                break;
+              case "severity-high":
+                this.setState({
+                    sevrBg: ['#cbcbcb', '#cbcbcb', '#ffffff'],
+                    sevrColor: ["#ffffff", "#ffffff", "#cbcbcb"],
+                    sevr: 'High'
+                });
+                break;
+              default:
+                break;
+            }
+            break;
+          case "distribution":
+            switch(id){
+              case "distribution-uniform":
+                this.setState({
+                    distBg: ['#ffffff', '#cbcbcb'],
+                    distColor: ["#cbcbcb", "#ffffff"],
+                    dist: 'Uniform'
+                });
+                break;
+              case "distribution-patchy":
+                this.setState({
+                    distBg: ['#cbcbcb', '#ffffff'],
+                    distColor: ["#ffffff", "#cbcbcb"],
+                    dist: 'Patchy'
+                });
+                break;
+              default:
+                break;
+            }
+          default:
+            break;
+        }
     }
 
     //Creates the entry for the database from the state objects when submit is clicked
@@ -179,20 +242,25 @@ console.log("/reports/"+this.props.reportID)
                         <label className="bold">Crop:&nbsp;</label>
                         <label className="bold">Growth Stage:&nbsp;</label>
                         <label className="bold">Pest:&nbsp;</label>
-                        <label className="bold">Distribution:&nbsp;</label>
-                        <label className="bold">Severity:&nbsp;</label>
+                        <label className="bold edit-dist-space">Distribution:&nbsp;</label>
+                        <label className="bold edit-sevr-space">Severity:&nbsp;</label>
                         <label className="bold">Notes:&nbsp;</label>
                     </div>
                     <div className="report-info-wrap">
                         <CropSelect onChange={(term => this.handleSelect('crop', term))} placeholder='Crop' value={this.state.crop} listRef="crops/" />
                         <GrowthStageSelect onChange={(term => this.handleSelect('gs', term))} placeholder='GrowthStage' value={this.state.gs} crop={this.state.crop} />
                         <PestSelect onChange={(term) => this.handleSelect('pest', term)} placeholder='Pest' value={this.state.pest} crop={this.state.crop}/>
-                        <input type="radio" name="dist" value="Uniform" onChange={this.handleChange} className="dist"></input>Uniform
-                        <input type="radio" name="dist" value="Patchy" onChange={this.handleChange} className="dist"></input>Patchy
-                        <br/>
-                        <input type="radio" name="sevr" value="Low" onChange={this.handleChange} className="dist"/>Low
-                        <input type="radio" name="sevr" value="Medium" onChange={this.handleChange} className="dist"/>Medium
-                        <input type="radio" name="sevr" value="High" onChange={this.handleChange} className="dist"/>High
+                        <div className="selection-wrap">
+                            <div className="selection-button " id="severity-low" onClick={() => this.handleButtonSelection("severity", "severity-low")} style={{backgroundColor: this.state.sevrBg[0], color: this.state.sevrColor[0]}}>Low</div>
+                            <div className="selection-button " id="severity-medium" onClick={() => this.handleButtonSelection("severity", "severity-medium")} style={{backgroundColor: this.state.sevrBg[1], color: this.state.sevrColor[1]}}>Med</div>
+                            <div className="selection-button " id="severity-high" onClick={() => this.handleButtonSelection("severity", "severity-high")} style={{backgroundColor: this.state.sevrBg[2], color: this.state.sevrColor[2]}}>High</div>
+                            <div className="clearfix"></div>
+                        </div>
+                        <div className="selection-wrap">
+                            <div className="selection-button " id="distribution-uniform" onClick={() => this.handleButtonSelection("distribution", "distribution-uniform")} style={{backgroundColor: this.state.distBg[0], color: this.state.distColor[0]}}>Uniform</div>
+                            <div className="selection-button " id="distribution-patchy" onClick={() => this.handleButtonSelection("distribution", "distribution-patchy")} style={{backgroundColor: this.state.distBg[1], color: this.state.distColor[1]}}>Patchy</div>
+                            <div className="clearfix"></div>
+                        </div>
                         <textarea className="text-input" placeholder="Notes: Suggested, how much of field is affected, environmental conditions, notable production practices." name="notes" value={this.state.notes} onChange={this.handleChange}></textarea>
                     </div>
                 </div>

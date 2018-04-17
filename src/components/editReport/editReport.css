@@ -10,7 +10,24 @@
 }
 
 .report-info-wrap textarea{
-    margin: 10px 0 15px 0;
+    margin: 0 0 15px 0;
     max-width: 100%;
     min-height: 150px;
+}
+
+..report-info-wrap .selection-button{
+    width: 92%;
+    margin: 5px 4%;
+}
+
+.reports-container > .report-info-wrap{
+    margin-bottom: 10px;
+}
+
+.edit-dist-space{
+    margin-bottom: 142px;
+}
+
+.edit-sevr-space{
+    margin-bottom: 86px;
 }

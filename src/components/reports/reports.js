@@ -26,10 +26,10 @@ export default class Reports extends Component {
             reportName: '',       //Unused
             dist: '',         //Distribution
             sevr: '',         //Severity
-            distBorder: ["none", "none"],
-            sevrBorder: ["none", "none", "none"],
-            distPadding: ["10px 0", "10px 0"],
-            sevrPadding: ["10px 0", "10px 0", "10px 0"],
+            distBg: ["#cbcbcb", "#cbcbcb"],
+            sevrBg: ["#cbcbcb", "#cbcbcb", "#cbcbcb"],
+            distColor: ["#ffffff", "#ffffff"],
+            sevrColor: ["#ffffff", "#ffffff", "#ffffff"],
             required: ["none", "none", "none", "none", "none", "none"],
             displaySelection: "none"
         }
@@ -149,22 +149,22 @@ export default class Reports extends Component {
             switch(id){
               case "severity-low":
                 this.setState({
-                    sevrBorder: ['5px solid white', 'none', 'none'],
-                    sevrPadding: ["5px 0", "10px 0", "10px 0"],
+                    sevrBg: ['#ffffff', '#cbcbcb', '#cbcbcb'],
+                    sevrColor: ["#cbcbcb", "#ffffff", "#ffffff"],
                     sevr: 'Low'
                 });
                 break;
               case "severity-medium":
                 this.setState({
-                    sevrBorder: ['none', '5px solid white', 'none'],
-                    sevrPadding: ["10px 0", "5px 0", "10px 0"],
+                    sevrBg: ['#cbcbcb', '#ffffff', '#cbcbcb'],
+                    sevrColor: ["#ffffff", "#cbcbcb", "#ffffff"],
                     sevr: 'Medium'
                 });
                 break;
               case "severity-high":
                 this.setState({
-                    sevrBorder: ['none', 'none', '5px solid white'],
-                    sevrPadding: ["10px 0", "10px 0", "5px 0"],
+                    sevrBg: ['#cbcbcb', '#cbcbcb', '#ffffff'],
+                    sevrColor: ["#ffffff", "#ffffff", "#cbcbcb"],
                     sevr: 'High'
                 });
                 break;
@@ -176,15 +176,15 @@ export default class Reports extends Component {
             switch(id){
               case "distribution-uniform":
                 this.setState({
-                    distBorder: ['5px solid white', 'none'],
-                    distPadding: ["5px 0", "10px 0"],
+                    distBg: ['#ffffff', '#cbcbcb'],
+                    distColor: ["#cbcbcb", "#ffffff"],
                     dist: 'Uniform'
                 });
                 break;
               case "distribution-patchy":
                 this.setState({
-                    distBorder: ['none', '5px solid white'],
-                    distPadding: ["10px 0", "5px 0"],
+                    distBg: ['#cbcbcb', '#ffffff'],
+                    distColor: ["#ffffff", "#cbcbcb"],
                     dist: 'Patchy'
                 });
                 break;
@@ -266,17 +266,17 @@ export default class Reports extends Component {
                 <div className="message" style={{display: this.state.required[4]}}>* Severity is a required</div>
                 <div className="selection-wrap">
                     <p>Severity</p>
-                    <div className="selection-button select-three select-left" id="severity-low" onClick={() => this.handleButtonSelection("severity", "severity-low")} style={{border: this.state.sevrBorder[0], padding: this.state.sevrPadding[0]}}>Low</div>
-                    <div className="selection-button select-three" id="severity-medium" onClick={() => this.handleButtonSelection("severity", "severity-medium")} style={{border: this.state.sevrBorder[1], padding: this.state.sevrPadding[1]}}>Med</div>
-                    <div className="selection-button select-three select-right" id="severity-high" onClick={() => this.handleButtonSelection("severity", "severity-high")} style={{border: this.state.sevrBorder[2], padding: this.state.sevrPadding[2]}}>High</div>
+                    <div className="selection-button select-three select-left" id="severity-low" onClick={() => this.handleButtonSelection("severity", "severity-low")} style={{backgroundColor: this.state.sevrBg[0], color: this.state.sevrColor[0]}}>Low</div>
+                    <div className="selection-button select-three" id="severity-medium" onClick={() => this.handleButtonSelection("severity", "severity-medium")} style={{backgroundColor: this.state.sevrBg[1], color: this.state.sevrColor[1]}}>Med</div>
+                    <div className="selection-button select-three select-right" id="severity-high" onClick={() => this.handleButtonSelection("severity", "severity-high")} style={{backgroundColor: this.state.sevrBg[2], color: this.state.sevrColor[2]}}>High</div>
                     <div className="clearfix"></div>
                 </div>
 
                 <div className="message" style={{display: this.state.required[5]}}>* Distribution is a required</div>
                 <div className="selection-wrap">
                     <p>Distribution</p>
-                    <div className="selection-button select-two select-left" id="distribution-uniform" onClick={() => this.handleButtonSelection("distribution", "distribution-uniform")} style={{border: this.state.distBorder[0], padding: this.state.distPadding[0]}}>Uniform</div>
-                    <div className="selection-button select-two select-right" id="distribution-patchy" onClick={() => this.handleButtonSelection("distribution", "distribution-patchy")} style={{border: this.state.distBorder[1], padding: this.state.distPadding[1]}}>Patchy</div>
+                    <div className="selection-button select-two select-left" id="distribution-uniform" onClick={() => this.handleButtonSelection("distribution", "distribution-uniform")} style={{backgroundColor: this.state.distBg[0], color: this.state.distColor[0]}}>Uniform</div>
+                    <div className="selection-button select-two select-right" id="distribution-patchy" onClick={() => this.handleButtonSelection("distribution", "distribution-patchy")} style={{backgroundColor: this.state.distBg[1], color: this.state.distColor[1]}}>Patchy</div>
                     <div className="clearfix"></div>
                 </div>
 
