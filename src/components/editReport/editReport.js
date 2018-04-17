@@ -38,7 +38,6 @@ export default class editReports extends Component {
         if(this.props.reportID){
             firebase.database().ref('reports/' + this.props.reportID).once('value').then((snapshot) =>{
                var report = snapshot.val();
-                console.log
                 this.setState({
                     reportID: this.props.reportID,
                     reportName: report.name,
@@ -50,11 +49,14 @@ export default class editReports extends Component {
                     images: report.images,
                     location: report.location,
                     dist: report.dist,
-                    sevr: report.sevr
+                    sevr: report.sevr,
+                    images: report.images
+
 
                 });
 
             });
+
         }
     }
 
@@ -74,27 +76,45 @@ export default class editReports extends Component {
 
     //Creates the entry for the database from the state objects when submit is clicked
     handleCreate(){
-        var photos = this.state.images;
-        var uid = firebase.auth().currentUser.uid;
-        var state = this.state;
-              var updates = {}
-              updates['reports/' + this.state.reportID] = {
-                    crop: state.crop,
-                    gs: state.gs,
-                    pest: state.pest,
-                    notes: state.notes,
-                    time: new Date().toJSON(),
-                    owner: uid,
-                    name: this.state.reportName,
-                    location: state.location,
-                    dist: state.dist,
-                    sevr: state.sevr,
-                     //images: state.images //Keep edited out until implement ability to change images
-                  }
-                updates['users/' + uid + '/reports/' + this.props.reportID] = true;
-                console.log('updates', updates);
-                firebase.database().ref().update(updates);
-
+      var photos = this.state.images;
+      var uid = firebase.auth().currentUser.uid;
+      var state = this.state;
+      var updates = {}
+      if(this.state.images){
+        updates['reports/' + this.state.reportID] = {
+            crop: state.crop,
+            gs: state.gs,
+            pest: state.pest,
+            notes: state.notes,
+            time: new Date().toJSON(),
+            owner: uid,
+            name: this.state.reportName,
+            location: state.location,
+            dist: state.dist,
+            sevr: state.sevr,
+            images: state.images
+      }
+    }
+    else{
+      updates['reports/' + this.state.reportID] = {
+            crop: state.crop,
+            gs: state.gs,
+            pest: state.pest,
+            notes: state.notes,
+            time: new Date().toJSON(),
+            owner: uid,
+            name: this.state.reportName,
+            location: state.location,
+            dist: state.dist,
+            sevr: state.sevr,
+      }
+    }
+      updates['users/' + uid + '/reports/' + this.props.reportID] = true;
+      console.log('updates', updates);
+      firebase.database().ref().update(updates).then(()=>{
+        window.location= "/#/reports/"+this.props.reportID;
+      });
+/*
         this.setState({
             crop: '',
             gs: '',
@@ -104,7 +124,11 @@ export default class editReports extends Component {
             notes: '',
             view: 'current',
             list: []
-        })
+        }
+console.log("/reports/"+this.props.reportID)
+*/
+
+
 
 
     }
@@ -136,7 +160,6 @@ export default class editReports extends Component {
             alert("File upload is not supported!");
 
         }
-
 
         firebase.database().ref('crops/').on('value', snap =>  {
                var data = [];
