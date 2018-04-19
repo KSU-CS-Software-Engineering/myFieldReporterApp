@@ -73,13 +73,23 @@ export default class LoginForm extends Component {
           }
 
 
-            this.setState({
-                fName: us['firstName'].und['0'].value,
-                lName: us['lastName'].und['0'].value,
+            if(us['firstName'].und['0'].value){
+              this.setState({
+                  fName: us['firstName'].und['0'].value,
+                  lName: us['lastName'].und['0'].value,
+                  email: us['email'],
+                  state: us['state'].und['0'].value,
+                  uid: us['uid']
+              })
+            }else{
+              this.setState({
+                fName: 'First',
+                lName: 'Last',
                 email: us['email'],
                 state: us['state'].und['0'].value,
                 uid: us['uid']
-            })
+              })
+            }
             console.log(this.state.email);
 
             firebase.auth().signInWithCustomToken(response).then( function(user) {

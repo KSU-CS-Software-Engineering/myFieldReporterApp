@@ -63,6 +63,21 @@ export default class editReports extends Component {
             });
 
         }
+
+        if(this.state.dist='uniform'){
+          this.handleButtonSelection("distribution", "distribution-uniform")
+        }else{
+          this.handleButtonSelection("distribution", "distribution-patchy")
+        }
+
+        if(this.state.sevr = 'Low'){
+          this.handleButtonSelection("severity", "severity-low")
+        } else if(this.state.sevr = 'Medium'){
+          this.handleButtonSelection("severity", "severity-medium")
+        }else{
+          this.handleButtonSelection("severity", "severity-high")
+        }
+
     }
 
 
@@ -207,6 +222,8 @@ console.log("/reports/"+this.props.reportID)
 
         }
 
+
+
         reader.onerror = function () {
             alert('There was an error reading the file!');
         }
@@ -223,6 +240,12 @@ console.log("/reports/"+this.props.reportID)
             alert("File upload is not supported!");
 
         }
+
+        console.log(this.state.dist);
+
+
+
+
 
         firebase.database().ref('crops/').on('value', snap =>  {
                var data = [];
