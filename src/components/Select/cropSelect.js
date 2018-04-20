@@ -16,10 +16,18 @@ export default class CropSelect extends Component{
     }
     
     componentWillMount(){
-        firebase.database().ref(this.props.listRef).once('value', snapshot => {
-          var keys = Object.values(snapshot.val()).map(item => item.name)
-          this.setState({cList: keys});
-        })
+		
+		if(navigator.onLine){
+			firebase.database().ref(this.props.listRef).once('value', snapshot => {
+			  var keys = Object.values(snapshot.val()).map(item => item.name)
+			  localStorage.setItem('crops', JSON.stringify(keys));
+			  this.setState({cList: JSON.parse(localStorage.getItem('crops') || "[]")});
+			  
+			})
+			
+		}else{
+			this.setState({cList: JSON.parse(localStorage.getItem('crops') || "[]")});
+		}
     }
     
     componentWillReceiveProps(props){
