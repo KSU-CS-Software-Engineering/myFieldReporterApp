@@ -86,7 +86,7 @@ export default class LoginForm extends Component {
                 fName: 'First',
                 lName: 'Last',
                 email: us['email'],
-                state: us['state'].und['0'].value,
+                state: 'State',
                 uid: us['uid']
               })
             }

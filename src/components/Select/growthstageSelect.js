@@ -14,16 +14,29 @@ export default class GrowthStageSelect extends Component{
             cList: []
         }
     }
-    
+
     componentWillReceiveProps(props){
+      var db = firebase.firestore();
+      var data=[];
+      db.collection("crops").doc(props.crop).collection("growthStages").get().then(function(querySnapshot) {
+        //var keys = Object.values(querySnapshot.forEach()(function(doc){item => doc.id}));
+          querySnapshot.forEach(function(doc) {
+              data.push(doc.data().name);
+          //    console.log(doc.id);
+          });
+          this.setState({cList: data, value: props.value});
+      }.bind(this));
+
+      /*
         var refr = "crops/" + props.crop.toLowerCase() + "/growthStages"
         firebase.database().ref(refr).once('value', snapshot => {
             if (!snapshot.exists()) return;
             var keys = Object.values(snapshot.val()).map(item => item.name)
             this.setState({cList: keys, value: props.value});
         })
+        */
     }
-    
+
     render() {
         var options = this.state.cList.map(item => {
             return <option key={item} value={item}>{item}</option>

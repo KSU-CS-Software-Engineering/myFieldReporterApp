@@ -20,8 +20,32 @@ export default class PestSelect extends Component{
     }
 
     componentWillReceiveProps(props) { //Get's the rootlists
-        var refr;
-        refr = "crops/" + props.crop.toLowerCase() + "/"
+
+      var db = firebase.firestore();
+        db.collection("crops").doc(props.crop).collection("arthropod").get().then(function(querySnapshot) {
+            var data=[];
+            querySnapshot.forEach(function(doc) {
+                //console.log(doc.data().name);
+                data.push(doc.data().name);
+            });
+            this.setState({arthropodList: data})
+        }.bind(this));
+        db.collection("crops").doc(props.crop).collection("disease").get().then(function(querySnapshot) {
+            var data =[];
+            querySnapshot.forEach(function(doc) {
+                data.push(doc.data().name);
+            });
+            this.setState({diseaseList: data})
+        }.bind(this));
+        db.collection("crops").doc(props.crop).collection("weed").get().then(function(querySnapshot) {
+            var data = [];
+            querySnapshot.forEach(function(doc) {
+                data.push(doc.data().name);
+            });
+            this.setState({weedList: data})
+        }.bind(this));
+
+        /*
         firebase.database().ref(refr + "arthropod").once('value', snapshot => {
             if (!snapshot.exists()) return;
             var keys = Object.values(snapshot.val()).map(item => item.name)
@@ -37,6 +61,7 @@ export default class PestSelect extends Component{
             var keys = Object.values(snapshot.val()).map(item => item.name)
             this.setState({weedList: keys})
         })
+        */
         this.setState({value: props.value});
     }
 

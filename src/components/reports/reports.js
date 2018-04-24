@@ -7,6 +7,7 @@ import GrowthStageSelect from '../Select/growthstageSelect';
 import * as firebase from 'firebase';
 import {HashRouter as Router, Route, Switch, Link} from 'react-router-dom';
 import LocationInput from '../location-input/location-input';
+require("firebase/firestore");
 
 
 //File for the Create Report button. It will bring up all input fields necessary for a report
@@ -42,6 +43,7 @@ export default class Reports extends Component {
 
     }
 
+
     //Change state values with whatever was entered. if crop is the name, crop value will be changed.
     //Currently only used for the Notes. Since Notes is the event it's called in, the name and value will be taken from there.
     handleChange(event) {
@@ -76,8 +78,6 @@ export default class Reports extends Component {
             valid = false;
             require[2] = "block";
         }
-        //currently not working**********
-        console.log(this.state.location.county);
         if(this.state.location.latitude == undefined && this.state.location.county == undefined){
             valid = false;
             require[3] = "block";
@@ -218,6 +218,8 @@ export default class Reports extends Component {
         reader.readAsDataURL(file);
     }
 
+
+
     //Renders the option. Everything is created here.
     render() {
         if (window.File && window.FileReader && window.FormData) {
@@ -232,13 +234,41 @@ export default class Reports extends Component {
         var imageTags = this.state.images.map((imageURL, index) => {
             return <img key={index} src={imageURL}/>
         })
-        firebase.database().ref('crops/').on('value', snap =>  {
-               var data = [];
-               snap.forEach(ss => {
-                  data.push(ss.child('name').val());
-               });
-                this.state.list = data;
-            })
+
+
+
+        var db = firebase.firestore();
+        var data = [];
+        db.collection("crops").get().then(function(querySnapshot) {
+
+            querySnapshot.forEach(function(doc) {
+                data.push(doc.id)
+            });
+
+        });
+        this.state.list = data;
+
+        /*if(navigator.onLine){
+
+          crops=[];
+          console.log("online");
+          firebase.database().ref('crops/').on('value', snap =>  {
+                 var data = [];
+                 snap.forEach(ss => {
+                    data.push(ss.child('name').val());
+                    crops.push(ss.child('name').val());
+                 });
+                  this.state.list = data;
+
+              })
+
+
+              console.log(crops)
+        }else{
+          console.log("offline");
+          console.log(crops);
+           this.state.list = crops;
+        }*/
 
         return(
 
