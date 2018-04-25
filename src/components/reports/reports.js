@@ -98,7 +98,6 @@ export default class Reports extends Component {
             var photos = this.state.images;
             var uid = firebase.auth().currentUser.uid;
             var state = this.state;
-            console.log(this.state);
             firebase.database().ref('users/' + uid).once('value').then((snapshot) => { //Inside the users tree in the database...
                 var user = snapshot.val();
                 console.log(user.reports);
@@ -209,7 +208,6 @@ export default class Reports extends Component {
 
         reader.onloadend = () => {
             this.state.images[num] = file;
-
         }
 
         reader.onerror = function () {

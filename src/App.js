@@ -15,13 +15,33 @@ class App extends Component {
         firebase.auth().signOut().then(function(){
             //LogoutSuccessful
         }, function(error){
-            //Error  
+            //Error
         });
     }
+
+
+
     handleReport(){
         <Reports></Reports>
     }
   render() {
+      var db = firebase.firestore();
+      var crops=[];
+      db.collection("crops").get().then(function(querySnapshot) {
+
+          querySnapshot.forEach(function(doc) {
+              crops.push(doc.id)
+          });
+
+      }).then(function() {
+        console.log(crops);
+        crops.forEach(function(crop) {
+          db.collection("crops").doc(crop).collection("arthropod").get()
+          db.collection("crops").doc(crop).collection("disease").get();
+          db.collection("crops").doc(crop).collection("weed").get();
+          db.collection("crops").doc(crop).collection("growthStages").get()
+        });
+      });
     return (
       <Router>
         <div className="App">
@@ -45,7 +65,7 @@ class App extends Component {
                         <Dashboard/>
                     )}/>
                 </Switch>
-                
+
                 <div className="log-container">
                     <a href='' id="log-out" onClick={this.handleLogOut}>Log Out</a>
                 </div>
