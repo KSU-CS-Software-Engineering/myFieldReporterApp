@@ -36,10 +36,10 @@ class App extends Component {
       }).then(function() {
         console.log(crops);
         crops.forEach(function(crop) {
-          db.collection("crops").doc(crop).collection("arthropod").get()
-          db.collection("crops").doc(crop).collection("disease").get();
-          db.collection("crops").doc(crop).collection("weed").get();
-          db.collection("crops").doc(crop).collection("growthStages").get()
+          db.collection("crops").doc(crop).collection("arthropod").get().then(function(querySnapshot) {});
+          db.collection("crops").doc(crop).collection("disease").get().then(function(querySnapshot) {});
+          db.collection("crops").doc(crop).collection("weed").get().then(function(querySnapshot) {});
+          db.collection("crops").doc(crop).collection("growthStages").get().then(function(querySnapshot) {});
         });
       });
     return (
