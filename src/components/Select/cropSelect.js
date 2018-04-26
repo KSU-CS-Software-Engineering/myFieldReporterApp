@@ -7,39 +7,15 @@ import * as firebase from 'firebase';
 ***********************************/
 
 export default class CropSelect extends Component{
-    constructor(props){
-        super(props);
-        this.state = {
-            value: this.props.value,
-            cList: []
-        }
-    }
-    
-    componentWillMount(){
-		
-		if(navigator.onLine){
-			firebase.database().ref(this.props.listRef).once('value', snapshot => {
-			  var keys = Object.values(snapshot.val()).map(item => item.name)
-			  localStorage.setItem('crops', JSON.stringify(keys));
-			  this.setState({cList: JSON.parse(localStorage.getItem('crops') || "[]")});
-			  
-			})
-			
-		}else{
-			this.setState({cList: JSON.parse(localStorage.getItem('crops') || "[]")});
-		}
-    }
-    
-    componentWillReceiveProps(props){
-        this.setState({value: props.value});
-    }
-    
+
+
     render() {
-        var options = this.state.cList.map(item => {
-            return <option key={item} value={item}>{item}</option>
+      console.log(this.props.crops)
+        var options = Object.keys(this.props.crops).map(item => {
+            return <option key={item} value={item.charAt(0).toUpperCase()+item.slice(1)}>{item.charAt(0).toUpperCase()+item.slice(1)}</option>
         });
         return ( //Render the sugglist
-            <select value={this.state.value} onChange={(event)=>this.props.onChange(event.target.value)} required>
+            <select value={this.props.value} onChange={(event)=>this.props.onChange(event.target.value)} required>
                 <option disabled value=''>Select a Crop</option>{options}
             </select>
         );

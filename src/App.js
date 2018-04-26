@@ -11,6 +11,7 @@ import ShowReport from './components/showReport/showReport';
 import EditReport from './components/editReport/editReport';
 
 class App extends Component {
+
     handleLogOut(event){
         firebase.auth().signOut().then(function(){
             //LogoutSuccessful
@@ -24,24 +25,29 @@ class App extends Component {
     handleReport(){
         <Reports></Reports>
     }
-  render() {
+    constructor() {
+      super();
+      this.state = {
+        crops: {},
+        ready: false
+      }
+    }
+
+  componentWillMount(){
       var db = firebase.firestore();
-      var crops=[];
-      db.collection("crops").get().then(function(querySnapshot) {
-
-          querySnapshot.forEach(function(doc) {
-              crops.push(doc.id)
-          });
-
-      }).then(function() {
-        console.log(crops);
-        crops.forEach(function(crop) {
-          db.collection("crops").doc(crop).collection("arthropod").get().then(function(querySnapshot) {});
-          db.collection("crops").doc(crop).collection("disease").get().then(function(querySnapshot) {});
-          db.collection("crops").doc(crop).collection("weed").get().then(function(querySnapshot) {});
-          db.collection("crops").doc(crop).collection("growthStages").get().then(function(querySnapshot) {});
-        });
+      var crops = {};
+      db.collection("data").doc("crops").get().then((snapshot)=>{
+        console.log(snapshot);
+        this.setState({crops: snapshot.data(), ready: true});
       });
+
+    }
+
+  render() {
+
+    if(!this.state.ready) return <p>Loading</p>;
+    console.log(this.state.crops);
+
     return (
       <Router>
         <div className="App">
@@ -53,13 +59,13 @@ class App extends Component {
             <Auth>
                 <Switch>
                     <Route path="/reports/:reportID/edit" render={({match})=>(
-                        <EditReport reportID={match.params.reportID}/>
+                        <EditReport reportID={match.params.reportID} crops={this.state.crops}/>
                     )}/>
                     <Route path="/reports/:reportID" render={({match})=>(
                         <ShowReport reportID={match.params.reportID}/>
                     )}/>
                     <Route path="/reports" render={()=>(
-                        <Reports/>
+                        <Reports crops={this.state.crops}/>
                     )}/>
                     <Route path="/" render={()=>(
                         <Dashboard/>

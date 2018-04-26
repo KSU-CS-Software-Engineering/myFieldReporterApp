@@ -241,19 +241,24 @@ console.log("/reports/"+this.props.reportID)
 
         }
 
-        console.log(this.state.dist);
 
 
+        if(this.state.crop){
+          var gsSelect = <GrowthStageSelect onChange={(term => this.handleSelect('gs', term))} placeholder='GrowthStage' value={this.state.gs} crop={this.state.crop} crops={this.props.crops}/>
+          var pSelect = <PestSelect onChange={(term) => this.handleSelect('pest', term)} placeholder='Pest' value={this.state.pest} crop={this.state.crop} crops={this.props.crops}/>
+        }else{
+          gsSelect = null
+          pSelect = null
+        }
 
 
-
-        firebase.database().ref('crops/').on('value', snap =>  {
+          /*firebase.database().ref('crops/').on('value', snap =>  {
                var data = [];
                snap.forEach(ss => {
                   data.push(ss.child('name').val());
                });
                 this.state.list = data;
-            })
+            })*/
 
         return(
 
@@ -270,10 +275,10 @@ console.log("/reports/"+this.props.reportID)
                         <label className="bold">Notes:&nbsp;</label>
                     </div>
                     <div className="report-info-wrap">
-                        <CropSelect onChange={(term => this.handleSelect('crop', term))} placeholder='Crop' value={this.state.crop} listRef="crops/" />
-                        <GrowthStageSelect onChange={(term => this.handleSelect('gs', term))} placeholder='GrowthStage' value={this.state.gs} crop={this.state.crop} />
-                        <PestSelect onChange={(term) => this.handleSelect('pest', term)} placeholder='Pest' value={this.state.pest} crop={this.state.crop}/>
-                        <div className="selection-wrap">
+                        <CropSelect onChange={(term => this.handleSelect('crop', term))} placeholder='Crop' value={this.state.crop} listRef="crops/" crops={this.props.crops}/>
+                        {gsSelect}
+                        {pSelect}
+                      <div className="selection-wrap">
                             <div className="selection-button " id="severity-low" onClick={() => this.handleButtonSelection("severity", "severity-low")} style={{backgroundColor: this.state.sevrBg[0], color: this.state.sevrColor[0]}}>Low</div>
                             <div className="selection-button " id="severity-medium" onClick={() => this.handleButtonSelection("severity", "severity-medium")} style={{backgroundColor: this.state.sevrBg[1], color: this.state.sevrColor[1]}}>Med</div>
                             <div className="selection-button " id="severity-high" onClick={() => this.handleButtonSelection("severity", "severity-high")} style={{backgroundColor: this.state.sevrBg[2], color: this.state.sevrColor[2]}}>High</div>

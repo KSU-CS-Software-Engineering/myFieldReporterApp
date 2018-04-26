@@ -120,11 +120,10 @@ export default class Reports extends Component {
                         sevr: state.sevr
                       }
                     updates['users/' + uid + '/reports/' + fid + '/'] = true;
-                console.log('updates', updates)
                     firebase.database().ref().update(updates).then(() => { //Handle uploading the images, if any
                         photos.forEach((imageURL, index) => {
                             firebase.storage().ref().child('images').child(fid).child(index.toString()).put(imageURL).then(snapshot => {
-
+                                //console.log(imageURL);
                                 firebase.database().ref('reports/' + fid + '/images').push(snapshot.downloadURL)
                             })
                         });
@@ -234,8 +233,15 @@ export default class Reports extends Component {
         })
 
 
+        if(this.state.crop){
+          var gsSelect = <GrowthStageSelect onChange={(term => this.handleSelect('gs', term))} placeholder='GrowthStage' value={this.state.gs} crop={this.state.crop} crops={this.props.crops} />
+          var pSelect = <PestSelect onChange={(term) => this.handleSelect('pest', term)} placeholder='Pest' value={this.state.pest} crop={this.state.crop} crops={this.props.crops} />
+        }else{
+          gsSelect = null
+          pSelect = null
+        }
 
-        var db = firebase.firestore();
+      /*  var db = firebase.firestore();
         var data = [];
         db.collection("crops").get().then(function(querySnapshot) {
 
@@ -246,7 +252,7 @@ export default class Reports extends Component {
         });
         this.state.list = data;
 
-        /*if(navigator.onLine){
+        if(navigator.onLine){
 
           crops=[];
           console.log("online");
@@ -274,17 +280,16 @@ export default class Reports extends Component {
 
                 <h1>New Report</h1>
                 <div className="message" style={{display: this.state.required[0]}}>* Crop is a required</div>
-                <CropSelect onChange={(term => this.handleSelect('crop', term))} placeholder='Crop' value={this.state.crop} listRef="crops/" required/>
+                <CropSelect onChange={(term => this.handleSelect('crop', term))} placeholder='Crop' value={this.state.crop} listRef="crops/"  crops={this.props.crops} required/>
 
 
                 <div className="display-after-crop-selection" style={{display: this.state.displaySelection}}>
                     <div className="message" style={{display: this.state.required[1]}}>* Growth Stage is a required</div>
-                    <GrowthStageSelect onChange={(term => this.handleSelect('gs', term))} placeholder='GrowthStage' value={this.state.gs} crop={this.state.crop}/>
-
+                    {gsSelect}
                     <br/>
                     <div className="message" style={{display: this.state.required[2]}}>* Pest is a required</div>
-                    <PestSelect onChange={(term) => this.handleSelect('pest', term)} placeholder='Pest' value={this.state.pest} crop={this.state.crop}/>
-                </div>
+                    {pSelect}
+                    </div>
 
                 <div className="message" style={{display: this.state.required[3]}}>* Location is a required</div>
                 <LocationInput location={this.state.location} onChange={this.handleLocation}></LocationInput>

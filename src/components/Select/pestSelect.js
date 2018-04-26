@@ -15,12 +15,11 @@ export default class PestSelect extends Component{
             arthropodList: [], //List to match from
             diseaseList: [],
             weedList: [],
-            value: props.value
         }
     }
 
     componentWillReceiveProps(props) { //Get's the rootlists
-
+/*
       var db = firebase.firestore();
         db.collection("crops").doc(props.crop).collection("arthropod").get().then(function(querySnapshot) {
             var data=[];
@@ -62,24 +61,28 @@ export default class PestSelect extends Component{
             this.setState({weedList: keys})
         })
         */
-        this.setState({value: props.value});
     }
 
     render() {
+      console.log(this.props.crop)
+      //return <div></div>;
         var groups = {};
-        if(this.state.arthropodList.length > 0) {
-            groups['Arthropods'] = this.state.arthropodList.map((item, index) => (
-              <option key={index} value={item}>{item}</option>
+        if(this.props.crops[this.props.crop.toLowerCase()]["arthropod"])
+        if(Object.keys(this.props.crops[this.props.crop.toLowerCase()]["arthropod"]).length > 0) {
+            groups['Arthropods'] = Object.values(this.props.crops[this.props.crop.toLowerCase()]["arthropod"]).map((item, index) => (
+              <option key={index} value={JSON.stringify(item.name).split('"').join('')}>{JSON.stringify(item.name).split('"').join('')}</option>
             ));
         }
-        if (this.state.diseaseList.length > 0){
-            groups['Disease'] = this.state.diseaseList.map((item, index) => (
-                <option key={index} value={item}>{item}</option>
+        if(this.props.crops[this.props.crop.toLowerCase()]["disease"])
+        if (Object.keys(this.props.crops[this.props.crop.toLowerCase()]["disease"]).length.length> 0){
+            groups['Disease'] = Object.values(this.props.crops[this.props.crop.toLowerCase()]["disease"]).map((item, index) => (
+              <option key={index} value={JSON.stringify(item.name).split('"').join('')}>{JSON.stringify(item.name).split('"').join('')}</option>
             ));
         }
-        if (this.state.weedList.length > 0){
-            groups['Weed'] = this.state.weedList.map((item, index) => (
-                <option key={index} value={item}>{item}</option>
+        if(this.props.crops[this.props.crop.toLowerCase()]["weed"])
+        if (Object.keys(this.props.crops[this.props.crop.toLowerCase()]["weed"]).length > 0){
+            groups['Weed'] = Object.values(this.props.crops[this.props.crop.toLowerCase()]["weed"]).map((item, index) => (
+              <option key={index} value={JSON.stringify(item.name).split('"').join('')}>{JSON.stringify(item.name).split('"').join('')}</option>
             ));
         }
         var options = [];
