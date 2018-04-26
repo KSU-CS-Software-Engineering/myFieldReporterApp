@@ -37,7 +37,6 @@ class App extends Component {
       var db = firebase.firestore();
       var crops = {};
       db.collection("data").doc("crops").get().then((snapshot)=>{
-        console.log(snapshot);
         this.setState({crops: snapshot.data(), ready: true});
       });
 
@@ -46,7 +45,6 @@ class App extends Component {
   render() {
 
     if(!this.state.ready) return <p>Loading</p>;
-    console.log(this.state.crops);
 
     return (
       <Router>

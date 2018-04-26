@@ -100,7 +100,6 @@ export default class Reports extends Component {
             var state = this.state;
             firebase.database().ref('users/' + uid).once('value').then((snapshot) => { //Inside the users tree in the database...
                 var user = snapshot.val();
-                console.log(user.reports);
                 var reportCount = 0;
                 if(user.reports) reportCount = Object.keys(user.reports).length; //Get the last spot
 
@@ -123,7 +122,7 @@ export default class Reports extends Component {
                     firebase.database().ref().update(updates).then(() => { //Handle uploading the images, if any
                         photos.forEach((imageURL, index) => {
                             firebase.storage().ref().child('images').child(fid).child(index.toString()).put(imageURL).then(snapshot => {
-                                //console.log(imageURL);
+                                //(imageURL);
                                 firebase.database().ref('reports/' + fid + '/images').push(snapshot.downloadURL)
                             })
                         });
@@ -240,40 +239,6 @@ export default class Reports extends Component {
           gsSelect = null
           pSelect = null
         }
-
-      /*  var db = firebase.firestore();
-        var data = [];
-        db.collection("crops").get().then(function(querySnapshot) {
-
-            querySnapshot.forEach(function(doc) {
-                data.push(doc.id)
-            });
-
-        });
-        this.state.list = data;
-
-        if(navigator.onLine){
-
-          crops=[];
-          console.log("online");
-          firebase.database().ref('crops/').on('value', snap =>  {
-                 var data = [];
-                 snap.forEach(ss => {
-                    data.push(ss.child('name').val());
-                    crops.push(ss.child('name').val());
-                 });
-                  this.state.list = data;
-
-              })
-
-
-              console.log(crops)
-        }else{
-          console.log("offline");
-          console.log(crops);
-           this.state.list = crops;
-        }*/
-
         return(
 
             <div className="reports-container">

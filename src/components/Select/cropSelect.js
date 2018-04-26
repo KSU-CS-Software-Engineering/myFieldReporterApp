@@ -10,7 +10,6 @@ export default class CropSelect extends Component{
 
 
     render() {
-      console.log(this.props.crops)
         var options = Object.keys(this.props.crops).map(item => {
             return <option key={item} value={item.charAt(0).toUpperCase()+item.slice(1)}>{item.charAt(0).toUpperCase()+item.slice(1)}</option>
         });

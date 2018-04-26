@@ -188,25 +188,10 @@ export default class editReports extends Component {
       }
     }
       updates['users/' + uid + '/reports/' + this.props.reportID] = true;
-      console.log('updates', updates);
+      ('updates', updates);
       firebase.database().ref().update(updates).then(()=>{
         window.location= "/#/reports/"+this.props.reportID;
       });
-/*
-        this.setState({
-            crop: '',
-            gs: '',
-            location: '',
-            images: [],
-            pest: '',
-            notes: '',
-            view: 'current',
-            list: []
-        }
-console.log("/reports/"+this.props.reportID)
-*/
-
-
 
 
     }
@@ -250,15 +235,6 @@ console.log("/reports/"+this.props.reportID)
           gsSelect = null
           pSelect = null
         }
-
-
-          /*firebase.database().ref('crops/').on('value', snap =>  {
-               var data = [];
-               snap.forEach(ss => {
-                  data.push(ss.child('name').val());
-               });
-                this.state.list = data;
-            })*/
 
         return(
 
