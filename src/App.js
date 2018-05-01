@@ -35,11 +35,17 @@ class App extends Component {
     }
 
   componentWillMount(){
+    if(window.navigator.onLine){
+      console.log("offline");
       var db = firebase.firestore();
       var crops = {};
       db.collection("data").doc("crops").get().then((snapshot)=>{
         this.setState({crops: snapshot.data(), ready: true});
       });
+    }
+    else{
+      this.setState({ready: true});
+    }
   }
 
   render() {
