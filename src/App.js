@@ -9,6 +9,7 @@ import './opensans/stylesheet.css';
 import Dashboard from './components/dashboard/dashboard';
 import ShowReport from './components/showReport/showReport';
 import EditReport from './components/editReport/editReport';
+import Loading from './components/loading/loading';
 
 class App extends Component {
 
@@ -45,7 +46,7 @@ class App extends Component {
 
   render() {
 
-    if(!this.state.ready) return <p>Loading</p>;
+    if(!this.state.ready) return <Loading/>;
 
     return (
       <Router>

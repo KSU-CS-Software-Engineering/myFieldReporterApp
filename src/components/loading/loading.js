@@ -14,7 +14,7 @@ export default class Reports extends Component {
 
     }
 
-
+render(){
         return(
 
             <div className="loading-container">
