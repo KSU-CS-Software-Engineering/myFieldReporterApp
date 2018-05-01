@@ -15,7 +15,7 @@ export default class GrowthStageSelect extends Component{
 
         return ( //Render the sugglist
             <select value={this.props.value} onChange={(event)=>this.props.onChange(event.target.value)}>
-                <option value=''>Select the Growth Stage</option>
+                <option disabled value=''>Select the Growth Stage</option>
                 {options}
             </select>
         );

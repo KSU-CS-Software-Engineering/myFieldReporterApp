@@ -58,9 +58,10 @@ export default class showReport extends Component {
 
         if(this.state.images){
            var pics = Object.values(this.state.images);
-
-            var pictures = pics.map((item) =>{
-                return <img className="pictures" src={item}></img>
+           var i =-1;
+           var pictures = pics.map((item) =>{
+                i++;
+                return <img key={i} className="pictures" src={item}></img>
             })
         }
 

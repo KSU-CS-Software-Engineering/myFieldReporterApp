@@ -39,14 +39,14 @@ export default class PestSelect extends Component{
             ));
         }
         var options = [];
-            options.push(<option>Unknown</option>);
+            options.push(<option key='Unknown'>Unknown</option>);
         for(var name in groups) {
             options.push(
-                <optgroup label={name}>{groups[name]}</optgroup>
+                <optgroup key={name} label={name}>{groups[name]}</optgroup>
             );
         }
         return ( //Render the sugglist
-            <select value={this.state.value} onChange={(event)=>this.props.onChange(event.target.value)}>
+            <select defaultValue='' value={this.state.value} onChange={(event)=>this.props.onChange(event.target.value)}>
               <option disabled value=''>Select a Pest</option>
               {options}
             </select>

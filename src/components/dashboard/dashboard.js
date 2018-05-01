@@ -39,7 +39,7 @@ export default class Dashboard extends Component {
     render(){
         var reps = this.state.reports.reverse();
         var reports = reps.map((item) =>{
-            return <Link to={item.url}><div className="line"></div><div className="report-name">{item.name}</div> <div>Crop: {item.crop}</div> <div>Pest: {item.pest}</div> {moment(item.time).format('MMMM Do YYYY hh:mm a')}</Link> 
+            return <Link key={item.name} to={item.url}><div className="line"></div><div className="report-name">{item.name}</div> <div>Crop: {item.crop}</div> <div>Pest: {item.pest}</div> {moment(item.time).format('MMMM Do YYYY hh:mm a')}</Link> 
         })
         return(
             <div className="dashboard-container">

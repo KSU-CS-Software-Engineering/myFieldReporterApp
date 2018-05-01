@@ -172,7 +172,7 @@ export default class editReports extends Component {
       var fid = this.props.reportID;
       var state = this.state;
       var updates = {}
-      updates['reports/' + this.state.reportID] = {
+      updates['reports/' + fid] = {
             crop: state.crop,
             gs: state.gs,
             pest: state.pest,
@@ -185,7 +185,7 @@ export default class editReports extends Component {
             sevr: state.sevr,
 
     }
-      updates['users/' + uid + '/reports/' + this.props.reportID] = true;
+      updates['users/' + uid + '/reports/' + fid] = true;
       ('updates', updates);
       firebase.database().ref().update(updates).then(()=>{
         photos.forEach((imageURL, index) => {
@@ -194,10 +194,10 @@ export default class editReports extends Component {
                 firebase.database().ref('reports/' + fid + '/images').push(snapshot.downloadURL)
             })
         });
-        window.location= "/#/"//reports/"+this.props.reportID;
-      }).catch(err => console.error(err));
 
+      }).then(()=>{window.location= "/#";}).catch(err => console.error(err));
 
+      //window.location= "/#/reports/"+fid;
 
     }
 
@@ -233,7 +233,6 @@ export default class editReports extends Component {
         if(!this.state.images){
           var imgUpload = <input id="file" type="file" accept="image/*" onChange={(e) =>this.readFile(e,0)}></input>;
           var imgUpload2 = <input id="file" type="file" accept="image/*" onChange={(e) =>this.readFile(e,1)}></input>;
-
         }
 
 
