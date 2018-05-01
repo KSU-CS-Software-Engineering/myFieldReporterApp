@@ -27,14 +27,3 @@ render(){
     }
 
 }
-
-/*
-    <label>Distribution:</label>
-    <input type="radio" name="dist" value="Uniform" onChange={this.handleChange} className="dist"></input>Uniform
-    <input type="radio" name="dist" value="Patchy" onChange={this.handleChange} className="dist"></input>Patchy
-    <br/>
-    <label>Severity:</label>
-    <input type="radio" name="sevr" value="Low" onChange={this.handleChange} className="dist"/>Low
-    <input type="radio" name="sevr" value="Medium" onChange={this.handleChange} className="dist"/>Medium
-    <input type="radio" name="sevr" value="High" onChange={this.handleChange} className="dist"/>High
-*/

@@ -14,7 +14,7 @@ export default class editReports extends Component {
             crop: '',
             gs: '',
             location: '',
-            images: [],
+            image: [],
             pest: '',
             notes: '',
             view: 'current',
@@ -33,32 +33,44 @@ export default class editReports extends Component {
         this.handleCreate = this.handleCreate.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleSelect = this.handleSelect.bind(this);
-        this.readFile = this.readFile.bind(this);
         this.handleButtonSelection=this.handleButtonSelection.bind(this);
+        this.readFile = this.readFile.bind(this);
 
     }
 
     componentWillMount() {
-
         if(this.props.reportID){
             firebase.database().ref('reports/' + this.props.reportID).once('value').then((snapshot) =>{
                var report = snapshot.val();
-                this.setState({
-                    reportID: this.props.reportID,
-                    reportName: report.name,
-                    crop: report.crop,
-                    gs: report.gs,
-                    pest: report.pest,
-                    notes: report.notes,
-                    time: report.time,
-                    images: report.images,
-                    location: report.location,
-                    dist: report.dist,
-                    sevr: report.sevr,
-                    images: report.images
 
-
-                });
+               if(this.state.image){
+                  this.setState({
+                      reportID: this.props.reportID,
+                      reportName: report.name,
+                      crop: report.crop,
+                      gs: report.gs,
+                      pest: report.pest,
+                      notes: report.notes,
+                      time: report.time,
+                      images: report.images,
+                      location: report.location,
+                      dist: report.dist,
+                      sevr: report.sevr
+                  });
+              }else{
+                  this.setState({
+                      reportID: this.props.reportID,
+                      reportName: report.name,
+                      crop: report.crop,
+                      gs: report.gs,
+                      pest: report.pest,
+                      notes: report.notes,
+                      time: report.time,
+                      location: report.location,
+                      dist: report.dist,
+                      sevr: report.sevr
+                  });
+                }
 
             });
 
@@ -154,26 +166,12 @@ export default class editReports extends Component {
 
     //Creates the entry for the database from the state objects when submit is clicked
     handleCreate(){
-      var photos = this.state.images;
+
+      var photos = this.state.image;
       var uid = firebase.auth().currentUser.uid;
+      var fid = this.props.reportID;
       var state = this.state;
       var updates = {}
-      if(this.state.images){
-        updates['reports/' + this.state.reportID] = {
-            crop: state.crop,
-            gs: state.gs,
-            pest: state.pest,
-            notes: state.notes,
-            time: new Date().toJSON(),
-            owner: uid,
-            name: this.state.reportName,
-            location: state.location,
-            dist: state.dist,
-            sevr: state.sevr,
-            images: state.images
-      }
-    }
-    else{
       updates['reports/' + this.state.reportID] = {
             crop: state.crop,
             gs: state.gs,
@@ -185,29 +183,33 @@ export default class editReports extends Component {
             location: state.location,
             dist: state.dist,
             sevr: state.sevr,
-      }
+
     }
       updates['users/' + uid + '/reports/' + this.props.reportID] = true;
       ('updates', updates);
       firebase.database().ref().update(updates).then(()=>{
-        window.location= "/#/reports/"+this.props.reportID;
-      });
+        photos.forEach((imageURL, index) => {
+            firebase.storage().ref().child('images').child(fid).child(index.toString()).put(imageURL).then(snapshot => {
+                //(imageURL);
+                firebase.database().ref('reports/' + fid + '/images').push(snapshot.downloadURL)
+            })
+        });
+        window.location= "/#/"//reports/"+this.props.reportID;
+      }).catch(err => console.error(err));
+
 
 
     }
 
 
     //Processes the image selected from user below
-    readFile(event) {
+    readFile(event, num) {
         var file = event.target.files[0];
         var reader = new FileReader();
 
         reader.onloadend = () => {
-            this.state.images[this.state.images.length] = file;
-
+          this.state.image[num] = file;
         }
-
-
 
         reader.onerror = function () {
             alert('There was an error reading the file!');
@@ -225,6 +227,15 @@ export default class editReports extends Component {
             alert("File upload is not supported!");
 
         }
+
+        var imgUpload="";
+        var imgUpload2="";
+        if(!this.state.images){
+          var imgUpload = <input id="file" type="file" accept="image/*" onChange={(e) =>this.readFile(e,0)}></input>;
+          var imgUpload2 = <input id="file" type="file" accept="image/*" onChange={(e) =>this.readFile(e,1)}></input>;
+
+        }
+
 
 
 
@@ -266,7 +277,11 @@ export default class editReports extends Component {
                             <div className="clearfix"></div>
                         </div>
                         <textarea className="text-input" placeholder="Notes: Suggested, how much of field is affected, environmental conditions, notable production practices." name="notes" value={this.state.notes} onChange={this.handleChange}></textarea>
+
+
                     </div>
+                    {imgUpload}
+                    {imgUpload2}
                 </div>
 
                 <br/>
