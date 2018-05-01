@@ -155,7 +155,7 @@ export default class LoginForm extends Component {
             //request.setRequestHeader("Authority", 'yes');
         },
         type: 'POST',
-        url: 'http://localhost:8888/Drupal/ajax/create.json', //SET
+        url: 'http://localhost:8888/Drupal/ajax/create', //SET
         data: { 'email': this.state.email, 'password': this.state.password, 'firstName':this.state.fName, 'lastName':this.state.lName, 'state':this.state.state},
         success: function (response) {
           console.log(response);
@@ -243,10 +243,10 @@ export default class LoginForm extends Component {
             //request.setRequestHeader("Authority", 'yes');
         },
         type: 'POST',
-        url: 'http://localhost:8888/Drupal/ajax/forgotpass.json', //SET
-        data: { 'email': this.state.email},
+        url: 'http://localhost:8888/Drupal/ajax/forgotPass?name='+this.state.email, //SET
+        //data: { 'name': this.state.email},
         success: function(response) {
-          response = response.substr(1).slice(0, -1);
+          //response = response.substr(1).slice(0, -1);
           console.log(response);
           try{
              this.setState({message: response});
@@ -305,7 +305,7 @@ export default class LoginForm extends Component {
                     </div>
                     <button onClick={this.handleFbSignin}>Login</button>
                     <button onClick={this.toggleView}>New User</button>
-                    <a onClick={this.handleFP}>Forgot Password?</a>
+                    <a onClick={this.handlefbFP}>Forgot Password?</a>
                     <div className="grass"></div>
                 </div>
             );

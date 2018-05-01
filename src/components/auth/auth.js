@@ -15,7 +15,7 @@ export default class Auth extends Component {
     componentWillMount(){
         firebase.auth().onAuthStateChanged((user) => {
             this.setState({user:user});
-            console.log("Change" + this.state.user.uid);
+            //console.log("Change" + this.state.user.uid);
         })
     }
 
