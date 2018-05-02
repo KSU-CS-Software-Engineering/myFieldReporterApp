@@ -23,11 +23,11 @@ export default class LoginForm extends Component {
         this.handleSignIn = this.handleSignIn.bind(this);
         this.handleFbSignin = this.handleFbSignin.bind(this);
         this.handleCreate = this.handleCreate.bind(this);
-        this.handlefbCreate = this.handlefbCreate.bind(this);
+        this.handleFbCreate = this.handleFbCreate.bind(this);
         this.toggleView = this.toggleView.bind(this);
         this.handleKeyPress = this.handleKeyPress.bind(this);
         this.handleFP = this.handleFP.bind(this);
-        this.handlefbFP = this.handlefbFP.bind(this);
+        this.handleFbFP = this.handleFbFP.bind(this);
 
     }
     handleChange(event) {
@@ -42,7 +42,7 @@ export default class LoginForm extends Component {
         }
     }
 
-//USE FOR FIREBASE LOGIN CHANGE ON LINE 235
+//USE FOR FIREBASE LOGIN CHANGE ON LINE 306
     handleFbSignin(){
       firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password).catch((err) => {
              this.setState({message: err.message});
@@ -50,7 +50,7 @@ export default class LoginForm extends Component {
     }
 
 
-//USE FOR DRUPAL LOGIN CHANGE ON LINE 235
+//USE FOR DRUPAL LOGIN CHANGE ON LINE 306
     handleSignIn() {
       console.log("at signin");
       $.ajax({
@@ -127,8 +127,8 @@ export default class LoginForm extends Component {
 
     }
 
-  //USE FOR FIREBASE create user CHANGE ON LINE 311
-    handlefbCreate() {
+  //USE FOR FIREBASE create user CHANGE ON LINE 382
+    handleFbCreate() {
         // Helper function to write created user to the database
 
         firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
@@ -148,7 +148,7 @@ export default class LoginForm extends Component {
         console.log(x);
     }
 
-//USE FOR DRUPAL create user CHANGE ON LINE 311
+//USE FOR DRUPAL create user CHANGE ON LINE 382
     handleCreate(){
       $.ajax({
         beforeSend: function(request) {
@@ -236,7 +236,7 @@ export default class LoginForm extends Component {
     }
 
 
-//USE FOR DRUPAL Forgot Password CHANGE ON LINE 237
+//USE FOR DRUPAL Forgot Password CHANGE ON LINE 308
     handleFP(){
       $.ajax({
         beforeSend: function(request) {
@@ -244,7 +244,7 @@ export default class LoginForm extends Component {
         },
         type: 'POST',
         url: 'http://localhost:8888/Drupal/ajax/forgotPass?name='+this.state.email, //SET
-        //data: { 'name': this.state.email},
+        data: { 'email': this.state.email},
         success: function(response) {
           //response = response.substr(1).slice(0, -1);
           console.log(response);
@@ -257,15 +257,15 @@ export default class LoginForm extends Component {
 
         }.bind(this),
         fail: function(response){
-
+            this.setState({message: response});
         }
 
       });
 
     }
 
-//USE FOR FIREBASE Forgot Password CHANGE ON LINE 237
-    handlefbFP(){
+//USE FOR FIREBASE Forgot Password CHANGE ON LINE 308
+    handleFbFP(){
         var auth = firebase.auth();
         var emailAddress = this.state.email;
 
