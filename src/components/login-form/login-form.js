@@ -42,7 +42,7 @@ export default class LoginForm extends Component {
         }
     }
 
-//USE FOR FIREBASE LOGIN CHANGE ON LINE 306
+//USE FOR FIREBASE LOGIN CHANGE ON LINE 299
     handleFbSignin(){
       firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password).catch((err) => {
              this.setState({message: err.message});
@@ -50,9 +50,8 @@ export default class LoginForm extends Component {
     }
 
 
-//USE FOR DRUPAL LOGIN CHANGE ON LINE 306
+//USE FOR DRUPAL LOGIN CHANGE ON LINE 299
     handleSignIn() {
-      console.log("at signin");
       $.ajax({
         beforeSend: function(request) {
             //request.setRequestHeader("Authority", 'yes');
@@ -90,7 +89,6 @@ export default class LoginForm extends Component {
                 uid: us['uid']
               })
             }
-            console.log(this.state.email);
 
             firebase.auth().signInWithCustomToken(response).then( function(user) {
                 return user.updateEmail(this.state.email);
@@ -101,9 +99,8 @@ export default class LoginForm extends Component {
             }).then(function(){
 
             firebase.database().ref('users/').once('value' , function(snapshot){
-              console.log(snapshot);
+
               if(!snapshot.hasChild(us['uid'])) {
-                  console.log(this.state.email);
                   firebase.database().ref('users/').child(this.state.uid).set({
                     email: this.state.email,
                     fName: this.state.fName,
@@ -113,10 +110,8 @@ export default class LoginForm extends Component {
                   }).catch(err => console.error(err));
                 }
             }.bind(this))
-            console.log(this.state.email);
           }.bind(this));
 
-          console.log(this.state.email);
 
         }.bind(this),
         fail: function(response){
@@ -127,14 +122,18 @@ export default class LoginForm extends Component {
 
     }
 
-  //USE FOR FIREBASE create user CHANGE ON LINE 382
+  //USE FOR FIREBASE create user CHANGE ON LINE 375
     handleFbCreate() {
         // Helper function to write created user to the database
-
         firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
         .then((firebaseUser) => {
-            console.log('created user', firebaseUser.uid, firebaseUser)
-            //writeUserData(firebaseUser.uid, firebaseUser.email,this.state.fName,this.state.lName,this.state.state,this.state.county);
+          firebase.database().ref('users/').child(firebaseUser.uid).set({
+            email: this.state.email,
+            fName: this.state.fName,
+            lName: this.state.lName,
+            state: this.state.state,
+            county: this.state.county,
+          }).catch(err => console.error(err));
         })
         .catch((err) => {
             this.setState({message: err.message});
@@ -145,10 +144,10 @@ export default class LoginForm extends Component {
 
     showme(){
         var x = document.getElementById("myFrame").src;
-        console.log(x);
+
     }
 
-//USE FOR DRUPAL create user CHANGE ON LINE 382
+//USE FOR DRUPAL create user CHANGE ON LINE 375
     handleCreate(){
       $.ajax({
         beforeSend: function(request) {
@@ -158,7 +157,6 @@ export default class LoginForm extends Component {
         url: 'http://localhost:8888/Drupal/ajax/create', //SET
         data: { 'email': this.state.email, 'password': this.state.password, 'firstName':this.state.fName, 'lastName':this.state.lName, 'state':this.state.state},
         success: function (response) {
-          console.log(response);
 
           $.ajax({
             beforeSend: function(request) {
@@ -182,7 +180,6 @@ export default class LoginForm extends Component {
                 var setUID = JSON.stringify(us['uid']);
                 setUID = setUID.substr(1).slice(0, -1);
 
-                console.log(setUID);
 
 
 
@@ -195,9 +192,8 @@ export default class LoginForm extends Component {
                 }).then(function(){
 
                 firebase.database().ref('users/').once('value' , function(snapshot){
-                  console.log(snapshot);
+
                   if(!snapshot.hasChild(setUID)) {
-                      console.log(this.state.email);
                       firebase.database().ref('users/').child(setUID).set({
                         email: this.state.email,
                         fName: this.state.fName,
@@ -207,10 +203,8 @@ export default class LoginForm extends Component {
                       }).catch(err => console.error(err));
                     }
                 }.bind(this))
-                console.log(this.state.email);
               }.bind(this));
 
-              console.log(this.state.email);
 
             }.bind(this),
             fail: function(response){
@@ -236,7 +230,7 @@ export default class LoginForm extends Component {
     }
 
 
-//USE FOR DRUPAL Forgot Password CHANGE ON LINE 308
+//USE FOR DRUPAL Forgot Password CHANGE ON LINE 301
     handleFP(){
       $.ajax({
         beforeSend: function(request) {
@@ -247,7 +241,7 @@ export default class LoginForm extends Component {
         data: { 'email': this.state.email},
         success: function(response) {
           //response = response.substr(1).slice(0, -1);
-          console.log(response);
+
           try{
              this.setState({message: response});
           }catch(err){
@@ -264,7 +258,7 @@ export default class LoginForm extends Component {
 
     }
 
-//USE FOR FIREBASE Forgot Password CHANGE ON LINE 308
+//USE FOR FIREBASE Forgot Password CHANGE ON LINE 301
     handleFbFP(){
         var auth = firebase.auth();
         var emailAddress = this.state.email;
@@ -273,7 +267,6 @@ export default class LoginForm extends Component {
 
           alert("Email has been sent");
         }).catch(function(error) {
-             console.log(emailAddress);
             if(emailAddress == ""){
                 alert("Please enter Email adress");
             }
@@ -379,7 +372,7 @@ export default class LoginForm extends Component {
                             <div className="email-icon second-icon"></div>
                             <div className="password-icon third-icon"></div>
                         </div>
-                        <button onClick={this.handlefbCreate}>Submit</button>
+                        <button onClick={this.handleFbCreate}>Submit</button>
 
                         <a onClick={this.toggleView}>Already have an account? Sign In</a>
                         <div className="grass"></div>
