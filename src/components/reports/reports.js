@@ -127,10 +127,10 @@ export default class Reports extends Component {
                             })
                         });
 
+                    }).then(() => {
+                      window.location.hash = "/";
                     }).catch(err => console.error(err));
-
                });
-            window.location.hash = "/";
         }
 
     }

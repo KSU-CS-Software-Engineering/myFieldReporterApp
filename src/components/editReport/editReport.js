@@ -185,9 +185,10 @@ export default class editReports extends Component {
             sevr: state.sevr,
 
     }
+
       updates['users/' + uid + '/reports/' + fid] = true;
-      ('updates', updates);
       firebase.database().ref().update(updates).then(()=>{
+
         photos.forEach((imageURL, index) => {
             firebase.storage().ref().child('images').child(fid).child(index.toString()).put(imageURL).then(snapshot => {
                 //(imageURL);

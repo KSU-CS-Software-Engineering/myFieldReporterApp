@@ -20,26 +20,31 @@ export default class Dashboard extends Component {
     componentWillMount() {
         var uid = firebase.auth().currentUser.uid;
 
-        firebase.database().ref('reports/').orderByChild('owner').equalTo(uid).once('value').then((snapshot) => {
-            var reportData = snapshot.val();
-            var reports = [];
-            for(var key in reportData) {
-                let report = reportData[key];
-                report.url = '/reports/' + key;
-                reports.push(report);
-            }
+        firebase.database().ref(`/users/${uid}/reports`).once('value').then((snapshot) => {
+          var rids = snapshot.val();
+          
+          var promises = [];
+          for(var key in rids) {
+            promises.push(
+              firebase.database().ref(`reports/${key}`).once('value')
+            );
+          }
+          Promise.all(promises).then(snapshots => {
+            var reports = snapshots.map(snapshot => {
+              var report = snapshot.val();
+              report.url = '/reports/' + snapshot.key;
+              return report;
+            });
             this.setState({reports: reports});
-
-
+          });
         });
-
     }
 
 
     render(){
         var reps = this.state.reports.reverse();
         var reports = reps.map((item) =>{
-            return <Link key={item.name} to={item.url}><div className="line"></div><div className="report-name">{item.name}</div> <div>Crop: {item.crop}</div> <div>Pest: {item.pest}</div> {moment(item.time).format('MMMM Do YYYY hh:mm a')}</Link> 
+            return <Link key={item.name} to={item.url}><div className="line"></div><div className="report-name">{item.name}</div> <div>Crop: {item.crop}</div> <div>Pest: {item.pest}</div> {moment(item.time).format('MMMM Do YYYY hh:mm a')}</Link>
         })
         return(
             <div className="dashboard-container">

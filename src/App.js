@@ -35,7 +35,6 @@ class App extends Component {
     }
 
   componentWillMount(){
-    if(window.navigator.onLine){
       var db = firebase.firestore();
       var crops = {};
       db.collection("data").doc("crops").get().then((snapshot)=>{
@@ -43,11 +42,6 @@ class App extends Component {
         console.log(snapshot.data());
         console.log(this.state.crops)
       });
-      console.log(this.state.crops)
-    }else{
-      console.log(this.state.crops);
-      this.setState({ready:true});
-    }
   }
 
   render() {
